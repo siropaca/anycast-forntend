@@ -8,12 +8,15 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 
 ## 技術スタック
 
-- **言語**: TypeScript 5.x
-- **フレームワーク**: Next.js 16.x (App Router + Turbopack)
-- **UI ライブラリ**: React 19.x
-- **スタイリング**: Tailwind CSS 4.x
-- **リンター/フォーマッター**: Biome 2.x
-- **パッケージマネージャー**: pnpm 10.x
+- **言語**: TypeScript
+- **フレームワーク**: Next.js (App Router + Turbopack)
+- **UI ライブラリ**: React
+- **スタイリング**: Tailwind CSS
+- **認証**: Auth.js (next-auth)
+- **データフェッチ**: TanStack Query
+- **フォーム**: react-hook-form + Zod
+- **リンター/フォーマッター**: Biome
+- **パッケージマネージャー**: pnpm
 - **バージョン管理**: mise
 - **デプロイ**: Vercel
 - **API**: REST API
@@ -23,7 +26,6 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 ### 前提条件
 
 - [mise](https://mise.jdx.dev/) がインストールされていること
-- Node.js 24.x がインストールされていること
 
 ### インストール
 
@@ -35,7 +37,7 @@ mise trust && mise install
 pnpm install
 
 # 環境変数の設定
-cp .env.example .env.local
+cp .env.example .env
 
 # 開発サーバーの起動
 pnpm dev
@@ -64,7 +66,6 @@ pnpm dev
 │   ├── features/     # 機能ごとのモジュール
 │   ├── hooks/        # カスタムフック
 │   ├── lib/          # ユーティリティ
-│   ├── mocks/        # モックデータ
 │   └── types/        # 型定義
 ├── public/           # 静的ファイル
 ├── docs/
