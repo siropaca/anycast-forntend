@@ -1,15 +1,27 @@
 # Anycast Frontend
 
-AI 音声生成専門のポッドキャストプラットフォーム「Anycast」のフロントエンドアプリケーション。
+AI 専用のポッドキャストを作成・配信できるプラットフォーム「Anycast」のフロントエンドアプリケーションです。
 
-## 必要条件
+## バックエンド
 
-- Node.js 24.x - [mise](https://mise.jdx.dev/) で管理
-- pnpm
+- https://github.com/siropaca/anycast-backend
 
-## 概要
+## 技術スタック
 
-Anycast は、AI を活用して台本から音声を生成し、ポッドキャストを作成・配信できるプラットフォームです。
+- **言語**: TypeScript 5.x
+- **フレームワーク**: Next.js 16.x (App Router + Turbopack)
+- **UI ライブラリ**: React 19.x
+- **スタイリング**: Tailwind CSS 4.x
+- **リンター/フォーマッター**: Biome 2.x
+- **パッケージマネージャー**: pnpm 10.x
+- **バージョン管理**: mise
+
+### 導入予定
+
+- **認証**: NextAuth.js
+- **データフェッチング**: TanStack Query
+- **UI コンポーネント**: Base UI
+- **デプロイ**: Vercel
 
 ## 機能
 
@@ -25,30 +37,14 @@ Anycast は、AI を活用して台本から音声を生成し、ポッドキャ
 - ポッドキャストプラットフォーム機能
 - ポッドキャストへの投稿
 
-## 技術スタック
-
-### 導入済み
-
-| カテゴリ | 技術 | バージョン |
-|---------|------|-----------|
-| フレームワーク | Next.js (App Router + Turbopack) | 16.1.x |
-| UI ライブラリ | React | 19.x |
-| 言語 | TypeScript | 5.x |
-| スタイリング | Tailwind CSS | 4.x |
-| リンター/フォーマッター | Biome | 2.x |
-| パッケージマネージャー | pnpm | 10.x |
-| ランタイム管理 | mise | - |
-
-### 導入予定
-
-| カテゴリ | 技術 |
-|---------|------|
-| 認証 | NextAuth.js |
-| データフェッチング | TanStack Query |
-| UI コンポーネント | Base UI |
-| デプロイ | Vercel |
-
 ## セットアップ
+
+### 前提条件
+
+- [mise](https://mise.jdx.dev/) がインストールされていること
+- Node.js 24.x
+
+### インストール
 
 ```bash
 # Node.js バージョンの設定 (mise)
@@ -64,39 +60,36 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-## スクリプト
+## コマンド一覧
 
-```bash
-pnpm dev               # 開発サーバー起動 (Turbopack)
-pnpm build             # プロダクションビルド
-pnpm start             # プロダクションサーバー起動
-pnpm lint              # Biome によるリント
-pnpm format            # Biome によるフォーマット
-pnpm check             # Biome によるリント + フォーマット
-pnpm ncu               # 依存パッケージの更新確認
-pnpm sort-package-json # package.json のソート
-```
-
-## バックエンド連携
-
-バックエンドは [anycast-backend](https://github.com/siropaca/anycast-backend) で管理しています。
-
-### API エンドポイント（予定）
-
-- 台本生成 API
-- 音声生成 API
-
-> 現在バックエンドは開発中のため、フロントエンドはモックデータで動作します。
+| コマンド | 説明 |
+|----------|------|
+| `pnpm dev` | 開発サーバーを起動（Turbopack） |
+| `pnpm build` | プロダクションビルド |
+| `pnpm start` | プロダクションサーバーを起動 |
+| `pnpm lint` | Biome によるリント |
+| `pnpm format` | Biome によるフォーマット |
+| `pnpm check` | Biome によるリント + フォーマット |
+| `pnpm ncu` | 依存パッケージの更新確認 |
+| `pnpm sort-package-json` | package.json のソート |
 
 ## ディレクトリ構成
 
 ```
-src/
-├── app/          # Next.js App Router
-├── components/   # 共通コンポーネント
-├── features/     # 機能ごとのモジュール
-├── hooks/        # カスタムフック
-├── lib/          # ユーティリティ
-├── mocks/        # モックデータ
-└── types/        # 型定義
+.
+├── src/
+│   ├── app/          # Next.js App Router
+│   ├── components/   # 共通コンポーネント
+│   ├── features/     # 機能ごとのモジュール
+│   ├── hooks/        # カスタムフック
+│   ├── lib/          # ユーティリティ
+│   ├── mocks/        # モックデータ
+│   └── types/        # 型定義
+├── public/           # 静的ファイル
+├── .env.example      # 環境変数のサンプル
+├── .mise.toml        # mise 設定
+├── biome.json        # Biome 設定
+├── package.json
+├── README.md
+└── CLAUDE.md
 ```
