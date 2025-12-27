@@ -4,7 +4,7 @@ AI 音声生成専門のポッドキャストプラットフォーム「Anycast�
 
 ## 必要条件
 
-- Node.js 22.x (LTS) - [mise](https://mise.jdx.dev/) で管理
+- Node.js 24.x - [mise](https://mise.jdx.dev/) で管理
 - pnpm
 
 ## 概要
@@ -31,11 +31,11 @@ Anycast は、AI を活用して台本から音声を生成し、ポッドキャ
 
 | カテゴリ | 技術 | バージョン |
 |---------|------|-----------|
-| フレームワーク | Next.js (App Router + Turbopack) | 16.0.10 |
-| UI ライブラリ | React | 19.2.1 |
+| フレームワーク | Next.js (App Router + Turbopack) | 16.1.x |
+| UI ライブラリ | React | 19.x |
 | 言語 | TypeScript | 5.x |
 | スタイリング | Tailwind CSS | 4.x |
-| リンター/フォーマッター | Biome | 2.3.x |
+| リンター/フォーマッター | Biome | 2.x |
 | パッケージマネージャー | pnpm | 10.x |
 | ランタイム管理 | mise | - |
 
@@ -67,12 +67,14 @@ pnpm dev
 ## スクリプト
 
 ```bash
-pnpm dev      # 開発サーバー起動 (Turbopack)
-pnpm build    # プロダクションビルド
-pnpm start    # プロダクションサーバー起動
-pnpm lint     # Biome によるリント
-pnpm format   # Biome によるフォーマット
-pnpm check    # Biome によるリント + フォーマット
+pnpm dev               # 開発サーバー起動 (Turbopack)
+pnpm build             # プロダクションビルド
+pnpm start             # プロダクションサーバー起動
+pnpm lint              # Biome によるリント
+pnpm format            # Biome によるフォーマット
+pnpm check             # Biome によるリント + フォーマット
+pnpm ncu               # 依存パッケージの更新確認
+pnpm sort-package-json # package.json のソート
 ```
 
 ## バックエンド連携
