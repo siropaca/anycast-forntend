@@ -86,6 +86,8 @@ pnpm dev
 │   ├── mocks/        # モックデータ
 │   └── types/        # 型定義
 ├── public/           # 静的ファイル
+├── docs/
+│   └── adr/          # Architecture Decision Records
 ├── .env.example      # 環境変数のサンプル
 ├── .mise.toml        # mise 設定
 ├── biome.json        # Biome 設定

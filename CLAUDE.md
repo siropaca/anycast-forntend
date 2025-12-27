@@ -1,9 +1,16 @@
 # Anycast Frontend - Claude Code 向けガイド
 
+## ドキュメント
+
+| ファイル | 説明 |
+|----------|------|
+| [docs/adr/](docs/adr/) | Architecture Decision Records |
+
 ## ドキュメント管理ルール
 
 - README.md から読み取れる情報（技術スタック、ディレクトリ構成、コマンドなど）は CLAUDE.md に重複して記載しない
 - ディレクトリ構成、技術スタック、バージョンなどプロジェクトの基本情報が変わった際は、README.md と CLAUDE.md の両方を更新する
+- ADR を追加した際は `docs/adr/README.md` の一覧にも追記する
 
 ## 開発規約
 
