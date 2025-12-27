@@ -1,32 +1,47 @@
-# Anycast Frontend - Claude Code Instructions
+# Anycast Frontend - Claude Code 向けガイド
 
-## ドキュメント管理
+## ドキュメント
+
+| ファイル | 説明 |
+|----------|------|
+| [docs/adr/](docs/adr/) | Architecture Decision Records |
+
+## ドキュメント管理ルール
 
 - README.md から読み取れる情報（技術スタック、ディレクトリ構成、コマンドなど）は CLAUDE.md に重複して記載しない
 - ディレクトリ構成、技術スタック、バージョンなどプロジェクトの基本情報が変わった際は、README.md と CLAUDE.md の両方を更新する
+- ADR を追加した際は `docs/adr/README.md` の一覧にも追記する
 
-## 開発ルール
+## 開発規約
 
 ### コーディング規約
 
 - TypeScript を使用し、型安全性を重視する
 - Biome の設定に従ってフォーマットする
+
+### React
+
 - コンポーネントは関数コンポーネント + hooks を使用
 - `use client` / `use server` ディレクティブを適切に使い分ける
+- 最新の hooks・API・手法を積極的に採用する（例: `use`、`useActionState`、`useOptimistic`、Server Components など）
 
-### Git ワークフロー
+### Git / GitHub
 
-GitHub Flow を採用。
-
-- `main` ブランチから feature ブランチを作成
-- PR を作成してレビュー後にマージ
-- コミットメッセージは日本語 OK
+- ユーザーから指示があるまでコミットやプッシュを行わない（勝手にプッシュしない）
+- コミット前に `pnpm check` でリント + フォーマットを実行する
+- PR 作成時は `.github/PULL_REQUEST_TEMPLATE.md` をテンプレートとして使用する
 
 ## 実装上の注意事項
 
 - バックエンド API が未実装のため、`src/mocks/` にモックを配置する
 - 本番 API 実装後にモックから切り替えられる設計にする
 - TanStack Query でデータフェッチを管理し、API 切り替えを容易にする
+
+## 用語
+
+| 英語 | 日本語 |
+|------|--------|
+| Script | 台本 |
 
 ## 学習事項
 
@@ -35,3 +50,12 @@ GitHub Flow を採用。
 ### ファイル・ディレクトリ管理
 
 - 新しいディレクトリを作成する際、空のままでも Git で管理する必要がある場合は `.gitkeep` を追加する
+
+### 環境変数
+
+- 環境変数を追加・変更した際は `.env.example` も更新する
+
+### パッケージ管理
+
+- 依存パッケージを追加・削除した後は整合性を確認する
+- 新しいパッケージを追加する際は、そのパッケージが広く使われているか確認する
