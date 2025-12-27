@@ -5,6 +5,9 @@
 | ファイル | 説明 |
 |----------|------|
 | [docs/adr/](docs/adr/) | Architecture Decision Records |
+| [docs/auth.md](docs/auth.md) | 認証仕様 |
+| [docs/page-structure.md](docs/page-structure.md) | ページ構成 |
+| [docs/ui-layout.md](docs/ui-layout.md) | UI レイアウト |
 
 ## ドキュメント管理ルール
 
@@ -32,11 +35,18 @@
 - コミット前に `pnpm check` でリント + フォーマットを実行する
 - PR 作成時は `.github/PULL_REQUEST_TEMPLATE.md` をテンプレートとして使用する
 
+## 開発環境
+
+| 項目 | URL |
+|------|-----|
+| フロントエンド | http://localhost:3210 |
+| バックエンド | http://localhost:8081 |
+
 ## 実装上の注意事項
 
-- バックエンド API が未実装のため、`src/mocks/` にモックを配置する
-- 本番 API 実装後にモックから切り替えられる設計にする
-- TanStack Query でデータフェッチを管理し、API 切り替えを容易にする
+- TanStack Query でデータフェッチを管理する
+- API クライアントは `src/lib/api/` に配置する
+- カスタムフックは `src/features/*/hooks/` に配置する
 
 ## 用語
 

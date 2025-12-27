@@ -15,6 +15,7 @@ ADR（Architecture Decision Record）は、アーキテクチャ上の重要な�
 | [002](002-linter-formatter-biome.md) | リンター/フォーマッター: Biome | Accepted |
 | [003](003-styling-tailwindcss.md) | スタイリング: Tailwind CSS | Accepted |
 | [004](004-package-manager-pnpm.md) | パッケージマネージャー: pnpm | Accepted |
+| [005](005-auth-authjs.md) | 認証ライブラリ: Auth.js | Accepted |
 
 ## ステータス
 
