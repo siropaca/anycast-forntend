@@ -11,6 +11,10 @@ ADR（Architecture Decision Record）は、アーキテクチャ上の重要な�
 
 | 番号 | タイトル | ステータス |
 |------|----------|------------|
+| [001](001-framework-nextjs.md) | フレームワーク: Next.js | Accepted |
+| [002](002-linter-formatter-biome.md) | リンター/フォーマッター: Biome | Accepted |
+| [003](003-styling-tailwindcss.md) | スタイリング: Tailwind CSS | Accepted |
+| [004](004-package-manager-pnpm.md) | パッケージマネージャー: pnpm | Accepted |
 
 ## ステータス
 
