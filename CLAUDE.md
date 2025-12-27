@@ -18,8 +18,12 @@
 
 - TypeScript を使用し、型安全性を重視する
 - Biome の設定に従ってフォーマットする
+
+### React
+
 - コンポーネントは関数コンポーネント + hooks を使用
 - `use client` / `use server` ディレクティブを適切に使い分ける
+- 最新の hooks・API・手法を積極的に採用する（例: `use`、`useActionState`、`useOptimistic`、Server Components など）
 
 ### Git / GitHub
 
