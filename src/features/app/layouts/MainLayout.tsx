@@ -6,7 +6,7 @@ interface Props {
 
 export function MainLayout({ children }: Props) {
   return (
-    <div className="flex min-h-[calc(100vh-57px)]">
+    <div className="flex flex-1">
       <Sidebar>
         <nav className="p-4">Sidebar</nav>
       </Sidebar>
