@@ -19,6 +19,8 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 - **状態管理**: Zustand
 - **API クライアント生成**: orval
 - **フォーム**: react-hook-form + Zod
+- **コンポーネントカタログ**: Storybook
+- **テスト**: Vitest + Playwright
 - **リンター/フォーマッター**: Biome
 - **パッケージマネージャー**: pnpm
 - **バージョン管理**: mise
@@ -57,6 +59,8 @@ pnpm dev
 | `pnpm lint` | Biome によるリント |
 | `pnpm format` | Biome によるフォーマット |
 | `pnpm check` | Biome によるリント + フォーマット |
+| `pnpm storybook` | Storybook を起動 |
+| `pnpm build-storybook` | Storybook のビルド |
 | `pnpm gen:api` | OpenAPI 定義から API クライアントを生成 |
 | `pnpm ncu` | 依存パッケージの更新確認 |
 | `pnpm sort-package-json` | package.json のソート |
@@ -65,6 +69,7 @@ pnpm dev
 
 ```
 .
+├── .storybook/       # Storybook 設定
 ├── src/
 │   ├── app/          # Next.js App Router
 │   ├── components/   # 共通コンポーネント

@@ -66,6 +66,7 @@ function add(a: number, b: number): number {
 | 項目 | URL |
 |------|-----|
 | フロントエンド | http://localhost:3210 |
+| Storybook | http://localhost:6006 |
 | バックエンド | http://localhost:8081 |
 
 ## 実装上の注意事項
