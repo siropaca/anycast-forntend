@@ -28,6 +28,7 @@
 ### JSDoc
 
 - 基本的に関数には JSDoc を記載する
+- React コンポーネントには JSDoc を記載しない
 - 説明文と `@param` の間には空行を入れる
 - 使用するタグ: `@param`, `@returns`, `@throws`, `@example`（必要に応じて）
 - `@example` にはコードブロック（` ``` `）や import 文は不要、呼び出しと返却値のみ記載
