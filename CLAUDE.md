@@ -5,6 +5,9 @@
 | ファイル | 説明 |
 |----------|------|
 | [docs/adr/](docs/adr/) | Architecture Decision Records |
+| [docs/auth.md](docs/auth.md) | 認証仕様 |
+| [docs/page-structure.md](docs/page-structure.md) | ページ構成 |
+| [docs/ui-layout.md](docs/ui-layout.md) | UI レイアウト |
 
 ## ドキュメント管理ルール
 
@@ -18,12 +21,39 @@
 
 - TypeScript を使用し、型安全性を重視する
 - Biome の設定に従ってフォーマットする
+- バレルファイル（index.ts）は作成しない
+- import のパスは相対パスではなく `@` エイリアスを使用する
+- オブジェクトの型定義には `type` より `interface` を優先する
+
+### JSDoc
+
+- 基本的に関数には JSDoc を記載する
+- 説明文と `@param` の間には空行を入れる
+- 使用するタグ: `@param`, `@returns`, `@throws`, `@example`（必要に応じて）
+- `@example` にはコードブロック（` ``` `）や import 文は不要、呼び出しと返却値のみ記載
+
+```typescript
+/**
+ * 2つの数値を加算する
+ *
+ * @param a - 1つ目の数値
+ * @param b - 2つ目の数値
+ * @returns 加算結果
+ *
+ * @example
+ * add(1, 2) // => 3
+ */
+function add(a: number, b: number): number {
+  return a + b;
+}
+```
 
 ### React
 
 - コンポーネントは関数コンポーネント + hooks を使用
 - `use client` / `use server` ディレクティブを適切に使い分ける
 - 最新の hooks・API・手法を積極的に採用する（例: `use`、`useActionState`、`useOptimistic`、Server Components など）
+- コンポーネントの props の型名は `Props` に統一する
 
 ### Git / GitHub
 
@@ -31,11 +61,19 @@
 - コミット前に `pnpm check` でリント + フォーマットを実行する
 - PR 作成時は `.github/PULL_REQUEST_TEMPLATE.md` をテンプレートとして使用する
 
+## 開発環境
+
+| 項目 | URL |
+|------|-----|
+| フロントエンド | http://localhost:3210 |
+| バックエンド | http://localhost:8081 |
+
 ## 実装上の注意事項
 
-- バックエンド API が未実装のため、`src/mocks/` にモックを配置する
-- 本番 API 実装後にモックから切り替えられる設計にする
-- TanStack Query でデータフェッチを管理し、API 切り替えを容易にする
+- TanStack Query でデータフェッチを管理する
+- API クライアントは `src/libs/api/` に配置する
+- カスタムフックは `src/features/*/hooks/` に配置する
+- ページパスは直接文字列を使わず `Paths` を使用する（`src/libs/paths/`）
 
 ## 用語
 

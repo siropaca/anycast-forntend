@@ -1,20 +1,13 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import { Header } from '@/components/Header';
-import '../styles/globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+import { Providers } from '@/features/app/providers/Providers';
+import { Header } from '@/features/app/ui/Header';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'Anycast',
+  title: {
+    default: 'Anycast',
+    template: '%s | Anycast',
+  },
   description: 'AI 音声生成ポッドキャストプラットフォーム',
 };
 
@@ -25,11 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Header />
-        {children}
+      <body>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
