@@ -11,6 +11,8 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 - **言語**: TypeScript
 - **フレームワーク**: Next.js (App Router + Turbopack)
 - **UI ライブラリ**: React
+- **UI コンポーネント**: Base UI
+- **アイコン**: React Icons
 - **スタイリング**: Tailwind CSS
 - **認証**: Auth.js (next-auth)
 - **データフェッチ**: TanStack Query
