@@ -6,6 +6,7 @@ import { Paths } from '@/libs/paths';
 
 export const metadata: Metadata = {
   title: 'ログイン',
+  robots: { index: false },
 };
 
 interface Props {
