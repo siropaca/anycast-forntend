@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { AuthButton } from '@/components/auth/AuthButton';
+import { AuthButton } from '@/features/auth/ui/AuthButton';
 import { auth } from '@/libs/auth/auth';
 import { Paths } from '@/libs/paths';
 

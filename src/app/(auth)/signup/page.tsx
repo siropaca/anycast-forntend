@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { OAuthButtons } from '@/components/auth/OAuthButtons';
-import { SignupForm } from '@/components/auth/SignupForm';
+import { OAuthButtons } from '@/features/auth/ui/OAuthButtons';
+import { SignupForm } from '@/features/auth/ui/SignupForm';
 import { Paths } from '@/libs/paths';
 
 export const metadata: Metadata = {

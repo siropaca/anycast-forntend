@@ -1,7 +1,10 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import { loginWithCredentials, loginWithGoogle } from '@/libs/api/auth';
+import {
+  postAuthLogin,
+  postAuthOauthGoogle,
+} from '@/libs/api/generated/auth/auth';
 import { Paths } from '@/libs/paths';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -17,16 +20,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         try {
-          const user = await loginWithCredentials({
+          const response = await postAuthLogin({
             email: credentials.email as string,
             password: credentials.password as string,
           });
 
+          if (response.status !== 200) {
+            return null;
+          }
+
+          const user = response.data.data?.user;
+          if (!user) {
+            return null;
+          }
+
           return {
-            id: user.id,
-            email: user.email,
-            name: user.displayName,
-            image: user.avatarUrl,
+            id: user.id ?? '',
+            email: user.email ?? '',
+            name: user.displayName ?? '',
+            image: user.avatarUrl ?? null,
           };
         } catch {
           return null;
@@ -42,7 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, account }) {
       if (account?.provider === 'google') {
         try {
-          const backendUser = await loginWithGoogle({
+          const response = await postAuthOauthGoogle({
             providerUserId: account.providerAccountId,
             email: user.email ?? '',
             displayName: user.name ?? '',
@@ -50,6 +62,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             refreshToken: account.refresh_token,
             expiresAt: account.expires_at,
           });
+
+          if (response.status !== 200 && response.status !== 201) {
+            return false;
+          }
+
+          const backendUser = response.data.data?.user;
+          if (!backendUser?.id) {
+            return false;
+          }
 
           user.id = backendUser.id;
         } catch {
