@@ -23,7 +23,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
       <hr />
 
-      <OAuthButtons />
+      <OAuthButtons redirectTo={redirect} />
 
       <p>
         アカウントをお持ちでない方は{' '}
