@@ -14,6 +14,7 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 - **スタイリング**: Tailwind CSS
 - **認証**: Auth.js (next-auth)
 - **データフェッチ**: TanStack Query
+- **状態管理**: Zustand
 - **API クライアント生成**: orval
 - **フォーム**: react-hook-form + Zod
 - **リンター/フォーマッター**: Biome
@@ -69,6 +70,7 @@ pnpm dev
 │   ├── features/     # 機能ごとのモジュール
 │   ├── hooks/        # カスタムフック
 │   ├── libs/         # 機能別ライブラリ（auth, api, paths など）
+│   ├── stores/       # Zustand ストア
 │   ├── types/        # 型定義
 │   └── utils/        # 汎用ユーティリティ
 ├── public/           # 静的ファイル
