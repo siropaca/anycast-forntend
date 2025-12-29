@@ -1,5 +1,22 @@
 import { buildQuery } from '@/libs/pages/buildQuery';
 
+/** ログインページの検索パラメータ */
+export type LoginSearchParams = {
+  /** ログイン後のリダイレクト先 */
+  redirect?: string;
+};
+
+/** 新規登録ページの検索パラメータ */
+export type SignupSearchParams = {
+  /** 登録後のリダイレクト先 */
+  redirect?: string;
+};
+
+/** 探索ページの検索パラメータ */
+export type ExploreSearchParams = {
+  q?: string;
+};
+
 export const mainPages = {
   /** ホーム */
   home: {
@@ -9,30 +26,20 @@ export const mainPages = {
 
   /** ログイン */
   login: {
-    path: (params?: {
-      redirect?: string; // ログイン後のリダイレクト先
-    }) => `/login${buildQuery(params)}`,
+    path: (params?: LoginSearchParams) => `/login${buildQuery(params)}`,
     title: 'ログイン',
   },
 
   /** 新規登録 */
   signup: {
-    path: (params?: {
-      redirect?: string; // ログイン後のリダイレクト先
-    }) => `/signup${buildQuery(params)}`,
+    path: (params?: SignupSearchParams) => `/signup${buildQuery(params)}`,
     title: '新規登録',
   },
 
   /** 探索 */
   explore: {
-    path: () => '/explore',
+    path: (params?: ExploreSearchParams) => `/explore${buildQuery(params)}`,
     title: '探索',
-  },
-
-  /** 検索 */
-  search: {
-    path: () => '/search',
-    title: '検索',
   },
 
   /** ライブラリ */

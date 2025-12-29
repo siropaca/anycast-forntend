@@ -52,18 +52,16 @@ describe('Pages', () => {
       expect(Pages.explore.path()).toBe('/explore');
     });
 
+    it('q パラメータ付きのパスを返す', () => {
+      expect(Pages.explore.path({ q: 'test' })).toBe('/explore?q=test');
+    });
+
+    it('q が undefined の場合はパラメータなしのパスを返す', () => {
+      expect(Pages.explore.path({ q: undefined })).toBe('/explore');
+    });
+
     it('タイトルを返す', () => {
       expect(Pages.explore.title).toBe('探索');
-    });
-  });
-
-  describe('search', () => {
-    it('検索ページのパスを返す', () => {
-      expect(Pages.search.path()).toBe('/search');
-    });
-
-    it('タイトルを返す', () => {
-      expect(Pages.search.title).toBe('検索');
     });
   });
 
@@ -99,7 +97,7 @@ describe('Pages', () => {
     });
 
     it('Studio トップのタイトルを返す', () => {
-      expect(Pages.studio.index.title).toBe('ダッシュボード');
+      expect(Pages.studio.index.title).toBe('スタジオ');
     });
 
     it('ダッシュボードページのパスを返す', () => {
@@ -125,7 +123,7 @@ describe('Pages', () => {
     });
 
     it('設定トップのタイトルを返す', () => {
-      expect(Pages.settings.index.title).toBe('アカウント');
+      expect(Pages.settings.index.title).toBe('設定');
     });
 
     it('アカウントページのパスを返す', () => {
