@@ -7,8 +7,8 @@ interface Props {
 }
 
 const menuItems = [
-  { label: 'アカウント', href: Paths.settings.index() },
-  { label: 'サブスクリプション', href: '#' },
+  { label: 'アカウント', href: Paths.settings.account() },
+  { label: 'サブスクリプション', href: Paths.settings.subscription() },
 ];
 
 export function SettingsLayout({ children }: Props) {

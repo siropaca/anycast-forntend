@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-export default function StudioPage() {
+export default function StudioDashboardPage() {
   return <DashboardContent />;
 }

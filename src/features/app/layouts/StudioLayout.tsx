@@ -7,8 +7,8 @@ interface Props {
 }
 
 const menuItems = [
-  { label: 'ダッシュボード', href: Paths.studio.index() },
-  { label: 'チャンネル', href: '#' },
+  { label: 'ダッシュボード', href: Paths.studio.dashboard() },
+  { label: 'チャンネル', href: Paths.studio.channels() },
 ];
 
 export function StudioLayout({ children }: Props) {

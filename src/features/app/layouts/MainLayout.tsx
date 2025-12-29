@@ -9,13 +9,13 @@ interface Props {
 
 const menuItems = [
   { label: 'ホーム', href: Paths.home() },
-  { label: '検索', href: '#' },
+  { label: '検索', href: Paths.search() },
 ];
 
 const libraryItems = [
-  { label: '再生履歴', href: '#' },
-  { label: 'お気に入り', href: '#' },
-  { label: 'フォロー中', href: '#' },
+  { label: '再生履歴', href: Paths.library.history() },
+  { label: 'お気に入り', href: Paths.library.favorites() },
+  { label: 'フォロー中', href: Paths.library.following() },
 ];
 
 export async function MainLayout({ children }: Props) {

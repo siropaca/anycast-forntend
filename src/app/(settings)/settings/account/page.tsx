@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-export default function SettingsPage() {
+export default function SettingsAccountPage() {
   return <AccountContent />;
 }
