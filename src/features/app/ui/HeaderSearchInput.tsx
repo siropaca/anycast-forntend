@@ -8,7 +8,7 @@ export function SearchInput() {
   const router = useRouter();
 
   const handleFocus = () => {
-    router.push(Pages.search.path());
+    router.push(Pages.explore.path());
   };
 
   return (

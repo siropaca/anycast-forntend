@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { SearchInput } from '@/features/app/ui/SearchInput';
+import { HeaderSearchInput } from '@/features/app/ui/HeaderSearchInput';
 import { AuthButton } from '@/features/auth/ui/AuthButton';
 import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
@@ -13,7 +13,7 @@ export async function Header() {
         anycast
       </Link>
 
-      <SearchInput />
+      <HeaderSearchInput />
 
       <div className="space-x-6">
         {isLoggedIn && (
