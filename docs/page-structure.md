@@ -66,7 +66,6 @@ Anycast のページ構成と URL 設計を定義する。
 | 設定 | `/settings` | 設定トップ（アカウントを表示） | - | - |
 | アカウント | `/settings/account` | プロフィール・アカウント設定 | ✅ | |
 | サブスクリプション | `/settings/subscription` | サブスクリプション管理 | ✅ | |
-| ログアウト | `/settings/logout` | ログアウト処理 | ✅ | ✅ |
 
 ## URL 設計方針
 
