@@ -1,21 +1,27 @@
 import Link from 'next/link';
 import { Sidebar } from '@/features/app/ui/Sidebar';
 import { auth } from '@/libs/auth/auth';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const menuItems = [
-  { label: 'ホーム', href: Paths.home() },
-  { label: '検索', href: Paths.search() },
+  { label: Pages.home.title, href: Pages.home.path() },
+  { label: Pages.search.title, href: Pages.search.path() },
 ];
 
 const libraryItems = [
-  { label: '再生履歴', href: Paths.library.history() },
-  { label: 'お気に入り', href: Paths.library.favorites() },
-  { label: 'フォロー中', href: Paths.library.following() },
+  { label: Pages.library.history.title, href: Pages.library.history.path() },
+  {
+    label: Pages.library.favorites.title,
+    href: Pages.library.favorites.path(),
+  },
+  {
+    label: Pages.library.following.title,
+    href: Pages.library.following.path(),
+  },
 ];
 
 export async function MainLayout({ children }: Props) {

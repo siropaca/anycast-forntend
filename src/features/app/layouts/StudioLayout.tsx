@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { Sidebar } from '@/features/app/ui/Sidebar';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const menuItems = [
-  { label: 'ダッシュボード', href: Paths.studio.dashboard() },
-  { label: 'チャンネル', href: Paths.studio.channels() },
+  { label: Pages.studio.dashboard.title, href: Pages.studio.dashboard.path() },
+  { label: Pages.studio.channels.title, href: Pages.studio.channels.path() },
 ];
 
 export function StudioLayout({ children }: Props) {

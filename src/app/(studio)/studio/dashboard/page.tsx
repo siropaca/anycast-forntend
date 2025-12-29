@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { DashboardContent } from '@/features/studio/dashboard/ui/DashboardContent';
+import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: 'ダッシュボード',
+  title: Pages.studio.dashboard.title,
   robots: { index: false },
 };
 

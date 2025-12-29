@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: 'お気に入り',
+  title: Pages.library.favorites.title,
 };
 
 export default function LibraryFavoritesPage() {

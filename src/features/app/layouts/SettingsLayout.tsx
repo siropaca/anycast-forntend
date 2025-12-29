@@ -1,14 +1,17 @@
 import Link from 'next/link';
 import { Sidebar } from '@/features/app/ui/Sidebar';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const menuItems = [
-  { label: 'アカウント', href: Paths.settings.account() },
-  { label: 'サブスクリプション', href: Paths.settings.subscription() },
+  { label: Pages.settings.account.title, href: Pages.settings.account.path() },
+  {
+    label: Pages.settings.subscription.title,
+    href: Pages.settings.subscription.path(),
+  },
 ];
 
 export function SettingsLayout({ children }: Props) {
