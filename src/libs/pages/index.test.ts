@@ -47,6 +47,16 @@ describe('Pages', () => {
     });
   });
 
+  describe('explore', () => {
+    it('探索ページのパスを返す', () => {
+      expect(Pages.explore.path()).toBe('/explore');
+    });
+
+    it('タイトルを返す', () => {
+      expect(Pages.explore.title).toBe('探索');
+    });
+  });
+
   describe('search', () => {
     it('検索ページのパスを返す', () => {
       expect(Pages.search.path()).toBe('/search');
@@ -58,20 +68,28 @@ describe('Pages', () => {
   });
 
   describe('library', () => {
-    it('お気に入りページのパスを返す', () => {
-      expect(Pages.library.favorites.path()).toBe('/library/favorites');
-    });
-
-    it('お気に入りのタイトルを返す', () => {
-      expect(Pages.library.favorites.title).toBe('お気に入り');
-    });
-
     it('フォロー中ページのパスを返す', () => {
       expect(Pages.library.following.path()).toBe('/library/following');
     });
 
     it('フォロー中のタイトルを返す', () => {
       expect(Pages.library.following.title).toBe('フォロー中');
+    });
+
+    it('後で聴くページのパスを返す', () => {
+      expect(Pages.library.bookmarks.path()).toBe('/library/bookmarks');
+    });
+
+    it('後で聴くのタイトルを返す', () => {
+      expect(Pages.library.bookmarks.title).toBe('後で聴く');
+    });
+
+    it('お気に入りページのパスを返す', () => {
+      expect(Pages.library.favorites.path()).toBe('/library/favorites');
+    });
+
+    it('お気に入りのタイトルを返す', () => {
+      expect(Pages.library.favorites.title).toBe('お気に入り');
     });
   });
 

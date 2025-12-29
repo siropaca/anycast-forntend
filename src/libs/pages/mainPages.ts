@@ -23,6 +23,12 @@ export const mainPages = {
     title: '新規登録',
   },
 
+  /** 探索 */
+  explore: {
+    path: () => '/explore',
+    title: '探索',
+  },
+
   /** 検索 */
   search: {
     path: () => '/search',
@@ -31,15 +37,20 @@ export const mainPages = {
 
   /** ライブラリ */
   library: {
-    /** お気に入り */
-    favorites: {
-      path: () => '/library/favorites',
-      title: 'お気に入り',
-    },
     /** フォロー中 */
     following: {
       path: () => '/library/following',
       title: 'フォロー中',
+    },
+    /** 後で聴く */
+    bookmarks: {
+      path: () => '/library/bookmarks',
+      title: '後で聴く',
+    },
+    /** お気に入り */
+    favorites: {
+      path: () => '/library/favorites',
+      title: 'お気に入り',
     },
   },
 } as const;
