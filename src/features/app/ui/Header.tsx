@@ -13,13 +13,19 @@ export async function Header() {
       </Link>
 
       <div className="space-x-6">
-        <AuthButton isLoggedIn={!!session} />
+        {!!session && (
+          <Link href={Paths.studio.index()} className="underline">
+            作成
+          </Link>
+        )}
 
         {!!session && (
           <Link href={Paths.settings.index()} className="underline">
             設定
           </Link>
         )}
+
+        <AuthButton isLoggedIn={!!session} />
       </div>
     </header>
   );
