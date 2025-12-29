@@ -11,6 +11,7 @@ const menuItems = [
   { label: Pages.studio.channels.title, href: Pages.studio.channels.path() },
 ];
 
+// TODO: 仮コンポーネント
 export function StudioLayout({ children }: Props) {
   return (
     <div className="flex flex-1">

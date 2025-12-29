@@ -7,6 +7,7 @@ interface Props {
   isLoggedIn: boolean;
 }
 
+// TODO: 仮コンポーネント
 export function Header({ isLoggedIn }: Props) {
   return (
     <header className="flex h-header items-center justify-between border-b px-4">

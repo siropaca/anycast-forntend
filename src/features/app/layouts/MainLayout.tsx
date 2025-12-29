@@ -32,6 +32,7 @@ const myPageItems = [
   { label: Pages.settings.index.title, href: Pages.settings.index.path() },
 ];
 
+// TODO: 仮コンポーネント
 export async function MainLayout({ children }: Props) {
   const { isLoggedIn } = await auth();
 

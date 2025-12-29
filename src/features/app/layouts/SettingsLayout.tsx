@@ -14,6 +14,7 @@ const menuItems = [
   },
 ];
 
+// TODO: 仮コンポーネント
 export function SettingsLayout({ children }: Props) {
   return (
     <div className="flex flex-1">
