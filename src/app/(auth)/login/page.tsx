@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
 import { OAuthButtons } from '@/features/auth/ui/OAuthButtons';
 import { Pages } from '@/libs/pages';
+import type { LoginSearchParams } from '@/libs/pages/mainPages';
 
 export const metadata: Metadata = {
   title: Pages.login.title,
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  searchParams: Promise<{ redirect?: string }>;
+  searchParams: Promise<LoginSearchParams>;
 }
 
 export default async function LoginPage({ searchParams }: Props) {

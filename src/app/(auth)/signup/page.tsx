@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { OAuthButtons } from '@/features/auth/ui/OAuthButtons';
 import { SignupForm } from '@/features/auth/ui/SignupForm';
 import { Pages } from '@/libs/pages';
+import type { SignupSearchParams } from '@/libs/pages/mainPages';
 
 export const metadata: Metadata = {
   title: Pages.signup.title,
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  searchParams: Promise<{ redirect?: string }>;
+  searchParams: Promise<SignupSearchParams>;
 }
 
 export default async function SignupPage({ searchParams }: Props) {
