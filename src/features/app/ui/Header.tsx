@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SearchInput } from '@/features/app/ui/SearchInput';
 import { AuthButton } from '@/features/auth/ui/AuthButton';
 import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
@@ -11,6 +12,8 @@ export async function Header() {
       <Link href={Pages.home.path()} className="text-xl font-bold">
         anycast
       </Link>
+
+      <SearchInput />
 
       <div className="space-x-6">
         {isLoggedIn && (
