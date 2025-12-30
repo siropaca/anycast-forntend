@@ -1,4 +1,4 @@
-import { HouseIcon } from '@phosphor-icons/react/ssr';
+import { SquaresFourIcon, VideoIcon } from '@phosphor-icons/react/ssr';
 import { Sidebar } from '@/components/navigation/Sidebar';
 import type { MenuSection } from '@/components/navigation/SideMenu';
 import { SideMenu } from '@/components/navigation/SideMenu';
@@ -14,12 +14,12 @@ const MENU_SECTIONS: MenuSection[] = [
       {
         label: Pages.studio.dashboard.title,
         href: Pages.studio.dashboard.path(),
-        icon: HouseIcon,
+        icon: SquaresFourIcon,
       },
       {
         label: Pages.studio.channels.title,
         href: Pages.studio.channels.path(),
-        icon: HouseIcon,
+        icon: VideoIcon,
       },
     ],
   },

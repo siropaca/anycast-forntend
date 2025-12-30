@@ -1,4 +1,4 @@
-import { HouseIcon } from '@phosphor-icons/react/ssr';
+import { UserIcon, WalletIcon } from '@phosphor-icons/react/ssr';
 import { Sidebar } from '@/components/navigation/Sidebar';
 import type { MenuSection } from '@/components/navigation/SideMenu';
 import { SideMenu } from '@/components/navigation/SideMenu';
@@ -14,12 +14,12 @@ const MENU_SECTIONS: MenuSection[] = [
       {
         label: Pages.settings.account.title,
         href: Pages.settings.account.path(),
-        icon: HouseIcon,
+        icon: UserIcon,
       },
       {
         label: Pages.settings.subscription.title,
         href: Pages.settings.subscription.path(),
-        icon: HouseIcon,
+        icon: WalletIcon,
       },
     ],
   },

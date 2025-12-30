@@ -1,4 +1,13 @@
-import { HouseIcon } from '@phosphor-icons/react/ssr';
+import {
+  BookmarkIcon,
+  CheckFatIcon,
+  ClockCounterClockwiseIcon,
+  FolderIcon,
+  GearIcon,
+  HeartIcon,
+  HouseIcon,
+  RocketLaunchIcon,
+} from '@phosphor-icons/react/ssr';
 import { Sidebar } from '@/components/navigation/Sidebar';
 import type { MenuSection } from '@/components/navigation/SideMenu';
 import { SideMenu } from '@/components/navigation/SideMenu';
@@ -20,7 +29,7 @@ const MENU_SECTIONS: MenuSection[] = [
       {
         label: Pages.explore.title,
         href: Pages.explore.path(),
-        icon: HouseIcon,
+        icon: RocketLaunchIcon,
       },
     ],
   },
@@ -30,22 +39,22 @@ const MENU_SECTIONS: MenuSection[] = [
       {
         label: Pages.library.following.title,
         href: Pages.library.following.path(),
-        icon: HouseIcon,
+        icon: CheckFatIcon,
       },
       {
         label: Pages.library.bookmarks.title,
         href: Pages.library.bookmarks.path(),
-        icon: HouseIcon,
+        icon: BookmarkIcon,
       },
       {
         label: Pages.library.favorites.title,
         href: Pages.library.favorites.path(),
-        icon: HouseIcon,
+        icon: HeartIcon,
       },
       {
         label: Pages.library.history.title,
         href: Pages.library.history.path(),
-        icon: HouseIcon,
+        icon: ClockCounterClockwiseIcon,
       },
     ],
   },
@@ -57,12 +66,12 @@ const MY_PAGE_SECTION: MenuSection = {
     {
       label: '作成したチャンネル',
       href: Pages.studio.channels.path(),
-      icon: HouseIcon,
+      icon: FolderIcon,
     },
     {
       label: Pages.settings.index.title,
       href: Pages.settings.index.path(),
-      icon: HouseIcon,
+      icon: GearIcon,
     },
   ],
 };
