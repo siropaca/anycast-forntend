@@ -25,16 +25,13 @@ const MENU_SECTIONS: MenuSection[] = [
   },
 ];
 
-// TODO: 仮コンポーネント
 export function StudioLayout({ children }: Props) {
   return (
     <div className="flex flex-1">
-      {/* サイドバー */}
       <Sidebar>
         <SideMenu sections={MENU_SECTIONS} />
       </Sidebar>
 
-      {/* コンテンツ */}
       <main className="flex-1 p-4">{children}</main>
     </div>
   );

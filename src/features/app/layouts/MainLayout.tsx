@@ -67,7 +67,6 @@ const MY_PAGE_SECTION: MenuSection = {
   ],
 };
 
-// TODO: 仮コンポーネント
 export async function MainLayout({ children }: Props) {
   const { isLoggedIn } = await auth();
 
@@ -77,12 +76,10 @@ export async function MainLayout({ children }: Props) {
 
   return (
     <div className="flex flex-1">
-      {/* サイドバー */}
       <Sidebar>
         <SideMenu sections={sections} />
       </Sidebar>
 
-      {/* コンテンツ */}
       <main className="flex-1 p-4">{children}</main>
     </div>
   );
