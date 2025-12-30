@@ -5,6 +5,7 @@ export interface MenuItem {
   label: string;
   href: string;
   icon: Icon;
+  iconSize?: number;
 }
 
 export interface MenuSection {
@@ -15,6 +16,8 @@ export interface MenuSection {
 interface Props {
   sections: MenuSection[];
 }
+
+const DEFAULT_ICON_SIZE = 24;
 
 export function SideMenu({ sections }: Props) {
   return (
@@ -31,7 +34,7 @@ export function SideMenu({ sections }: Props) {
               href={item.href}
               className="px-3 py-2 flex gap-x-4 items-center"
             >
-              <item.icon size={24} />
+              <item.icon size={item.iconSize ?? DEFAULT_ICON_SIZE} />
               {item.label}
             </Link>
           ))}

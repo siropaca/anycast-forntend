@@ -1,6 +1,6 @@
 import {
   BookmarkIcon,
-  CheckFatIcon,
+  CheckSquareOffsetIcon,
   ClockCounterClockwiseIcon,
   FolderIcon,
   GearIcon,
@@ -39,7 +39,7 @@ const MENU_SECTIONS: MenuSection[] = [
       {
         label: Pages.library.following.title,
         href: Pages.library.following.path(),
-        icon: CheckFatIcon,
+        icon: CheckSquareOffsetIcon,
       },
       {
         label: Pages.library.bookmarks.title,
