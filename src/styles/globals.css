@@ -9,7 +9,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --spacing-header: 56px;
-  --spacing-sidebar: 240px;
+  --spacing-sidebar: 250px;
 }
 
 @media (prefers-color-scheme: dark) {
