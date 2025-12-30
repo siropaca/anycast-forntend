@@ -45,6 +45,7 @@ Anycast のページ構成と URL 設計を定義する。
 | フォロー中 | `/library/following` | フォロー中のユーザーとチャンネル一覧 | ✅ | |
 | 後で聴く | `/library/bookmarks` | 後で聴くエピソード一覧 | ✅ | |
 | お気に入り | `/library/favorites` | お気に入り一覧            | ✅ | |
+| 履歴 | `/library/history` | 再生履歴一覧 | ✅ | |
 
 ### Studio（認証必須 / クリエイター向け）
 

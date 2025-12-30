@@ -59,5 +59,10 @@ export const mainPages = {
       path: () => '/library/favorites',
       title: 'お気に入り',
     },
+    /** 履歴 */
+    history: {
+      path: () => '/library/history',
+      title: '履歴',
+    },
   },
 } as const;

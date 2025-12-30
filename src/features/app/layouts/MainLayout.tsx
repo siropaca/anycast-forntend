@@ -25,6 +25,10 @@ const libraryItems = [
     label: Pages.library.favorites.title,
     href: Pages.library.favorites.path(),
   },
+  {
+    label: Pages.library.history.title,
+    href: Pages.library.history.path(),
+  },
 ];
 
 const myPageItems = [
