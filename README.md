@@ -12,7 +12,7 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 - **フレームワーク**: Next.js (App Router + Turbopack)
 - **UI ライブラリ**: React
 - **UI コンポーネント**: Base UI
-- **アイコン**: Phosphor Icons
+- **アイコン**: [Phosphor Icons](https://phosphoricons.com/)
 - **スタイリング**: Tailwind CSS
 - **認証**: Auth.js (next-auth)
 - **データフェッチ**: TanStack Query
