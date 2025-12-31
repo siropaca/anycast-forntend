@@ -1,4 +1,9 @@
-import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
+import type {
+  IsActivePathOptions,
+  MenuSection,
+} from '@/components/navigation/SideMenu/types';
+
+export type { IsActivePathOptions } from '@/components/navigation/SideMenu/types';
 
 /**
  * パスから query string を除去する
@@ -12,32 +17,44 @@ import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
  */
 export function removeQueryString(path: string): string {
   const index = path.indexOf('?');
+
   return index === -1 ? path : path.slice(0, index);
 }
 
 /**
- * 現在のパスがメニューアイテムのパスと一致するかを判定する（完全一致）
+ * 現在のパスがメニューアイテムのパスと一致するかを判定する
  *
  * @param pathname - 現在のパス（query string を含む場合があるので除去する）
  * @param href - メニューアイテムのパス
- * @param matchPaths - 追加でマッチさせるパス
+ * @param options - マッチングオプション
+ * @param options.matchPaths - 追加でマッチさせるパス（完全一致）
+ * @param options.matchPrefix - 前方一致でマッチさせるパス
  * @returns 一致する場合は true
  *
  * @example
  * isActivePath('/settings/account', '/settings/account') // => true
  * isActivePath('/settings/account?tab=1', '/settings/account') // => true
- * isActivePath('/settings', '/settings/account', ['/settings']) // => true
+ * isActivePath('/settings', '/settings/account', { matchPaths: ['/settings'] }) // => true
+ * isActivePath('/studio/channels/123/edit', '/studio/channels', { matchPrefix: ['/studio/channels/'] }) // => true
  * isActivePath('/studio/dashboard', '/studio/channels') // => false
  */
 export function isActivePath(
   pathname: string,
   href: string,
-  matchPaths?: string[],
+  options?: IsActivePathOptions,
 ): boolean {
   const normalizedPathname = removeQueryString(pathname);
-  const paths = [href, ...(matchPaths ?? [])];
 
-  return paths.includes(normalizedPathname);
+  // 完全一致チェック（href + matchPaths）
+  const paths = [href, ...(options?.matchPaths ?? [])];
+  if (paths.includes(normalizedPathname)) {
+    return true;
+  }
+
+  // 前方一致チェック（matchPrefix）
+  const prefixes = options?.matchPrefix ?? [];
+
+  return prefixes.some((prefix) => normalizedPathname.startsWith(prefix));
 }
 
 /**
@@ -55,7 +72,10 @@ export function withActiveState(
     ...section,
     items: section.items.map((item) => ({
       ...item,
-      isActive: isActivePath(pathname, item.href, item.matchPaths),
+      isActive: isActivePath(pathname, item.href, {
+        matchPaths: item.matchPaths,
+        matchPrefix: item.matchPrefix,
+      }),
     })),
   }));
 }

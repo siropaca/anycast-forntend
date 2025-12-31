@@ -15,6 +15,7 @@ export const STUDIO_MENU_SECTIONS: MenuSection[] = [
         label: Pages.studio.channels.title,
         href: Pages.studio.channels.path(),
         icon: VideoIcon,
+        matchPrefix: ['/studio/channels/'],
       },
     ],
   },

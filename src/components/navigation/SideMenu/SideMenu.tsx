@@ -1,20 +1,11 @@
-import type { Icon } from '@phosphor-icons/react';
 import Link from 'next/link';
+import type { MenuSection } from '@/components/navigation/SideMenu/types';
 import { cn } from '@/utils/cn';
 
-export interface MenuItem {
-  label: string;
-  href: string;
-  icon: Icon;
-  iconSize?: number;
-  matchPaths?: string[];
-  isActive?: boolean;
-}
-
-export interface MenuSection {
-  title?: string;
-  items: MenuItem[];
-}
+export type {
+  MenuItem,
+  MenuSection,
+} from '@/components/navigation/SideMenu/types';
 
 interface Props {
   sections: MenuSection[];

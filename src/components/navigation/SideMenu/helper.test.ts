@@ -52,26 +52,77 @@ describe('isActivePath', () => {
   describe('matchPaths', () => {
     it('matchPaths に含まれるパスと一致した場合は true を返す', () => {
       expect(
-        isActivePath('/settings', '/settings/account', ['/settings']),
+        isActivePath('/settings', '/settings/account', {
+          matchPaths: ['/settings'],
+        }),
       ).toBe(true);
     });
 
     it('複数の matchPaths をサポートする', () => {
       expect(
-        isActivePath('/settings', '/settings/account', [
-          '/settings',
-          '/config',
-        ]),
+        isActivePath('/settings', '/settings/account', {
+          matchPaths: ['/settings', '/config'],
+        }),
       ).toBe(true);
       expect(
-        isActivePath('/config', '/settings/account', ['/settings', '/config']),
+        isActivePath('/config', '/settings/account', {
+          matchPaths: ['/settings', '/config'],
+        }),
       ).toBe(true);
     });
 
     it('href にも matchPaths にも一致しない場合は false を返す', () => {
-      expect(isActivePath('/other', '/settings/account', ['/settings'])).toBe(
-        false,
-      );
+      expect(
+        isActivePath('/other', '/settings/account', {
+          matchPaths: ['/settings'],
+        }),
+      ).toBe(false);
+    });
+  });
+
+  describe('matchPrefix', () => {
+    it('matchPrefix に含まれるプレフィックスで始まる場合は true を返す', () => {
+      expect(
+        isActivePath('/studio/channels/new', '/studio/channels', {
+          matchPrefix: ['/studio/channels/'],
+        }),
+      ).toBe(true);
+    });
+
+    it('動的パスにマッチする', () => {
+      expect(
+        isActivePath('/studio/channels/123/edit', '/studio/channels', {
+          matchPrefix: ['/studio/channels/'],
+        }),
+      ).toBe(true);
+    });
+
+    it('プレフィックスに一致しない場合は false を返す', () => {
+      expect(
+        isActivePath('/studio/dashboard', '/studio/channels', {
+          matchPrefix: ['/studio/channels/'],
+        }),
+      ).toBe(false);
+    });
+
+    it('matchPaths と matchPrefix を併用できる', () => {
+      const options = {
+        matchPaths: ['/studio'],
+        matchPrefix: ['/studio/channels/'],
+      };
+
+      // matchPaths でマッチ
+      expect(isActivePath('/studio', '/studio/channels', options)).toBe(true);
+
+      // matchPrefix でマッチ
+      expect(
+        isActivePath('/studio/channels/123/edit', '/studio/channels', options),
+      ).toBe(true);
+
+      // どちらにもマッチしない
+      expect(
+        isActivePath('/studio/dashboard', '/studio/channels', options),
+      ).toBe(false);
     });
   });
 });
@@ -131,6 +182,27 @@ describe('withActiveState', () => {
     ];
 
     const result = withActiveState(sections, '/settings');
+
+    expect(result[0].items[0].isActive).toBe(true);
+    expect(result[0].items[1].isActive).toBe(false);
+  });
+
+  it('matchPrefix を使用してアクティブ状態を判定する', () => {
+    const sections: MenuSection[] = [
+      {
+        items: [
+          {
+            label: 'Channels',
+            href: '/studio/channels',
+            icon: mockIcon,
+            matchPrefix: ['/studio/channels/'],
+          },
+          { label: 'Dashboard', href: '/studio/dashboard', icon: mockIcon },
+        ],
+      },
+    ];
+
+    const result = withActiveState(sections, '/studio/channels/123/edit');
 
     expect(result[0].items[0].isActive).toBe(true);
     expect(result[0].items[1].isActive).toBe(false);
