@@ -1,5 +1,5 @@
-import { UserIcon, WalletIcon } from '@phosphor-icons/react/ssr';
-import type { MenuSection } from '@/components/navigation/SideMenu';
+import { UserIcon, WalletIcon } from '@phosphor-icons/react';
+import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 import { Pages } from '@/libs/pages';
 
 export const SETTINGS_MENU_SECTIONS: MenuSection[] = [

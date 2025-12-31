@@ -1,5 +1,5 @@
-import { SquaresFourIcon, VideoIcon } from '@phosphor-icons/react/ssr';
-import type { MenuSection } from '@/components/navigation/SideMenu';
+import { SquaresFourIcon, VideoIcon } from '@phosphor-icons/react';
+import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 import { Pages } from '@/libs/pages';
 
 export const STUDIO_MENU_SECTIONS: MenuSection[] = [
