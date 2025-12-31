@@ -7,6 +7,7 @@ export interface MenuItem {
   href: string;
   icon: Icon;
   iconSize?: number;
+  matchPaths?: string[];
   isActive?: boolean;
 }
 

@@ -1,39 +1,77 @@
 import { describe, expect, it } from 'vitest';
 import {
   isActivePath,
+  removeQueryString,
   withActiveState,
 } from '@/components/navigation/SideMenu/helper';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 
-describe('isActivePath', () => {
-  describe('ホームパス（/）の場合', () => {
-    it('パスが / の場合は true を返す', () => {
-      expect(isActivePath('/', '/')).toBe(true);
-    });
-
-    it('パスが / 以外の場合は false を返す', () => {
-      expect(isActivePath('/explore', '/')).toBe(false);
-      expect(isActivePath('/studio', '/')).toBe(false);
-    });
+describe('removeQueryString', () => {
+  it('query string を除去する', () => {
+    expect(removeQueryString('/explore?q=test')).toBe('/explore');
+    expect(removeQueryString('/settings?tab=1&page=2')).toBe('/settings');
   });
 
-  describe('通常パスの場合', () => {
-    it('完全一致の場合は true を返す', () => {
+  it('query string がない場合はそのまま返す', () => {
+    expect(removeQueryString('/settings')).toBe('/settings');
+    expect(removeQueryString('/')).toBe('/');
+  });
+});
+
+describe('isActivePath', () => {
+  describe('完全一致', () => {
+    it('パスが完全一致する場合は true を返す', () => {
+      expect(isActivePath('/', '/')).toBe(true);
       expect(isActivePath('/studio/channels', '/studio/channels')).toBe(true);
     });
 
-    it('前方一致の場合は true を返す', () => {
+    it('パスが一致しない場合は false を返す', () => {
+      expect(isActivePath('/explore', '/')).toBe(false);
+      expect(isActivePath('/studio/dashboard', '/studio/channels')).toBe(false);
+    });
+
+    it('前方一致でも完全一致しない場合は false を返す', () => {
       expect(isActivePath('/studio/channels/123', '/studio/channels')).toBe(
-        true,
+        false,
       );
       expect(
         isActivePath('/studio/channels/123/edit', '/studio/channels'),
+      ).toBe(false);
+    });
+  });
+
+  describe('query string の除去', () => {
+    it('query string を除去してから比較する', () => {
+      expect(isActivePath('/settings/account?tab=1', '/settings/account')).toBe(
+        true,
+      );
+      expect(isActivePath('/explore?q=test', '/explore')).toBe(true);
+    });
+  });
+
+  describe('matchPaths', () => {
+    it('matchPaths に含まれるパスと一致した場合は true を返す', () => {
+      expect(
+        isActivePath('/settings', '/settings/account', ['/settings']),
       ).toBe(true);
     });
 
-    it('一致しない場合は false を返す', () => {
-      expect(isActivePath('/studio/dashboard', '/studio/channels')).toBe(false);
-      expect(isActivePath('/settings', '/studio')).toBe(false);
+    it('複数の matchPaths をサポートする', () => {
+      expect(
+        isActivePath('/settings', '/settings/account', [
+          '/settings',
+          '/config',
+        ]),
+      ).toBe(true);
+      expect(
+        isActivePath('/config', '/settings/account', ['/settings', '/config']),
+      ).toBe(true);
+    });
+
+    it('href にも matchPaths にも一致しない場合は false を返す', () => {
+      expect(isActivePath('/other', '/settings/account', ['/settings'])).toBe(
+        false,
+      );
     });
   });
 });
@@ -57,7 +95,7 @@ describe('withActiveState', () => {
     expect(result[0].items[1].isActive).toBe(false);
   });
 
-  it('前方一致でアクティブ状態を判定する', () => {
+  it('完全一致でアクティブ状態を判定する', () => {
     const sections: MenuSection[] = [
       {
         items: [
@@ -67,7 +105,32 @@ describe('withActiveState', () => {
       },
     ];
 
-    const result = withActiveState(sections, '/studio/channels/123');
+    const result = withActiveState(sections, '/studio/channels');
+
+    expect(result[0].items[0].isActive).toBe(true);
+    expect(result[0].items[1].isActive).toBe(false);
+  });
+
+  it('matchPaths を使用してアクティブ状態を判定する', () => {
+    const sections: MenuSection[] = [
+      {
+        items: [
+          {
+            label: 'Account',
+            href: '/settings/account',
+            icon: mockIcon,
+            matchPaths: ['/settings'],
+          },
+          {
+            label: 'Subscription',
+            href: '/settings/subscription',
+            icon: mockIcon,
+          },
+        ],
+      },
+    ];
+
+    const result = withActiveState(sections, '/settings');
 
     expect(result[0].items[0].isActive).toBe(true);
     expect(result[0].items[1].isActive).toBe(false);

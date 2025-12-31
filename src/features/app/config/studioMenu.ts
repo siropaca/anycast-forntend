@@ -9,6 +9,7 @@ export const STUDIO_MENU_SECTIONS: MenuSection[] = [
         label: Pages.studio.dashboard.title,
         href: Pages.studio.dashboard.path(),
         icon: SquaresFourIcon,
+        matchPaths: [Pages.studio.index.path()],
       },
       {
         label: Pages.studio.channels.title,

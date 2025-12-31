@@ -9,6 +9,7 @@ export const SETTINGS_MENU_SECTIONS: MenuSection[] = [
         label: Pages.settings.account.title,
         href: Pages.settings.account.path(),
         icon: UserIcon,
+        matchPaths: [Pages.settings.index.path()],
       },
       {
         label: Pages.settings.subscription.title,

@@ -1,25 +1,43 @@
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 
 /**
- * 現在のパスがメニューアイテムのパスと一致するかを判定する（前方一致）
+ * パスから query string を除去する
  *
- * @param pathname - 現在のパス
+ * @param path - パス
+ * @returns query string を除去したパス
+ *
+ * @example
+ * removeQueryString('/explore?q=test') // => '/explore'
+ * removeQueryString('/settings') // => '/settings'
+ */
+export function removeQueryString(path: string): string {
+  const index = path.indexOf('?');
+  return index === -1 ? path : path.slice(0, index);
+}
+
+/**
+ * 現在のパスがメニューアイテムのパスと一致するかを判定する（完全一致）
+ *
+ * @param pathname - 現在のパス（query string を含む場合があるので除去する）
  * @param href - メニューアイテムのパス
+ * @param matchPaths - 追加でマッチさせるパス
  * @returns 一致する場合は true
  *
  * @example
- * isActivePath('/studio/channels', '/studio/channels') // => true
- * isActivePath('/studio/channels/123', '/studio/channels') // => true
+ * isActivePath('/settings/account', '/settings/account') // => true
+ * isActivePath('/settings/account?tab=1', '/settings/account') // => true
+ * isActivePath('/settings', '/settings/account', ['/settings']) // => true
  * isActivePath('/studio/dashboard', '/studio/channels') // => false
- * isActivePath('/', '/') // => true
- * isActivePath('/explore', '/') // => false
  */
-export function isActivePath(pathname: string, href: string): boolean {
-  if (href === '/') {
-    return pathname === '/';
-  }
+export function isActivePath(
+  pathname: string,
+  href: string,
+  matchPaths?: string[],
+): boolean {
+  const normalizedPathname = removeQueryString(pathname);
+  const paths = [href, ...(matchPaths ?? [])];
 
-  return pathname.startsWith(href);
+  return paths.includes(normalizedPathname);
 }
 
 /**
@@ -37,7 +55,7 @@ export function withActiveState(
     ...section,
     items: section.items.map((item) => ({
       ...item,
-      isActive: isActivePath(pathname, item.href),
+      isActive: isActivePath(pathname, item.href, item.matchPaths),
     })),
   }));
 }
