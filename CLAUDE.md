@@ -30,6 +30,7 @@
 - バレルファイル（index.ts）は作成しない
 - import のパスは相対パスではなく `@` エイリアスを使用する
 - オブジェクトの型定義には `type` より `interface` を優先する
+- `null` より `undefined` を積極的に使用する
 
 ### JSDoc
 
