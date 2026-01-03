@@ -84,8 +84,8 @@ export function EditEpisode({ channelId, episodeId }: Props) {
       <EpisodeForm
         mode="edit"
         defaultValues={defaultValues}
-        onSubmit={handleSubmit}
         isSubmitting={updateMutation.isPending}
+        onSubmit={handleSubmit}
       />
     </div>
   );

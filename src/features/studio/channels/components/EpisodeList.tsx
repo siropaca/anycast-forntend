@@ -24,7 +24,7 @@ export function EpisodeList({ channelId }: Props) {
       {episodes.map((episode) => (
         <li key={episode.id}>
           <Link
-            href={Pages.studio.editEpisode.path({
+            href={Pages.studio.episode.path({
               id: channelId,
               episodeId: episode.id,
             })}

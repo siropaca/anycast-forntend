@@ -10,8 +10,9 @@ import {
 interface Props {
   mode: 'create' | 'edit';
   defaultValues?: EpisodeFormInput;
-  onSubmit: (data: EpisodeFormInput) => void;
   isSubmitting?: boolean;
+
+  onSubmit: (data: EpisodeFormInput) => void;
 }
 
 export function EpisodeForm({

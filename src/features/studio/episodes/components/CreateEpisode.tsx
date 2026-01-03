@@ -45,7 +45,8 @@ export function CreateEpisode({ channelId }: Props) {
         return;
       }
 
-      router.push(Pages.studio.channel.path({ id: channelId }));
+      const episodeId = response.data.data.id;
+      router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
     } catch {
       setError('エピソードの作成に失敗しました');
     }
@@ -59,8 +60,8 @@ export function CreateEpisode({ channelId }: Props) {
 
       <EpisodeForm
         mode="create"
-        onSubmit={handleSubmit}
         isSubmitting={createMutation.isPending}
+        onSubmit={handleSubmit}
       />
     </div>
   );
