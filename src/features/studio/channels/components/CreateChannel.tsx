@@ -1,5 +1,6 @@
 'use client';
 
+import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
@@ -36,17 +37,15 @@ export function CreateChannel() {
         },
       });
 
-      if (response.status !== 201) {
+      if (response.status !== StatusCodes.CREATED) {
         setError(
           response.data.error?.message ?? 'チャンネルの作成に失敗しました',
         );
         return;
       }
 
-      const channelId = response.data.data?.id;
-      if (channelId) {
-        router.push(Pages.studio.channel.path({ id: channelId }));
-      }
+      const channelId = response.data.data.id;
+      router.push(Pages.studio.channel.path({ id: channelId }));
     } catch {
       setError('チャンネルの作成に失敗しました');
     }

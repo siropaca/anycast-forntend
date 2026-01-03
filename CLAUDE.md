@@ -92,6 +92,8 @@ function add(a: number, b: number): number {
 - TanStack Query でデータフェッチを管理する
 - API クライアントは `src/libs/api/` に配置する
 - カスタムフックは `src/features/*/hooks/` に配置する
+- データ取得のカスタムフックはページごとに作成する（例: `useCreateChannel`, `useEditChannel`）
+- HTTP ステータスコードはマジックナンバーではなく `http-status-codes` の `StatusCodes` を使用する
 
 ### ページパスの管理
 

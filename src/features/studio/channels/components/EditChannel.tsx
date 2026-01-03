@@ -1,5 +1,6 @@
 'use client';
 
+import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
@@ -41,7 +42,7 @@ export function EditChannel({ channelId }: Props) {
         },
       });
 
-      if (response.status !== 200) {
+      if (response.status !== StatusCodes.OK) {
         setError(
           response.data.error?.message ?? 'チャンネルの更新に失敗しました',
         );
