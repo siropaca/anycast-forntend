@@ -55,11 +55,10 @@ Anycast のページ構成と URL 設計を定義する。
 | ダッシュボード | `/studio/dashboard` | クリエイター向けダッシュボード | ✅ | |
 | チャンネル一覧 | `/studio/channels` | 自分のチャンネル一覧 | ✅ | |
 | チャンネル作成 | `/studio/channels/new` | 新規チャンネル作成 | ✅ | |
-| チャンネル詳細 | `/studio/channels/:id` | チャンネル詳細 | ✅ | |
+| チャンネル詳細 | `/studio/channels/:id` | チャンネル詳細とエピソード一覧 | ✅ | |
 | チャンネル編集 | `/studio/channels/:id/edit` | チャンネル情報の編集 | ✅ | |
-| エピソード一覧 | `/studio/channels/:id/episodes` | チャンネル内のエピソード一覧 | | |
-| エピソード作成 | `/studio/channels/:id/episodes/new` | 新規エピソード作成（台本作成→音声生成） | | |
-| エピソード編集 | `/studio/channels/:id/episodes/:id/edit` | エピソードの編集 | | |
+| エピソード作成 | `/studio/channels/:id/episodes/new` | 新規エピソード作成（台本作成→音声生成） | ✅ | |
+| エピソード編集 | `/studio/channels/:id/episodes/:episodeId/edit` | エピソードの編集 | ✅ | |
 
 ### 設定（認証必須）
 

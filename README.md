@@ -87,10 +87,20 @@ pnpm dev
 │   │   └── utils/       # ユーティリティ
 │   ├── config/       # 設定ファイル
 │   ├── features/     # 機能ごとのモジュール
-│   │   └── app/
-│   │       ├── layouts/  # レイアウトコンポーネント
-│   │       ├── providers/ # プロバイダー
-│   │       └── components/ # コンポーネント
+│   │   ├── app/          # アプリ共通
+│   │   │   ├── components/  # 共通コンポーネント
+│   │   │   ├── config/      # メニュー設定など
+│   │   │   ├── layouts/     # レイアウトコンポーネント
+│   │   │   └── providers/   # プロバイダー
+│   │   ├── auth/         # 認証機能
+│   │   │   ├── components/  # 認証コンポーネント
+│   │   │   └── schemas/     # バリデーションスキーマ
+│   │   ├── settings/     # 設定機能
+│   │   │   └── account/     # アカウント設定
+│   │   └── studio/       # Studio 機能
+│   │       ├── channels/    # チャンネル管理
+│   │       ├── dashboard/   # ダッシュボード
+│   │       └── episodes/    # エピソード管理
 │   ├── hooks/        # カスタムフック
 │   ├── libs/         # 機能別ライブラリ（auth, api, paths など）
 │   ├── stores/       # Zustand ストア

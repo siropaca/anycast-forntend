@@ -1,0 +1,187 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFieldArray, useForm } from 'react-hook-form';
+import {
+  type ChannelFormInput,
+  channelFormSchema,
+} from '@/features/studio/channels/schemas/channel';
+import type {
+  ResponseCategoryResponse,
+  ResponseVoiceResponse,
+} from '@/libs/api/generated/schemas';
+
+interface Props {
+  mode: 'create' | 'edit';
+  defaultValues?: ChannelFormInput;
+  categories: ResponseCategoryResponse[];
+  voices: ResponseVoiceResponse[];
+  onSubmit: (data: ChannelFormInput) => void;
+  isSubmitting?: boolean;
+}
+
+export function ChannelForm({
+  mode,
+  defaultValues,
+  categories,
+  voices,
+  onSubmit,
+  isSubmitting = false,
+}: Props) {
+  const isEditMode = mode === 'edit';
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ChannelFormInput>({
+    resolver: zodResolver(channelFormSchema),
+    defaultValues: defaultValues ?? {
+      name: '',
+      description: '',
+      scriptPrompt: '',
+      categoryId: '',
+      characters: [{ name: '', voiceId: '', persona: '' }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'characters',
+  });
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="name">チャンネル名</label>
+        <br />
+        <input id="name" type="text" className="border" {...register('name')} />
+        {errors.name && <p>{errors.name.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="description">説明</label>
+        <br />
+        <textarea
+          id="description"
+          className="border"
+          {...register('description')}
+        />
+        {errors.description && <p>{errors.description.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="scriptPrompt">台本プロンプト</label>
+        <br />
+        <textarea
+          id="scriptPrompt"
+          className="border"
+          {...register('scriptPrompt')}
+        />
+        {errors.scriptPrompt && <p>{errors.scriptPrompt.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="categoryId">カテゴリ</label>
+        <br />
+        <select id="categoryId" className="border" {...register('categoryId')}>
+          <option value="">選択してください</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        {errors.categoryId && <p>{errors.categoryId.message}</p>}
+      </div>
+
+      <fieldset>
+        <legend>キャラクター</legend>
+
+        {fields.map((field, index) => (
+          <div key={field.id}>
+            <h4>キャラクター {index + 1}</h4>
+
+            <div>
+              <label htmlFor={`characters.${index}.voiceId`}>ボイス</label>
+              <br />
+              <select
+                id={`characters.${index}.voiceId`}
+                className="border"
+                disabled={isEditMode}
+                {...register(`characters.${index}.voiceId`)}
+              >
+                <option value="">選択してください</option>
+                {voices.map((voice) => (
+                  <option key={voice.id} value={voice.id}>
+                    {voice.name} ({voice.gender})
+                  </option>
+                ))}
+              </select>
+              {errors.characters?.[index]?.voiceId && (
+                <p>{errors.characters[index].voiceId?.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor={`characters.${index}.name`}>名前</label>
+              <br />
+              <input
+                id={`characters.${index}.name`}
+                type="text"
+                className="border"
+                disabled={isEditMode}
+                {...register(`characters.${index}.name`)}
+              />
+              {errors.characters?.[index]?.name && (
+                <p>{errors.characters[index].name?.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor={`characters.${index}.persona`}>ペルソナ</label>
+              <br />
+              <textarea
+                id={`characters.${index}.persona`}
+                className="border"
+                disabled={isEditMode}
+                {...register(`characters.${index}.persona`)}
+              />
+            </div>
+
+            {!isEditMode && fields.length > 1 && (
+              <button
+                type="button"
+                className="border"
+                onClick={() => remove(index)}
+              >
+                削除
+              </button>
+            )}
+          </div>
+        ))}
+
+        {!isEditMode && fields.length < 2 && (
+          <button
+            type="button"
+            className="border"
+            onClick={() => append({ name: '', voiceId: '', persona: '' })}
+          >
+            キャラクターを追加
+          </button>
+        )}
+
+        {errors.characters?.root && <p>{errors.characters.root.message}</p>}
+      </fieldset>
+
+      <button type="submit" className="border" disabled={isSubmitting}>
+        {isSubmitting
+          ? '保存中...'
+          : isEditMode
+            ? 'チャンネルを更新'
+            : 'チャンネルを作成'}
+      </button>
+    </form>
+  );
+}
