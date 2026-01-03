@@ -13,12 +13,10 @@ export function MyChannelList() {
     router.push(Pages.studio.newChannel.path());
   }
 
-  if (channels.length === 0) {
-    return <p>チャンネルがありません</p>;
-  }
-
   return (
     <ul>
+      {channels.length === 0 && <li>チャンネルがありません</li>}
+
       {channels.map((channel) => (
         <li key={channel.id}>
           <Link
