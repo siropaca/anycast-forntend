@@ -19,10 +19,6 @@ export function EditChannel({ channelId }: Props) {
   const { channel, defaultValues, categories, voices, updateMutation } =
     useEditChannel(channelId);
 
-  if (!channel || !defaultValues) {
-    return <p>チャンネルが見つかりません</p>;
-  }
-
   /**
    * フォーム送信時のハンドラ
    *
@@ -53,6 +49,10 @@ export function EditChannel({ channelId }: Props) {
     } catch {
       setError('チャンネルの更新に失敗しました');
     }
+  }
+
+  if (!channel || !defaultValues) {
+    return <p>チャンネルが見つかりません</p>;
   }
 
   return (
