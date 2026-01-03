@@ -34,6 +34,7 @@ export function CreateChannel() {
             voiceId: c.voiceId,
             persona: c.persona,
           })),
+          artworkImageId: undefined, // TODO: 画像アップロード機能実装
         },
       });
 

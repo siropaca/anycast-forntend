@@ -35,6 +35,7 @@ export function EditChannel({ channelId }: Props) {
           description: data.description,
           scriptPrompt: data.scriptPrompt,
           categoryId: data.categoryId,
+          artworkImageId: undefined, // TODO: 画像アップロード機能実装
         },
       });
 
