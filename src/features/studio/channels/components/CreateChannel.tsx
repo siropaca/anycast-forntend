@@ -3,30 +3,17 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
+import { useChannelFormData } from '@/features/studio/channels/hooks/useChannelFormData';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
-import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import { usePostChannels } from '@/libs/api/generated/channels/channels';
-import type {
-  ResponseCategoryResponse,
-  ResponseVoiceResponse,
-} from '@/libs/api/generated/schemas';
-import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
-import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { Pages } from '@/libs/pages';
 
 export function CreateChannel() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const { data: categoriesData } = useGetCategoriesSuspense();
-  const { data: voicesData } = useGetVoicesSuspense();
+  const { categories, voices } = useChannelFormData();
   const createMutation = usePostChannels();
-
-  const categories = unwrapResponse<ResponseCategoryResponse[]>(
-    categoriesData,
-    [],
-  );
-  const voices = unwrapResponse<ResponseVoiceResponse[]>(voicesData, []);
 
   /**
    * フォーム送信時のハンドラ

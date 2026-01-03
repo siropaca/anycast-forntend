@@ -3,19 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
+import { useEditChannel } from '@/features/studio/channels/hooks/useEditChannel';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
-import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
-import {
-  useGetChannelsChannelIdSuspense,
-  usePatchChannelsChannelId,
-} from '@/libs/api/generated/channels/channels';
-import type {
-  ResponseCategoryResponse,
-  ResponseChannelResponse,
-  ResponseVoiceResponse,
-} from '@/libs/api/generated/schemas';
-import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
-import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -26,36 +15,12 @@ export function EditChannel({ channelId }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const { data: channelData } = useGetChannelsChannelIdSuspense(channelId);
-  const { data: categoriesData } = useGetCategoriesSuspense();
-  const { data: voicesData } = useGetVoicesSuspense();
-  const updateMutation = usePatchChannelsChannelId();
+  const { channel, defaultValues, categories, voices, updateMutation } =
+    useEditChannel(channelId);
 
-  const channel = unwrapResponse<ResponseChannelResponse | null>(
-    channelData,
-    null,
-  );
-  const categories = unwrapResponse<ResponseCategoryResponse[]>(
-    categoriesData,
-    [],
-  );
-  const voices = unwrapResponse<ResponseVoiceResponse[]>(voicesData, []);
-
-  if (!channel) {
+  if (!channel || !defaultValues) {
     return <p>チャンネルが見つかりません</p>;
   }
-
-  const defaultValues: ChannelFormInput = {
-    name: channel.name,
-    description: channel.description,
-    scriptPrompt: channel.scriptPrompt,
-    categoryId: channel.category.id,
-    characters: channel.characters.map((c) => ({
-      name: c.name,
-      voiceId: c.voice.id,
-      persona: c.persona ?? '',
-    })),
-  };
 
   /**
    * フォーム送信時のハンドラ
