@@ -92,7 +92,8 @@ function add(a: number, b: number): number {
 - TanStack Query でデータフェッチを管理する
 - API クライアントは `src/libs/api/` に配置する
 - カスタムフックは `src/features/*/hooks/` に配置する
-- データ取得のカスタムフックはページごとに作成する（例: `useCreateChannel`, `useEditChannel`）
+- データ取得のカスタムフックはコンポーネントごとに作成する（Suspense との組み合わせを考慮）
+- データ取得の実装時は orval 生成の型（`src/libs/api/generated/schemas/`）を必ず確認する
 - HTTP ステータスコードはマジックナンバーではなく `http-status-codes` の `StatusCodes` を使用する
 
 ### ページパスの管理

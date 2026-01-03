@@ -1,6 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
+import { EpisodeList } from '@/features/studio/channels/components/EpisodeList';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -22,6 +24,11 @@ export function MyChannelDetail({ channelId }: Props) {
       <button type="button" className="border" onClick={handleEditClick}>
         編集
       </button>
+
+      <h2>エピソード一覧</h2>
+      <Suspense fallback={<p>読み込み中...</p>}>
+        <EpisodeList channelId={channelId} />
+      </Suspense>
     </div>
   );
 }

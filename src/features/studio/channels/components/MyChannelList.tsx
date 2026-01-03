@@ -21,7 +21,10 @@ export function MyChannelList() {
     <ul>
       {channels.map((channel) => (
         <li key={channel.id}>
-          <Link href={Pages.studio.channel.path({ id: channel.id })}>
+          <Link
+            href={Pages.studio.channel.path({ id: channel.id })}
+            className="underline"
+          >
             {channel.name}
           </Link>
         </li>
