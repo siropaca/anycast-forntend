@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -8,14 +8,20 @@ interface Props {
 }
 
 export function MyChannelDetail({ channelId }: Props) {
+  const router = useRouter();
+
+  function handleEditClick() {
+    router.push(Pages.studio.editChannel.path({ id: channelId }));
+  }
+
   return (
     <div>
       <h1>{Pages.studio.channel.title}</h1>
       <p>Channel ID: {channelId}</p>
 
-      <Link href={Pages.studio.editChannel.path({ id: channelId })}>
-        [編集]
-      </Link>
+      <button type="button" className="border" onClick={handleEditClick}>
+        編集
+      </button>
     </div>
   );
 }

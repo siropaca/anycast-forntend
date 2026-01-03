@@ -2,16 +2,16 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useGetMeChannelsSuspense } from '@/libs/api/generated/me/me';
-import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
-import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import { useMyChannelList } from '@/features/studio/channels/hooks/useMyChannelList';
 import { Pages } from '@/libs/pages';
 
 export function MyChannelList() {
   const router = useRouter();
-  const { data } = useGetMeChannelsSuspense();
+  const { channels } = useMyChannelList();
 
-  const channels = unwrapResponse<ResponseChannelResponse[]>(data, []);
+  function handleNewClick() {
+    router.push(Pages.studio.newChannel.path());
+  }
 
   if (channels.length === 0) {
     return <p>チャンネルがありません</p>;
@@ -28,11 +28,7 @@ export function MyChannelList() {
       ))}
 
       <li>
-        <button
-          type="button"
-          className="border"
-          onClick={() => router.push(Pages.studio.newChannel.path())}
-        >
+        <button type="button" className="border" onClick={handleNewClick}>
           作成
         </button>
       </li>
