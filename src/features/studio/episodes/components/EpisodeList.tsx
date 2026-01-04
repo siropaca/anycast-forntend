@@ -18,7 +18,7 @@ export function EpisodeList({ channelId }: Props) {
   }
 
   return (
-    <ul>
+    <ul className="space-y-2">
       {episodes.length === 0 && <li>エピソードがありません</li>}
 
       {episodes.map((episode) => (

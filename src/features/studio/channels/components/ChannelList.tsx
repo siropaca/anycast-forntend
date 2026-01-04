@@ -14,7 +14,7 @@ export function ChannelList() {
   }
 
   return (
-    <ul>
+    <ul className="space-y-2">
       {channels.length === 0 && <li>チャンネルがありません</li>}
 
       {channels.map((channel) => (
