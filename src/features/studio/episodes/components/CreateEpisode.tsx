@@ -65,6 +65,7 @@ export function CreateEpisode({ channelId }: Props) {
       {error && <p>{error}</p>}
 
       <EpisodeForm
+        mode="create"
         isSubmitting={createMutation.isPending}
         onSubmit={handleSubmit}
       />

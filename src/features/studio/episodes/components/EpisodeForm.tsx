@@ -8,6 +8,7 @@ import {
 } from '@/features/studio/episodes/schemas/episode';
 
 interface Props {
+  mode: 'create' | 'edit';
   defaultValues?: EpisodeFormInput;
   isSubmitting?: boolean;
 
@@ -15,10 +16,12 @@ interface Props {
 }
 
 export function EpisodeForm({
+  mode,
   defaultValues,
   onSubmit,
   isSubmitting = false,
 }: Props) {
+  const isEditMode = mode === 'edit';
   const {
     register,
     handleSubmit,
@@ -59,7 +62,11 @@ export function EpisodeForm({
       {/* TODO: artworkImageId, bgmAudioId の実装 */}
 
       <button type="submit" className="border" disabled={isSubmitting}>
-        {isSubmitting ? '保存中...' : '保存'}
+        {isSubmitting
+          ? '保存中...'
+          : isEditMode
+            ? 'エピソードを更新'
+            : 'エピソードを作成'}
       </button>
     </form>
   );
