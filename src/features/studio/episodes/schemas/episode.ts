@@ -7,8 +7,8 @@ export const episodeFormSchema = z.object({
     .max(255, 'タイトルは255文字以内で入力してください'),
   description: z
     .string()
-    .max(2000, '説明は2000文字以内で入力してください')
-    .optional(),
+    .min(1, '説明を入力してください')
+    .max(2000, '説明は2000文字以内で入力してください'),
 });
 
 export type EpisodeFormInput = z.infer<typeof episodeFormSchema>;
