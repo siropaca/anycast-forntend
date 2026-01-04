@@ -51,7 +51,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <h1>{Pages.studio.episode.title}</h1>
       <p>タイトル: {episode.title}</p>
       {episode.description && <p>説明: {episode.description}</p>}
-      {episode.publishedAt && <p>公開日時: {episode.publishedAt}</p>}
+      <p>公開日時: {episode.publishedAt ?? '非公開'}</p>
 
       {error && <p>{error}</p>}
 
