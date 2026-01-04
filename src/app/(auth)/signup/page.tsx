@@ -23,7 +23,7 @@ export default async function SignupPage({ searchParams }: Props) {
 
       <SignupForm redirectTo={redirect} />
 
-      <hr />
+      <hr className="my-4" />
 
       <OAuthButtons redirectTo={redirect} />
 

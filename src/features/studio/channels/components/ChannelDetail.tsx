@@ -1,12 +1,12 @@
 'use client';
 
 import { StatusCodes } from 'http-status-codes';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
-import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { useDeleteChannel } from '@/features/studio/channels/hooks/useDeleteChannel';
+import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { Pages } from '@/libs/pages';
-import Link from 'next/link';
 
 interface Props {
   channelId: string;
@@ -43,10 +43,7 @@ export function ChannelDetail({ channelId }: Props) {
   return (
     <div>
       <div>
-        <Link
-          href={Pages.studio.channels.path()}
-          className="underline"
-        >
+        <Link href={Pages.studio.channels.path()} className="underline">
           チャンネルリストへ戻る
         </Link>
       </div>
@@ -74,7 +71,7 @@ export function ChannelDetail({ channelId }: Props) {
         {deleteMutation.isPending ? '削除中...' : 'チャンネルを削除'}
       </button>
 
-      <hr />
+      <hr className="my-4" />
 
       <h2>エピソード一覧</h2>
       <Suspense fallback={<p>読み込み中...</p>}>

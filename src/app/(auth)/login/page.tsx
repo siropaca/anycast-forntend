@@ -23,7 +23,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
       <LoginForm redirectTo={redirect} />
 
-      <hr />
+      <hr className="my-4" />
 
       <OAuthButtons redirectTo={redirect} />
 
