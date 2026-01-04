@@ -1,6 +1,11 @@
 'use client';
 
+import { StatusCodes } from 'http-status-codes';
+import { useState } from 'react';
+import { ScriptGenerateForm } from '@/features/studio/episodes/components/ScriptGenerateForm';
+import { useGenerateScript } from '@/features/studio/episodes/hooks/useGenerateScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
+import type { ScriptGenerateFormInput } from '@/features/studio/episodes/schemas/scriptGenerate';
 
 interface Props {
   channelId: string;
@@ -9,15 +14,34 @@ interface Props {
 
 export function ScriptLineList({ channelId, episodeId }: Props) {
   const { scriptLines } = useScriptLines(channelId, episodeId);
+  const { generateMutation } = useGenerateScript(channelId, episodeId);
+  const [error, setError] = useState<string>();
+
+  const handleSubmit = (data: ScriptGenerateFormInput) => {
+    setError(undefined);
+    generateMutation.mutate(
+      {
+        channelId,
+        episodeId,
+        data: { prompt: data.prompt },
+      },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.OK) {
+            setError(response.data.error.message);
+          }
+        },
+      },
+    );
+  };
 
   if (scriptLines.length === 0) {
     return (
-      <p>
-        <textarea className="border w-full" />
-        <button type="button" className="border">
-          台本を作成
-        </button>
-      </p>
+      <ScriptGenerateForm
+        isSubmitting={generateMutation.isPending}
+        error={error}
+        onSubmit={handleSubmit}
+      />
     );
   }
 

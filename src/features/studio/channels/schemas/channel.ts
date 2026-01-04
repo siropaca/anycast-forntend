@@ -3,7 +3,10 @@ import { z } from 'zod';
 const characterSchema = z.object({
   name: z.string().min(1, '名前を入力してください').max(255),
   voiceId: z.string().min(1, 'ボイスを選択してください'),
-  persona: z.string().optional(),
+  persona: z
+    .string()
+    .max(2000, 'ペルソナは2000文字以内で入力してください')
+    .optional(),
 });
 
 export const channelFormSchema = z.object({
@@ -11,8 +14,14 @@ export const channelFormSchema = z.object({
     .string()
     .min(1, 'チャンネル名を入力してください')
     .max(255, 'チャンネル名は255文字以内で入力してください'),
-  description: z.string().min(1, '説明を入力してください'),
-  userPrompt: z.string().min(1, 'プロンプトを入力してください'),
+  description: z
+    .string()
+    .min(1, '説明を入力してください')
+    .max(2000, '説明は2000文字以内で入力してください'),
+  userPrompt: z
+    .string()
+    .min(1, 'プロンプトを入力してください')
+    .max(2000, 'プロンプトは2000文字以内で入力してください'),
   categoryId: z.string().min(1, 'カテゴリを選択してください'),
   characters: z
     .array(characterSchema)
