@@ -12,7 +12,7 @@ interface Props {
   channelId: string;
 }
 
-export function MyChannelDetail({ channelId }: Props) {
+export function ChannelDetail({ channelId }: Props) {
   const router = useRouter();
   const { deleteMutation } = useDeleteChannel();
   const [error, setError] = useState<string | undefined>(undefined);
