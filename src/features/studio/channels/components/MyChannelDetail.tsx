@@ -6,6 +6,7 @@ import { Suspense, useState } from 'react';
 import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { useDeleteChannel } from '@/features/studio/channels/hooks/useDeleteChannel';
 import { Pages } from '@/libs/pages';
+import Link from 'next/link';
 
 interface Props {
   channelId: string;
@@ -41,6 +42,15 @@ export function MyChannelDetail({ channelId }: Props) {
 
   return (
     <div>
+      <div>
+        <Link
+          href={Pages.studio.channels.path()}
+          className="underline"
+        >
+          チャンネルリストへ戻る
+        </Link>
+      </div>
+
       <h1>{Pages.studio.channel.title}</h1>
       <p>Channel ID: {channelId}</p>
 
