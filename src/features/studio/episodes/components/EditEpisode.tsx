@@ -17,7 +17,7 @@ export function EditEpisode({ channelId, episodeId }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const { episode, defaultValues, updateMutation } = useEditEpisode(
+  const { defaultValues, updateMutation } = useEditEpisode(
     channelId,
     episodeId,
   );
@@ -53,10 +53,6 @@ export function EditEpisode({ channelId, episodeId }: Props) {
     } catch {
       setError('エピソードの更新に失敗しました');
     }
-  }
-
-  if (!episode || !defaultValues) {
-    return <p>エピソードが見つかりません</p>;
   }
 
   return (

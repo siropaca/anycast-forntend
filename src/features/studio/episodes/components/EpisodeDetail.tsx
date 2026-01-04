@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
-import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
+import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -20,7 +20,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     useEpisodeDetail(channelId, episodeId);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  const isPublished = !!episode?.publishedAt;
+  const isPublished = !!episode.publishedAt;
   const isMutating =
     deleteMutation.isPending ||
     publishMutation.isPending ||
@@ -52,9 +52,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     }
   }
 
-  console.log(episode?.publishedAt);
-  console.log(isPublished);
-
   /**
    * エピソードを即時公開する
    */
@@ -76,7 +73,10 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       }
 
       await queryClient.invalidateQueries({
-        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+        queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
+          channelId,
+          episodeId,
+        ),
       });
     } catch {
       setError('エピソードの公開に失敗しました');
@@ -103,15 +103,14 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       }
 
       await queryClient.invalidateQueries({
-        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+        queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
+          channelId,
+          episodeId,
+        ),
       });
     } catch {
       setError('エピソードの非公開に失敗しました');
     }
-  }
-
-  if (!episode) {
-    return <p>エピソードが見つかりません</p>;
   }
 
   return (
