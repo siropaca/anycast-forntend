@@ -34,9 +34,9 @@ export function ScriptGenerateForm({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <textarea
-          className="border w-full"
           placeholder="どんな内容のポッドキャストを作成しますか？"
           disabled={isSubmitting}
+          className="border w-full h-20"
           {...register('prompt')}
         />
         {errors.prompt && (

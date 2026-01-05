@@ -23,7 +23,10 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
       {
         channelId,
         episodeId,
-        data: { prompt: data.prompt },
+        data: {
+          prompt: data.prompt,
+          durationMinutes: 3, // 一旦、固定 3min
+        },
       },
       {
         onSuccess: (response) => {
