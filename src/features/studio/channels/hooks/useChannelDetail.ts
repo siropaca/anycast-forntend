@@ -1,9 +1,13 @@
+import { useQueryClient } from '@tanstack/react-query';
 import {
   useDeleteChannelsChannelId,
   usePostChannelsChannelIdPublish,
   usePostChannelsChannelIdUnpublish,
 } from '@/libs/api/generated/channels/channels';
-import { useGetMeChannelsChannelIdSuspense } from '@/libs/api/generated/me/me';
+import {
+  getGetMeChannelsChannelIdQueryKey,
+  useGetMeChannelsChannelIdSuspense,
+} from '@/libs/api/generated/me/me';
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
@@ -14,10 +18,31 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
  * @returns チャンネルデータ、各種ミューテーション
  */
 export function useChannelDetail(channelId: string) {
+  const queryClient = useQueryClient();
+
   const { data: response } = useGetMeChannelsChannelIdSuspense(channelId);
+
   const deleteMutation = useDeleteChannelsChannelId();
-  const publishMutation = usePostChannelsChannelIdPublish();
-  const unpublishMutation = usePostChannelsChannelIdUnpublish();
+
+  const publishMutation = usePostChannelsChannelIdPublish({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+        });
+      },
+    },
+  });
+
+  const unpublishMutation = usePostChannelsChannelIdUnpublish({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+        });
+      },
+    },
+  });
 
   const channel = unwrapResponse<ResponseChannelResponse>(response);
 

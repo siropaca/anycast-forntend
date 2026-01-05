@@ -110,6 +110,12 @@ interface Props {
 - データ取得の実装時は orval 生成の型（`src/libs/api/generated/schemas/`）を必ず確認する
 - HTTP ステータスコードはマジックナンバーではなく `http-status-codes` の `StatusCodes` を使用する
 
+### TanStack Query
+
+- `invalidateQueries` などのキャッシュ操作はコンポーネントではなくカスタムフック内で行う
+- ミューテーションの `onSuccess` でキャッシュを無効化する
+- コンポーネントでは `mutate` + `onSuccess` コールバックを使用し、`mutateAsync` + try-catch は避ける
+
 ### ページパスの管理
 
 - ページのパスとタイトルは `src/libs/pages/index.ts` の `Pages` オブジェクトで一元管理する

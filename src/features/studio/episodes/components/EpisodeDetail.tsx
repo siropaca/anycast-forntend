@@ -1,16 +1,11 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
-import {
-  getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey,
-  getGetMeChannelsChannelIdEpisodesQueryKey,
-} from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -20,7 +15,6 @@ interface Props {
 
 export function EpisodeDetail({ channelId, episodeId }: Props) {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { episode, deleteMutation, publishMutation, unpublishMutation } =
     useEpisodeDetail(channelId, episodeId);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -31,96 +25,74 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     publishMutation.isPending ||
     unpublishMutation.isPending;
 
-  function handleEditClick() {
+  const handleEditClick = () => {
     router.push(Pages.studio.editEpisode.path({ id: channelId, episodeId }));
-  }
+  };
 
-  async function handleDeleteClick() {
+  const handleDeleteClick = () => {
     setError(undefined);
 
-    try {
-      const response = await deleteMutation.mutateAsync({
+    deleteMutation.mutate(
+      {
         channelId,
         episodeId,
-      });
+      },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.NO_CONTENT) {
+            setError(
+              response.data.error?.message ?? 'エピソードの削除に失敗しました',
+            );
+            return;
+          }
 
-      if (response.status !== StatusCodes.NO_CONTENT) {
-        setError(
-          response.data.error?.message ?? 'エピソードの削除に失敗しました',
-        );
-        return;
-      }
+          router.push(Pages.studio.channel.path({ id: channelId }));
+        },
+      },
+    );
+  };
 
-      await queryClient.invalidateQueries({
-        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
-      });
-
-      router.push(Pages.studio.channel.path({ id: channelId }));
-    } catch {
-      setError('エピソードの削除に失敗しました');
-    }
-  }
-
-  /**
-   * エピソードを即時公開する
-   */
-  async function handlePublishClick() {
+  const handlePublishClick = () => {
     setError(undefined);
 
-    try {
-      const response = await publishMutation.mutateAsync({
+    publishMutation.mutate(
+      {
         channelId,
         episodeId,
         data: {},
-      });
+      },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.OK) {
+            setError(
+              response.data.error?.message ?? 'エピソードの公開に失敗しました',
+            );
+          }
+        },
+      },
+    );
+  };
 
-      if (response.status !== StatusCodes.OK) {
-        setError(
-          response.data.error?.message ?? 'エピソードの公開に失敗しました',
-        );
-        return;
-      }
-
-      await queryClient.invalidateQueries({
-        queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
-          channelId,
-          episodeId,
-        ),
-      });
-    } catch {
-      setError('エピソードの公開に失敗しました');
-    }
-  }
-
-  /**
-   * エピソードを非公開にする
-   */
-  async function handleUnpublishClick() {
+  const handleUnpublishClick = () => {
     setError(undefined);
 
-    try {
-      const response = await unpublishMutation.mutateAsync({
+    unpublishMutation.mutate(
+      {
         channelId,
         episodeId,
-      });
-
-      if (response.status !== StatusCodes.OK) {
-        setError(
-          response.data.error?.message ?? 'エピソードの非公開に失敗しました',
-        );
-        return;
-      }
-
-      await queryClient.invalidateQueries({
-        queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
-          channelId,
-          episodeId,
-        ),
-      });
-    } catch {
-      setError('エピソードの非公開に失敗しました');
-    }
-  }
+      },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.OK) {
+            setError(
+              response.data.error?.message ??
+                'エピソードの非公開に失敗しました',
+            );
+          }
+        },
+      },
+    );
+  };
 
   return (
     <div>

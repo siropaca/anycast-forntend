@@ -1,13 +1,11 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { EpisodeForm } from '@/features/studio/episodes/components/EpisodeForm';
 import { useCreateEpisode } from '@/features/studio/episodes/hooks/useCreateEpisode';
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
-import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -16,21 +14,14 @@ interface Props {
 
 export function CreateEpisode({ channelId }: Props) {
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const { createMutation } = useCreateEpisode(channelId);
   const [error, setError] = useState<string | null>(null);
 
-  const { createMutation } = useCreateEpisode();
-
-  /**
-   * フォーム送信時のハンドラ
-   *
-   * @param data - フォームの入力値
-   */
-  async function handleSubmit(data: EpisodeFormInput) {
+  const handleSubmit = (data: EpisodeFormInput) => {
     setError(null);
 
-    try {
-      const response = await createMutation.mutateAsync({
+    createMutation.mutate(
+      {
         channelId,
         data: {
           title: data.title,
@@ -38,25 +29,22 @@ export function CreateEpisode({ channelId }: Props) {
           artworkImageId: undefined, // TODO: 画像アップロード機能実装
           bgmAudioId: undefined, // TODO: BGM アップロード機能実装
         },
-      });
+      },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.CREATED) {
+            setError(
+              response.data.error?.message ?? 'エピソードの作成に失敗しました',
+            );
+            return;
+          }
 
-      if (response.status !== StatusCodes.CREATED) {
-        setError(
-          response.data.error?.message ?? 'エピソードの作成に失敗しました',
-        );
-        return;
-      }
-
-      // エピソード一覧のキャッシュを無効化して詳細画面に遷移
-      const episodeId = response.data.data.id;
-      await queryClient.invalidateQueries({
-        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
-      });
-      router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
-    } catch {
-      setError('エピソードの作成に失敗しました');
-    }
-  }
+          const episodeId = response.data.data.id;
+          router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
+        },
+      },
+    );
+  };
 
   return (
     <div>
