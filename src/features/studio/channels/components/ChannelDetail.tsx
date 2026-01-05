@@ -32,7 +32,9 @@ export function ChannelDetail({ channelId }: Props) {
     setError(undefined);
 
     deleteMutation.mutate(
-      { channelId },
+      {
+        channelId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
@@ -52,7 +54,10 @@ export function ChannelDetail({ channelId }: Props) {
     setError(undefined);
 
     publishMutation.mutate(
-      { channelId, data: {} },
+      {
+        channelId,
+        data: {},
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -69,12 +74,15 @@ export function ChannelDetail({ channelId }: Props) {
     setError(undefined);
 
     unpublishMutation.mutate(
-      { channelId },
+      {
+        channelId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? 'チャンネルの非公開に失敗しました',
+              response.data.error?.message ??
+                'チャンネルの非公開に失敗しました',
             );
           }
         },
