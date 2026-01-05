@@ -24,11 +24,11 @@ export function ChannelDetail({ channelId }: Props) {
     publishMutation.isPending ||
     unpublishMutation.isPending;
 
-  const handleEditClick = () => {
+  function handleEditClick() {
     router.push(Pages.studio.editChannel.path({ id: channelId }));
-  };
+  }
 
-  const handleDeleteClick = () => {
+  function handleDeleteClick() {
     setError(undefined);
 
     deleteMutation.mutate(
@@ -48,9 +48,9 @@ export function ChannelDetail({ channelId }: Props) {
         },
       },
     );
-  };
+  }
 
-  const handlePublishClick = () => {
+  function handlePublishClick() {
     setError(undefined);
 
     publishMutation.mutate(
@@ -68,9 +68,9 @@ export function ChannelDetail({ channelId }: Props) {
         },
       },
     );
-  };
+  }
 
-  const handleUnpublishClick = () => {
+  function handleUnpublishClick() {
     setError(undefined);
 
     unpublishMutation.mutate(
@@ -88,7 +88,7 @@ export function ChannelDetail({ channelId }: Props) {
         },
       },
     );
-  };
+  }
 
   return (
     <div>

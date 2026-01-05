@@ -25,11 +25,11 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     publishMutation.isPending ||
     unpublishMutation.isPending;
 
-  const handleEditClick = () => {
+  function handleEditClick() {
     router.push(Pages.studio.editEpisode.path({ id: channelId, episodeId }));
-  };
+  }
 
-  const handleDeleteClick = () => {
+  function handleDeleteClick() {
     setError(undefined);
 
     deleteMutation.mutate(
@@ -50,9 +50,9 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         },
       },
     );
-  };
+  }
 
-  const handlePublishClick = () => {
+  function handlePublishClick() {
     setError(undefined);
 
     publishMutation.mutate(
@@ -71,9 +71,9 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         },
       },
     );
-  };
+  }
 
-  const handleUnpublishClick = () => {
+  function handleUnpublishClick() {
     setError(undefined);
 
     unpublishMutation.mutate(
@@ -92,7 +92,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         },
       },
     );
-  };
+  }
 
   return (
     <div>

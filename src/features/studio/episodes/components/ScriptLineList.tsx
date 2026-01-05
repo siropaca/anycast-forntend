@@ -22,7 +22,7 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
   const [audioError, setAudioError] = useState<string>();
   const [generatingLineId, setGeneratingLineId] = useState<string>();
 
-  const handleSubmit = (data: ScriptGenerateFormInput) => {
+  function handleSubmit(data: ScriptGenerateFormInput) {
     setError(undefined);
 
     generateMutation.mutate(
@@ -42,9 +42,9 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
         },
       },
     );
-  };
+  }
 
-  const handleGenerateAudio = (lineId: string) => {
+  function handleGenerateAudio(lineId: string) {
     setAudioError(undefined);
     setGeneratingLineId(lineId);
 
@@ -65,7 +65,7 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
         },
       },
     );
-  };
+  }
 
   if (scriptLines.length === 0) {
     return (

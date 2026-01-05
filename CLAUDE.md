@@ -65,6 +65,7 @@ function add(a: number, b: number): number {
 - `src/components/` 配下のコンポーネントはできるだけ Presentational Component にする
 - `className` の結合や条件式を使う場合は `cn()` を使用する（`src/utils/cn.ts`）
 - Props の定義順序: 必須プロパティ → オプショナルプロパティ → 空行 → 関数
+- コンポーネント内のハンドラー関数は `function` 宣言で定義する（アロー関数ではなく）
 
 ```typescript
 interface Props {

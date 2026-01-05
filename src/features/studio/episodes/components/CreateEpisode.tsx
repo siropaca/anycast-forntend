@@ -17,7 +17,7 @@ export function CreateEpisode({ channelId }: Props) {
   const { createMutation } = useCreateEpisode(channelId);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (data: EpisodeFormInput) => {
+  function handleSubmit(data: EpisodeFormInput) {
     setError(null);
 
     createMutation.mutate(
@@ -44,7 +44,7 @@ export function CreateEpisode({ channelId }: Props) {
         },
       },
     );
-  };
+  }
 
   return (
     <div>
