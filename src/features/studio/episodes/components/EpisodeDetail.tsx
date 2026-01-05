@@ -154,16 +154,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
       <hr className="my-4" />
 
-      <button type="button" className="border">
-        全体の音声を生成
-      </button>
-
-      <button type="button" className="border">
-        台本を出力
-      </button>
-
-      <hr className="my-4" />
-
       <Suspense fallback={<p>読み込み中...</p>}>
         <ScriptLineList channelId={channelId} episodeId={episodeId} />
       </Suspense>

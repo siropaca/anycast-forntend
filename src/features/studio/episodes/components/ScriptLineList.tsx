@@ -78,29 +78,41 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
   }
 
   return (
-    <ul className="space-y-2">
-      {scriptLines.map((line) => (
-        <li key={line.id}>
-          <div>{line.speaker?.name}:</div>
-          <div>
-            {line.emotion && `[${line.emotion}]`} {line.text}
-          </div>
-          {line.audio?.url && (
-            <audio controls preload="metadata">
-              <source src={line.audio.url} type="audio/mpeg" />
-            </audio>
-          )}
-          <button
-            type="button"
-            className="border"
-            disabled={generatingLineId === line.id}
-            onClick={() => handleGenerateAudio(line.id)}
-          >
-            {generatingLineId === line.id ? '生成中...' : '音声を生成'}
-          </button>
-          {audioError && <p>{audioError}</p>}
-        </li>
-      ))}
-    </ul>
+    <>
+      <button type="button" className="border">
+        全体の音声を生成
+      </button>
+
+      <button type="button" className="border">
+        台本を出力
+      </button>
+
+      <hr className="my-4" />
+
+      <ul className="space-y-2">
+        {scriptLines.map((line) => (
+          <li key={line.id}>
+            <div>{line.speaker?.name}:</div>
+            <div>
+              {line.emotion && `[${line.emotion}]`} {line.text}
+            </div>
+            {line.audio?.url && (
+              <audio controls preload="metadata">
+                <source src={line.audio.url} type="audio/mpeg" />
+              </audio>
+            )}
+            <button
+              type="button"
+              className="border"
+              disabled={generatingLineId === line.id}
+              onClick={() => handleGenerateAudio(line.id)}
+            >
+              {generatingLineId === line.id ? '生成中...' : '音声を生成'}
+            </button>
+            {audioError && <p>{audioError}</p>}
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
