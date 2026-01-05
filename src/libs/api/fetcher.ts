@@ -50,7 +50,7 @@ export async function customFetcher<TResponse>(
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
-    throw new Error(error?.error?.message || `HTTP error ${response.status}`);
+    throw new Error(error?.error?.message || `HTTP error: ${response.status}`);
   }
 
   // 204 No Content の場合はボディがないため JSON パースをスキップ

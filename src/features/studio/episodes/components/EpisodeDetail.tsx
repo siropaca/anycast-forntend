@@ -7,7 +7,10 @@ import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
-import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
+import {
+  getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey,
+  getGetMeChannelsChannelIdEpisodesQueryKey,
+} from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -47,6 +50,10 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         );
         return;
       }
+
+      await queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+      });
 
       router.push(Pages.studio.channel.path({ id: channelId }));
     } catch {
