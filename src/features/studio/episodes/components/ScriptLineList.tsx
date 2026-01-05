@@ -19,13 +19,14 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
 
   const handleSubmit = (data: ScriptGenerateFormInput) => {
     setError(undefined);
+
     generateMutation.mutate(
       {
         channelId,
         episodeId,
         data: {
           prompt: data.prompt,
-          durationMinutes: 3, // 一旦、固定 3min
+          durationMinutes: data.durationMinutes,
         },
       },
       {
@@ -54,6 +55,11 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
         <li key={line.id}>
           {line.speaker?.name}:<br />
           {line.emotion && `[${line.emotion}]`} {line.text}
+          {line.audio?.url && (
+            <audio controls className="mt-2 w-full" preload="metadata">
+              <source src={line.audio.url} type="audio/mpeg" />
+            </audio>
+          )}
         </li>
       ))}
     </ul>
