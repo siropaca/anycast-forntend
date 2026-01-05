@@ -65,8 +65,16 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
 
   const episode = unwrapResponse<ResponseEpisodeResponse>(response);
 
+  const isPublished = !!episode.publishedAt;
+  const isMutating =
+    deleteMutation.isPending ||
+    publishMutation.isPending ||
+    unpublishMutation.isPending;
+
   return {
     episode,
+    isPublished,
+    isMutating,
     deleteMutation,
     publishMutation,
     unpublishMutation,

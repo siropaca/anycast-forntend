@@ -46,8 +46,16 @@ export function useChannelDetail(channelId: string) {
 
   const channel = unwrapResponse<ResponseChannelResponse>(response);
 
+  const isPublished = !!channel.publishedAt;
+  const isMutating =
+    deleteMutation.isPending ||
+    publishMutation.isPending ||
+    unpublishMutation.isPending;
+
   return {
     channel,
+    isPublished,
+    isMutating,
     deleteMutation,
     publishMutation,
     unpublishMutation,

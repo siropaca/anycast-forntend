@@ -14,15 +14,15 @@ interface Props {
 
 export function ChannelDetail({ channelId }: Props) {
   const router = useRouter();
-  const { channel, deleteMutation, publishMutation, unpublishMutation } =
-    useChannelDetail(channelId);
+  const {
+    channel,
+    isPublished,
+    isMutating,
+    deleteMutation,
+    publishMutation,
+    unpublishMutation,
+  } = useChannelDetail(channelId);
   const [error, setError] = useState<string | undefined>(undefined);
-
-  const isPublished = !!channel.publishedAt;
-  const isMutating =
-    deleteMutation.isPending ||
-    publishMutation.isPending ||
-    unpublishMutation.isPending;
 
   function handleEditClick() {
     router.push(Pages.studio.editChannel.path({ id: channelId }));

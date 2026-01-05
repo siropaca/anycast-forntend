@@ -15,15 +15,15 @@ interface Props {
 
 export function EpisodeDetail({ channelId, episodeId }: Props) {
   const router = useRouter();
-  const { episode, deleteMutation, publishMutation, unpublishMutation } =
-    useEpisodeDetail(channelId, episodeId);
+  const {
+    episode,
+    isPublished,
+    isMutating,
+    deleteMutation,
+    publishMutation,
+    unpublishMutation,
+  } = useEpisodeDetail(channelId, episodeId);
   const [error, setError] = useState<string | undefined>(undefined);
-
-  const isPublished = !!episode.publishedAt;
-  const isMutating =
-    deleteMutation.isPending ||
-    publishMutation.isPending ||
-    unpublishMutation.isPending;
 
   function handleEditClick() {
     router.push(Pages.studio.editEpisode.path({ id: channelId, episodeId }));
