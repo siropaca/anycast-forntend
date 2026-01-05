@@ -72,16 +72,6 @@ export function ChannelForm({
       </div>
 
       <div>
-        <label htmlFor="userPrompt">プロンプト</label>
-        <textarea
-          id="userPrompt"
-          className="border w-full h-20"
-          {...register('userPrompt')}
-        />
-        {errors.userPrompt && <p>{errors.userPrompt.message}</p>}
-      </div>
-
-      <div>
         <label htmlFor="categoryId">カテゴリ</label>
         <br />
         <select id="categoryId" className="border" {...register('categoryId')}>
@@ -93,6 +83,16 @@ export function ChannelForm({
           ))}
         </select>
         {errors.categoryId && <p>{errors.categoryId.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="userPrompt">プロンプト（台本生成用）</label>
+        <textarea
+          id="userPrompt"
+          className="border w-full h-20"
+          {...register('userPrompt')}
+        />
+        {errors.userPrompt && <p>{errors.userPrompt.message}</p>}
       </div>
 
       <fieldset>
