@@ -114,7 +114,6 @@ export function ChannelForm({
               <select
                 id={`characters.${index}.voiceId`}
                 className="border w-full"
-                disabled={isEditMode}
                 {...register(`characters.${index}.voiceId`)}
               >
                 <option value="">選択してください</option>
@@ -135,7 +134,6 @@ export function ChannelForm({
                 id={`characters.${index}.name`}
                 type="text"
                 className="border w-full"
-                disabled={isEditMode}
                 {...register(`characters.${index}.name`)}
               />
               {errors.characters?.[index]?.name && (
@@ -148,7 +146,6 @@ export function ChannelForm({
               <textarea
                 id={`characters.${index}.persona`}
                 className="border w-full h-20"
-                disabled={isEditMode}
                 {...register(`characters.${index}.persona`)}
               />
             </div>
