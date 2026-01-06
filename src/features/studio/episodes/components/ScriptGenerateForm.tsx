@@ -1,7 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { StatusCodes } from 'http-status-codes';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useGenerateScriptForm } from '@/features/studio/episodes/hooks/useGenerateScriptForm';
 import {
   EPISODE_DURATION_OPTIONS,
   type ScriptGenerateFormInput,
@@ -9,17 +12,14 @@ import {
 } from '@/features/studio/episodes/schemas/scriptGenerate';
 
 interface Props {
-  isSubmitting?: boolean;
-  error?: string;
-
-  onSubmit: (data: ScriptGenerateFormInput) => void;
+  channelId: string;
+  episodeId: string;
 }
 
-export function ScriptGenerateForm({
-  isSubmitting = false,
-  error,
-  onSubmit,
-}: Props) {
+export function ScriptGenerateForm({ channelId, episodeId }: Props) {
+  const { generateMutation } = useGenerateScriptForm(channelId, episodeId);
+  const [error, setError] = useState<string>();
+
   const {
     register,
     handleSubmit,
@@ -31,6 +31,30 @@ export function ScriptGenerateForm({
       durationMinutes: 10,
     },
   });
+
+  function onSubmit(data: ScriptGenerateFormInput) {
+    setError(undefined);
+
+    generateMutation.mutate(
+      {
+        channelId,
+        episodeId,
+        data: {
+          prompt: data.prompt,
+          durationMinutes: data.durationMinutes,
+        },
+      },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.OK) {
+            setError(response.data.error.message);
+          }
+        },
+      },
+    );
+  }
+
+  const isSubmitting = generateMutation.isPending;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
