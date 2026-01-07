@@ -1,8 +1,10 @@
 'use client';
 
+import { useRef } from 'react';
 import { ScriptGenerateForm } from '@/features/studio/episodes/components/ScriptGenerateForm';
 import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLineItem';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
+import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
 
 interface Props {
@@ -12,12 +14,18 @@ interface Props {
 }
 
 export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { scriptLines } = useScriptLines(channelId, episodeId);
-  const { exportScript, isExporting, error } = useExportScript(
-    channelId,
-    episodeId,
-    episodeName,
-  );
+  const {
+    exportScript,
+    isExporting,
+    error: exportError,
+  } = useExportScript(channelId, episodeId, episodeName);
+  const {
+    handleFileSelect,
+    isImporting,
+    error: importError,
+  } = useImportScript(channelId, episodeId);
 
   if (scriptLines.length === 0) {
     return <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />;
@@ -27,23 +35,41 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
     exportScript();
   }
 
+  function handleImportClick() {
+    fileInputRef.current?.click();
+  }
+
   return (
     <>
-      {error && <p className="text-red-500">{error}</p>}
+      {exportError && <p>{exportError}</p>}
+      {importError && <p>{importError}</p>}
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".txt"
+        className="hidden"
+        onChange={handleFileSelect}
+      />
 
       <button type="button" className="border">
         全体の音声を生成
       </button>
 
-      <button type="button" className="border">
-        台本をインポート
+      <button
+        type="button"
+        className="border"
+        disabled={isImporting}
+        onClick={handleImportClick}
+      >
+        {isImporting ? 'インポート中...' : '台本をインポート'}
       </button>
 
       <button
         type="button"
         className="border"
-        onClick={handleExport}
         disabled={isExporting}
+        onClick={handleExport}
       >
         {isExporting ? 'エクスポート中...' : '台本をエクスポート'}
       </button>
