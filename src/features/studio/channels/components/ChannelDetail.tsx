@@ -1,7 +1,6 @@
 'use client';
 
 import { StatusCodes } from 'http-status-codes';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
