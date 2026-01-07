@@ -29,11 +29,13 @@ export function CreateChannel() {
           description: data.description,
           userPrompt: data.userPrompt,
           categoryId: data.categoryId,
-          characters: data.characters.map((c) => ({
-            name: c.name,
-            voiceId: c.voiceId,
-            persona: c.persona,
-          })),
+          characters: {
+            create: data.characters.map((c) => ({
+              name: c.name,
+              voiceId: c.voiceId,
+              persona: c.persona,
+            })),
+          },
           artworkImageId: undefined, // TODO: 画像アップロード機能実装
         },
       });
