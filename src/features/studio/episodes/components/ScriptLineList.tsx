@@ -6,6 +6,7 @@ import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLine
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
+import { useSequentialPlayback } from '@/features/studio/episodes/hooks/useSequentialPlayback';
 
 interface Props {
   channelId: string;
@@ -15,7 +16,16 @@ interface Props {
 
 export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   const { scriptLines } = useScriptLines(channelId, episodeId);
+  const {
+    isSequentialEnabled,
+    toggleSequential,
+    startPlayback,
+    stopPlayback,
+    handleEnded,
+    isPlaying,
+  } = useSequentialPlayback(scriptLines);
   const {
     exportScript,
     isExporting,
@@ -27,16 +37,16 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
     error: importError,
   } = useImportScript(channelId, episodeId);
 
-  if (scriptLines.length === 0) {
-    return <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />;
-  }
-
-  function handleExport() {
+  function handleExportClick() {
     exportScript();
   }
 
   function handleImportClick() {
     fileInputRef.current?.click();
+  }
+
+  if (scriptLines.length === 0) {
+    return <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />;
   }
 
   return (
@@ -51,6 +61,15 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
         className="hidden"
         onChange={handleFileSelect}
       />
+
+      <label className="flex items-center gap-1">
+        <input
+          type="checkbox"
+          checked={isSequentialEnabled}
+          onChange={toggleSequential}
+        />
+        連続再生
+      </label>
 
       <button type="button" className="border">
         全体の音声を生成
@@ -73,7 +92,7 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
         type="button"
         className="border"
         disabled={isExporting}
-        onClick={handleExport}
+        onClick={handleExportClick}
       >
         {isExporting ? 'エクスポート中...' : '台本をエクスポート'}
       </button>
@@ -85,6 +104,10 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
             channelId={channelId}
             episodeId={episodeId}
             line={line}
+            isPlaying={isPlaying(line.id)}
+            onPlay={() => startPlayback(line.id)}
+            onPause={stopPlayback}
+            onEnded={() => handleEnded(line.id)}
           />
         ))}
       </ul>
