@@ -2,10 +2,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import {
-  getGetChannelsChannelIdQueryKey,
   useGetChannelsChannelIdSuspense,
   usePatchChannelsChannelId,
 } from '@/libs/api/generated/channels/channels';
+import { getGetMeChannelsChannelIdQueryKey } from '@/libs/api/generated/me/me';
 import type {
   ResponseCategoryResponse,
   ResponseChannelResponse,
@@ -29,7 +29,7 @@ export function useEditChannel(channelId: string) {
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: getGetChannelsChannelIdQueryKey(channelId),
+          queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
         });
       },
     },
@@ -47,6 +47,7 @@ export function useEditChannel(channelId: string) {
     description: channel.description,
     userPrompt: channel.userPrompt,
     categoryId: channel.category.id,
+    artworkImageId: channel.artwork?.id,
     characters: channel.characters.map((c) => ({
       name: c.name,
       voiceId: c.voice.id,
@@ -57,6 +58,7 @@ export function useEditChannel(channelId: string) {
   return {
     channel,
     defaultValues,
+    defaultArtworkUrl: channel.artwork?.url,
     categories,
     voices,
     updateMutation,
