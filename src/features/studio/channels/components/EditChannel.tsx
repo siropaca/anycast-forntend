@@ -33,6 +33,8 @@ export function EditChannel({ channelId }: Props) {
   async function handleSubmit(data: ChannelFormInput) {
     setError(null);
 
+    console.log(data.artworkImageId);
+
     try {
       const response = await updateMutation.mutateAsync({
         channelId,

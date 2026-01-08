@@ -22,6 +22,8 @@ export function CreateChannel() {
   async function handleSubmit(data: ChannelFormInput) {
     setError(null);
 
+    console.log(data.artworkImageId);
+
     try {
       const response = await createMutation.mutateAsync({
         data: {

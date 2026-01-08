@@ -6,6 +6,7 @@ import {
 } from '@/libs/api/generated/channels/channels';
 import {
   getGetMeChannelsChannelIdQueryKey,
+  getGetMeChannelsQueryKey,
   useGetMeChannelsChannelIdSuspense,
 } from '@/libs/api/generated/me/me';
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
@@ -22,7 +23,15 @@ export function useChannelDetail(channelId: string) {
 
   const { data: response } = useGetMeChannelsChannelIdSuspense(channelId);
 
-  const deleteMutation = useDeleteChannelsChannelId();
+  const deleteMutation = useDeleteChannelsChannelId({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetMeChannelsQueryKey(),
+        });
+      },
+    },
+  });
 
   const publishMutation = usePostChannelsChannelIdPublish({
     mutation: {
