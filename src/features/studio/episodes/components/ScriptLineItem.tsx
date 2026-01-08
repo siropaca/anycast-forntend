@@ -71,9 +71,9 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
       <div>
         {line.emotion && `[${line.emotion}]`} {line.text}
       </div>
-      {line.audio?.url && (
+      {line.audio && (
         <audio controls preload="metadata">
-          <source src={line.audio.url} type="audio/mpeg" />
+          <source src={line.audio.url} type={line.audio.mimeType} />
         </audio>
       )}
       <button
