@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { ScriptGenerateForm } from '@/features/studio/episodes/components/ScriptGenerateForm';
 import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLineItem';
+import { useBulkGenerateAudio } from '@/features/studio/episodes/hooks/useBulkGenerateAudio';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
@@ -26,11 +27,22 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
     handleEnded,
     isPlaying,
   } = useSequentialPlayback(scriptLines);
+
+  const {
+    isGenerating: isBulkGenerating,
+    totalCount,
+    completedCount,
+    ungeneratedCount,
+    generateAll,
+    getStatus: getBulkGenerateStatus,
+  } = useBulkGenerateAudio(channelId, episodeId, scriptLines);
+
   const {
     exportScript,
     isExporting,
     error: exportError,
   } = useExportScript(channelId, episodeId, episodeName);
+
   const {
     handleFileSelect,
     isImporting,
@@ -39,6 +51,10 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
 
   function handleExportClick() {
     exportScript();
+  }
+
+  function handleBulkGenerateClick() {
+    generateAll();
   }
 
   function handleImportClick() {
@@ -70,6 +86,17 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
         />
         連続再生
       </label>
+
+      <button
+        type="button"
+        className="border"
+        disabled={isBulkGenerating || ungeneratedCount === 0}
+        onClick={handleBulkGenerateClick}
+      >
+        {isBulkGenerating
+          ? `${completedCount}/${totalCount} 生成中...`
+          : '音声を一括生成'}
+      </button>
 
       <button type="button" className="border">
         全体の音声を生成
@@ -105,6 +132,7 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
             episodeId={episodeId}
             line={line}
             isPlaying={isPlaying(line.id)}
+            bulkGenerateStatus={getBulkGenerateStatus(line.id)}
             onPlay={() => startPlayback(line.id)}
             onPause={stopPlayback}
             onEnded={() => handleEnded(line.id)}

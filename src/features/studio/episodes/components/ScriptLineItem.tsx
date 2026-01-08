@@ -7,11 +7,14 @@ import { useGenerateLineAudio } from '@/features/studio/episodes/hooks/useGenera
 import type { ResponseScriptLineResponse } from '@/libs/api/generated/schemas';
 import { cn } from '@/utils/cn';
 
+export type BulkGenerateStatus = 'idle' | 'generating' | 'pending';
+
 interface Props {
   channelId: string;
   episodeId: string;
   line: ResponseScriptLineResponse;
   isPlaying?: boolean;
+  bulkGenerateStatus?: BulkGenerateStatus;
 
   onPlay?: () => void;
   onPause?: () => void;
@@ -23,13 +26,16 @@ export function ScriptLineItem({
   episodeId,
   line,
   isPlaying = false,
+  bulkGenerateStatus = 'idle',
   onPlay,
   onPause,
   onEnded,
 }: Props) {
   const audioRef = useRef<HTMLAudioElement>(null);
+
   const { generateAudioMutation } = useGenerateLineAudio(channelId, episodeId);
   const { deleteLineMutation } = useDeleteScriptLine(channelId, episodeId);
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string>();
@@ -113,10 +119,16 @@ export function ScriptLineItem({
       <button
         type="button"
         className="border"
-        disabled={isGenerating}
+        disabled={isGenerating || bulkGenerateStatus !== 'idle'}
         onClick={handleGenerateAudio}
       >
-        {isGenerating ? '生成中...' : '音声を生成'}
+        {bulkGenerateStatus === 'generating'
+          ? '生成中...'
+          : bulkGenerateStatus === 'pending'
+            ? '保留中...'
+            : isGenerating
+              ? '生成中...'
+              : '音声を生成'}
       </button>
       <button
         type="button"
