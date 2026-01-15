@@ -64,6 +64,7 @@ pnpm dev
 | `pnpm test` | テストを実行 |
 | `pnpm test:watch` | テストをウォッチモードで実行 |
 | `pnpm gen:api` | OpenAPI 定義から API クライアントを生成 |
+| `pnpm knip` | 未使用コード・依存関係の検出 |
 | `pnpm ncu` | 依存パッケージの更新確認 |
 | `pnpm sort-package-json` | package.json のソート |
 
@@ -114,6 +115,7 @@ pnpm dev
 ├── .env.example      # 環境変数のサンプル
 ├── .mise.toml        # mise 設定
 ├── biome.json        # Biome 設定
+├── knip.json         # knip 設定
 ├── openapi.json      # OpenAPI 定義（バックエンドから取得）
 ├── orval.config.ts   # orval 設定
 ├── package.json
