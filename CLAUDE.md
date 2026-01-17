@@ -5,9 +5,7 @@
 | ファイル | 説明 |
 |----------|------|
 | [docs/adr/](docs/adr/) | Architecture Decision Records |
-| [docs/auth.md](docs/auth.md) | 認証仕様 |
-| [docs/page-structure.md](docs/page-structure.md) | ページ構成 |
-| [docs/ui-layout.md](docs/ui-layout.md) | UI レイアウト |
+| [docs/specs/](docs/specs/) | 仕様書（認証、ページ構成、UI レイアウト） |
 
 ## ドキュメント管理ルール
 

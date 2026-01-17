@@ -111,7 +111,8 @@ pnpm dev
 │   └── middleware.ts # 認証ガード
 ├── public/           # 静的ファイル
 ├── docs/
-│   └── adr/          # Architecture Decision Records
+│   ├── adr/          # Architecture Decision Records
+│   └── specs/        # 仕様書
 ├── .env.example      # 環境変数のサンプル
 ├── .mise.toml        # mise 設定
 ├── biome.json        # Biome 設定
