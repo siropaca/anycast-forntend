@@ -36,14 +36,8 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 ### インストール
 
 ```bash
-# Node.js バージョンの設定 (mise)
-mise trust && mise install
-
-# 依存関係のインストール
-pnpm install
-
-# 環境変数の設定
-cp .env.example .env
+# プロジェクトのセットアップ（mise install, pnpm install, .env コピー）
+mise trust && mise run bootstrap
 
 # 開発サーバーの起動
 pnpm dev
@@ -58,7 +52,9 @@ pnpm dev
 | `pnpm start` | プロダクションサーバーを起動 |
 | `pnpm lint` | Biome によるリント |
 | `pnpm format` | Biome によるフォーマット |
-| `pnpm check` | Biome によるリント + フォーマット |
+| `pnpm check` | Biome によるチェック（リント + フォーマット） |
+| `pnpm check:fix` | Biome によるチェック + 自動修正 |
+| `pnpm typecheck` | TypeScript の型チェック |
 | `pnpm storybook` | Storybook を起動 |
 | `pnpm build-storybook` | Storybook のビルド |
 | `pnpm test` | テストを実行 |
@@ -67,6 +63,7 @@ pnpm dev
 | `pnpm knip` | 未使用コード・依存関係の検出 |
 | `pnpm ncu` | 依存パッケージの更新確認 |
 | `pnpm sort-package-json` | package.json のソート |
+| `pnpm clean` | node_modules と dist を削除 |
 
 ## ディレクトリ構成
 
