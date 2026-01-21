@@ -6,7 +6,7 @@ import { SideMenu } from '@/components/navigation/SideMenu/SideMenu';
 import {
   MAIN_MENU_SECTIONS,
   MY_PAGE_SECTION,
-} from '@/features/app/config/mainMenu';
+} from '@/features/app/constants/mainMenu';
 
 interface Props {
   isLoggedIn: boolean;

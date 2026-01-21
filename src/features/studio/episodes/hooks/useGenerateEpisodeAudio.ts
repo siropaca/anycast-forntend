@@ -39,7 +39,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             return;
           }
 
-          queryClient.invalidateQueries({
+          queryClient.refetchQueries({
             queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
               channelId,
               episodeId,

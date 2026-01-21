@@ -158,7 +158,7 @@ export function ScriptLineList({
       <hr className="my-4" />
 
       {fullAudio && (
-        <audio controls preload="metadata">
+        <audio key={fullAudio.url} controls preload="metadata">
           <source src={fullAudio.url} type={fullAudio.mimeType} />
         </audio>
       )}
