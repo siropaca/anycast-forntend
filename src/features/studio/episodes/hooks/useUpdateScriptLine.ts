@@ -1,0 +1,59 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { StatusCodes } from 'http-status-codes';
+import { useState } from 'react';
+import {
+  getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
+  usePatchChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId,
+} from '@/libs/api/generated/script/script';
+import type { RequestUpdateScriptLineRequest } from '@/libs/api/generated/schemas';
+
+/**
+ * 台本行の更新ミューテーションを提供する
+ *
+ * @param channelId - チャンネル ID
+ * @param episodeId - エピソード ID
+ * @returns 更新関数、更新中フラグ、エラー
+ */
+export function useUpdateScriptLine(channelId: string, episodeId: string) {
+  const queryClient = useQueryClient();
+  const [error, setError] = useState<string>();
+
+  const mutation =
+    usePatchChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId();
+
+  /**
+   * 台本行を更新する
+   *
+   * @param lineId - 更新する行の ID
+   * @param data - 更新データ
+   */
+  function updateLine(lineId: string, data: RequestUpdateScriptLineRequest) {
+    setError(undefined);
+
+    mutation.mutate(
+      { channelId, episodeId, lineId, data },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.OK) {
+            setError(response.data.error.message);
+            return;
+          }
+
+          queryClient.invalidateQueries({
+            queryKey:
+              getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey(
+                channelId,
+                episodeId,
+              ),
+          });
+        },
+      },
+    );
+  }
+
+  return {
+    updateLine,
+    isUpdating: mutation.isPending,
+    error,
+  };
+}
