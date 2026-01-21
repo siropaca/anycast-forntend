@@ -1,11 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
+import type { RequestCreateScriptLineRequest } from '@/libs/api/generated/schemas';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptLines,
 } from '@/libs/api/generated/script/script';
-import type { RequestCreateScriptLineRequest } from '@/libs/api/generated/schemas';
 
 /**
  * 台本行の作成ミューテーションを提供する

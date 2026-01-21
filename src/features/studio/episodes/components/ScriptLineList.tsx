@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
 import { ScriptGenerateForm } from '@/features/studio/episodes/components/ScriptGenerateForm';
 import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLineItem';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
@@ -35,6 +36,7 @@ export function ScriptLineList({
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { channel } = useChannelDetail(channelId);
   const { scriptLines } = useScriptLines(channelId, episodeId);
 
   const {
@@ -170,6 +172,7 @@ export function ScriptLineList({
             channelId={channelId}
             episodeId={episodeId}
             line={line}
+            characters={channel.characters}
             isFirst={index === 0}
             isLast={index === scriptLines.length - 1}
             isReordering={isReordering}

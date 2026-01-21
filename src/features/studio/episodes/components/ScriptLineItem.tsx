@@ -9,12 +9,16 @@ import {
   type ScriptLineFormInput,
   scriptLineFormSchema,
 } from '@/features/studio/episodes/schemas/scriptLine';
-import type { ResponseScriptLineResponse } from '@/libs/api/generated/schemas';
+import type {
+  ResponseCharacterResponse,
+  ResponseScriptLineResponse,
+} from '@/libs/api/generated/schemas';
 
 interface Props {
   channelId: string;
   episodeId: string;
   line: ResponseScriptLineResponse;
+  characters: ResponseCharacterResponse[];
   isFirst: boolean;
   isLast: boolean;
   isReordering: boolean;
@@ -26,6 +30,7 @@ export function ScriptLineItem({
   channelId,
   episodeId,
   line,
+  characters,
   isFirst,
   isLast,
   isReordering,
@@ -86,12 +91,30 @@ export function ScriptLineItem({
     });
   }
 
+  function handleSpeakerChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const newSpeakerId = event.target.value;
+    if (newSpeakerId !== line.speaker.id) {
+      updateLine(line.id, { speakerId: newSpeakerId });
+    }
+  }
+
   const error = updateError ?? deleteError ?? createError;
 
   return (
     <li>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>{line.speaker.name}:</div>
+        <select
+          className="border"
+          value={line.speaker.id}
+          disabled={isUpdating}
+          onChange={handleSpeakerChange}
+        >
+          {characters.map((character) => (
+            <option key={character.id} value={character.id}>
+              {character.name}
+            </option>
+          ))}
+        </select>
 
         <div className="flex">
           <input
