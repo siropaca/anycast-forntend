@@ -40,10 +40,13 @@ export async function customFetcher<TResponse>(
     (headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1${url}`, {
-    ...options,
-    headers,
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1${url}`,
+    {
+      ...options,
+      headers,
+    },
+  );
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
