@@ -86,6 +86,22 @@ interface Props {
 ### テスト
 
 - 外部依存がないユニットテストは、実装時に必ず作成する
+- import のパスは `@` エイリアスを使用する
+- ルートの `describe` でファイル名を囲む
+- 関数のテストは `()` をつける（例: `describe('myFunction()', () => {`）
+- オブジェクトやスキーマのテストは `()` 不要
+
+```typescript
+import { myFunction } from '@/utils/myFunction';
+
+describe('myFunction', () => {
+  describe('myFunction()', () => {
+    it('...', () => {
+      // テストケース
+    });
+  });
+});
+```
 
 ## 開発環境
 
