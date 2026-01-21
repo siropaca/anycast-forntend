@@ -29,7 +29,11 @@ export function useCreateScriptLine(channelId: string, episodeId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, episodeId, data },
+      {
+        channelId,
+        episodeId,
+        data,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.CREATED) {

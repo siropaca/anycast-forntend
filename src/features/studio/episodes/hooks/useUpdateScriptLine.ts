@@ -31,7 +31,12 @@ export function useUpdateScriptLine(channelId: string, episodeId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, episodeId, lineId, data },
+      {
+        channelId,
+        episodeId,
+        lineId,
+        data,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {

@@ -34,7 +34,10 @@ export function useCreateEpisode(channelId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, data },
+      {
+        channelId,
+        data,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.CREATED) {
