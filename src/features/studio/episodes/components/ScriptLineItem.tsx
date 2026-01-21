@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useCreateScriptLine } from '@/features/studio/episodes/hooks/useCreateScriptLine';
 import { useDeleteScriptLine } from '@/features/studio/episodes/hooks/useDeleteScriptLine';
 import { useUpdateScriptLine } from '@/features/studio/episodes/hooks/useUpdateScriptLine';
 import {
@@ -55,6 +56,12 @@ export function ScriptLineItem({
     error: deleteError,
   } = useDeleteScriptLine(channelId, episodeId);
 
+  const {
+    createLine,
+    isCreating,
+    error: createError,
+  } = useCreateScriptLine(channelId, episodeId);
+
   function onSubmit(data: ScriptLineFormInput) {
     updateLine(line.id, data);
   }
@@ -71,7 +78,15 @@ export function ScriptLineItem({
     onMoveDown(line.id);
   }
 
-  const error = updateError ?? deleteError;
+  function handleAddLineClick() {
+    createLine({
+      afterLineId: line.id,
+      speakerId: line.speaker.id,
+      text: '',
+    });
+  }
+
+  const error = updateError ?? deleteError ?? createError;
 
   return (
     <li>
@@ -133,6 +148,15 @@ export function ScriptLineItem({
       </form>
 
       {error && <p>{error}</p>}
+
+      <button
+        type="button"
+        className="border"
+        disabled={isCreating}
+        onClick={handleAddLineClick}
+      >
+        {isCreating ? '追加中...' : '＋行を追加'}
+      </button>
     </li>
   );
 }
