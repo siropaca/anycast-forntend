@@ -1,8 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { useDeleteScriptLine } from '@/features/studio/episodes/hooks/useDeleteScriptLine';
 import { useUpdateScriptLine } from '@/features/studio/episodes/hooks/useUpdateScriptLine';
+import {
+  type ScriptLineFormInput,
+  scriptLineFormSchema,
+} from '@/features/studio/episodes/schemas/scriptLine';
 import type { ResponseScriptLineResponse } from '@/libs/api/generated/schemas';
 
 interface Props {
@@ -12,8 +17,17 @@ interface Props {
 }
 
 export function ScriptLineItem({ channelId, episodeId, line }: Props) {
-  const [emotion, setEmotion] = useState(line.emotion);
-  const [text, setText] = useState(line.text);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty },
+  } = useForm<ScriptLineFormInput>({
+    resolver: zodResolver(scriptLineFormSchema),
+    defaultValues: {
+      emotion: line.emotion,
+      text: line.text,
+    },
+  });
 
   const {
     updateLine,
@@ -27,13 +41,11 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
     error: deleteError,
   } = useDeleteScriptLine(channelId, episodeId);
 
-  const hasChanges = emotion !== line.emotion || text !== line.text;
-
-  function handleUpdate() {
-    updateLine(line.id, { emotion, text });
+  function onSubmit(data: ScriptLineFormInput) {
+    updateLine(line.id, data);
   }
 
-  function handleDelete() {
+  function handleDeleteClick() {
     deleteLine(line.id);
   }
 
@@ -45,39 +57,39 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
         {line.speaker.name} ({line.speaker.voice.name}):
       </div>
 
-      <div className="flex">
-        <input
-          value={emotion}
-          onChange={(e) => setEmotion(e.target.value)}
-          placeholder="感情を入力"
-          className="border"
-        />
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="台本を入力"
-          className="border grow"
-        />
-      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex">
+          <input
+            placeholder="感情を入力"
+            className="border"
+            {...register('emotion')}
+          />
+          <input
+            placeholder="台本を入力"
+            className="border grow"
+            {...register('text')}
+          />
+        </div>
+        {errors.text && <p>{errors.text.message}</p>}
 
-      <div>
-        <button
-          type="button"
-          className="border"
-          disabled={isUpdating || !hasChanges}
-          onClick={handleUpdate}
-        >
-          {isUpdating ? '更新中...' : '更新'}
-        </button>
-        <button
-          type="button"
-          className="border"
-          disabled={isDeleting}
-          onClick={handleDelete}
-        >
-          {isDeleting ? '削除中...' : '削除'}
-        </button>
-      </div>
+        <div>
+          <button
+            type="submit"
+            className="border"
+            disabled={isUpdating || !isDirty}
+          >
+            {isUpdating ? '更新中...' : '更新'}
+          </button>
+          <button
+            type="button"
+            className="border"
+            disabled={isDeleting}
+            onClick={handleDeleteClick}
+          >
+            {isDeleting ? '削除中...' : '削除'}
+          </button>
+        </div>
+      </form>
 
       {error && <p>{error}</p>}
     </li>
