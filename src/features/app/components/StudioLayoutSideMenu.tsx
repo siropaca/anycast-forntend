@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { withActiveState } from '@/components/navigation/SideMenu/helper';
 import { SideMenu } from '@/components/navigation/SideMenu/SideMenu';
-import { STUDIO_MENU_SECTIONS } from '@/features/app/config/studioMenu';
+import { STUDIO_MENU_SECTIONS } from '@/features/app/constants/studioMenu';
 
 export function StudioLayoutSideMenu() {
   const pathname = usePathname();

@@ -83,11 +83,11 @@ pnpm dev
 │   │   ├── navigation/  # ナビゲーション
 │   │   ├── surface/     # サーフェス
 │   │   └── utils/       # ユーティリティ
-│   ├── config/       # 設定ファイル
+│   ├── constants/       # 定数ファイル
 │   ├── features/     # 機能ごとのモジュール
 │   │   ├── app/          # アプリ共通
 │   │   │   ├── components/  # 共通コンポーネント
-│   │   │   ├── config/      # メニュー設定など
+│   │   │   ├── constants/   # 定数
 │   │   │   ├── layouts/     # レイアウトコンポーネント
 │   │   │   └── providers/   # プロバイダー
 │   │   ├── auth/         # 認証機能
