@@ -1,8 +1,10 @@
 'use client';
 
+import { useRef, useState } from 'react';
 import { useBgmOptions } from '@/features/studio/episodes/hooks/useBgmOptions';
 import { useDeleteEpisodeBgm } from '@/features/studio/episodes/hooks/useDeleteEpisodeBgm';
 import { useSetEpisodeBgm } from '@/features/studio/episodes/hooks/useSetEpisodeBgm';
+import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
 import type { ResponseEpisodeResponseBgm } from '@/libs/api/generated/schemas';
 
 interface Props {
@@ -12,6 +14,9 @@ interface Props {
 }
 
 export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [bgmName, setBgmName] = useState('');
+
   const { userBgms, defaultBgms } = useBgmOptions();
 
   const {
@@ -26,8 +31,14 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
     error: deleteError,
   } = useDeleteEpisodeBgm(channelId, episodeId);
 
-  const isMutating = isSettingBgm || isDeletingBgm;
-  const error = setError ?? deleteError;
+  const {
+    uploadBgm,
+    isUploading,
+    error: uploadError,
+  } = useUploadBgm();
+
+  const isMutating = isSettingBgm || isDeletingBgm || isUploading;
+  const error = setError ?? deleteError ?? uploadError;
 
   function handleBgmChange(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value;
@@ -41,6 +52,23 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
 
   function handleDeleteClick() {
     deleteBgm();
+  }
+
+  function handleUploadClick() {
+    fileInputRef.current?.click();
+  }
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const name = bgmName.trim() || file.name.replace(/\.[^/.]+$/, '');
+    uploadBgm(file, name);
+    setBgmName('');
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   }
 
   const currentValue = currentBgm
@@ -90,6 +118,32 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
       )}
 
       {error && <p>{error}</p>}
+
+      <div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="audio/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+        <input
+          type="text"
+          placeholder="BGM名（省略時はファイル名）"
+          className="border"
+          value={bgmName}
+          disabled={isUploading}
+          onChange={(e) => setBgmName(e.target.value)}
+        />
+        <button
+          type="button"
+          className="border"
+          disabled={isUploading}
+          onClick={handleUploadClick}
+        >
+          {isUploading ? 'アップロード中...' : 'BGMをアップロード'}
+        </button>
+      </div>
     </div>
   );
 }
