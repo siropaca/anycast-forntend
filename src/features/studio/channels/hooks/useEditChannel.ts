@@ -50,6 +50,12 @@ export function useEditChannel(channelId: string) {
     userPrompt: channel.userPrompt,
     categoryId: channel.category.id,
     artworkImageId: channel.artwork?.id,
+    defaultBgmId: channel.defaultBgm?.isDefault
+      ? undefined
+      : channel.defaultBgm?.id,
+    defaultSystemBgmId: channel.defaultBgm?.isDefault
+      ? channel.defaultBgm?.id
+      : undefined,
     characters: channel.characters.map((c) => ({
       name: c.name,
       voiceId: c.voice.id,
@@ -101,6 +107,7 @@ export function useEditChannel(channelId: string) {
     channel,
     defaultValues,
     defaultArtworkUrl: channel.artwork?.url,
+    defaultBgm: channel.defaultBgm,
     categories,
     voices,
     updateChannel,
