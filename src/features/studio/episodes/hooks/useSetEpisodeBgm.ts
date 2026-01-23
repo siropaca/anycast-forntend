@@ -2,7 +2,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 import { usePutChannelsChannelIdEpisodesEpisodeIdBgm } from '@/libs/api/generated/episodes/episodes';
-import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
+import {
+  getGetMeBgmsQueryKey,
+  getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey,
+} from '@/libs/api/generated/me/me';
 
 /**
  * エピソードのBGM設定ミューテーションを提供する
@@ -42,6 +45,9 @@ export function useSetEpisodeBgm(channelId: string, episodeId: string) {
               channelId,
               episodeId,
             ),
+          });
+          queryClient.invalidateQueries({
+            queryKey: getGetMeBgmsQueryKey(),
           });
         },
       },

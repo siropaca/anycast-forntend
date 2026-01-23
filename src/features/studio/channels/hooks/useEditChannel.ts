@@ -7,7 +7,10 @@ import {
   useGetChannelsChannelIdSuspense,
   usePatchChannelsChannelId,
 } from '@/libs/api/generated/channels/channels';
-import { getGetMeChannelsChannelIdQueryKey } from '@/libs/api/generated/me/me';
+import {
+  getGetMeBgmsQueryKey,
+  getGetMeChannelsChannelIdQueryKey,
+} from '@/libs/api/generated/me/me';
 import type {
   RequestUpdateChannelRequest,
   ResponseCategoryResponse,
@@ -96,6 +99,9 @@ export function useEditChannel(channelId: string) {
 
           queryClient.invalidateQueries({
             queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+          });
+          queryClient.invalidateQueries({
+            queryKey: getGetMeBgmsQueryKey(),
           });
           options?.onSuccess?.();
         },
