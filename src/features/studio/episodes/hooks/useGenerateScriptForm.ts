@@ -2,11 +2,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 import type { RequestGenerateScriptRequest } from '@/libs/api/generated/schemas';
-import { trimFullWidth } from '@/utils/trimFullWidth';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerate,
 } from '@/libs/api/generated/script/script';
+import { trimFullWidth } from '@/utils/trim';
 
 /**
  * 台本生成フォーム用のミューテーションを提供する

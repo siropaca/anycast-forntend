@@ -16,7 +16,7 @@ import type {
 } from '@/libs/api/generated/schemas';
 import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
-import { trimFullWidth } from '@/utils/trimFullWidth';
+import { trimFullWidth } from '@/utils/trim';
 
 interface UpdateOptions {
   onSuccess?: () => void;

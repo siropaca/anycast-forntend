@@ -31,11 +31,7 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
     error: deleteError,
   } = useDeleteEpisodeBgm(channelId, episodeId);
 
-  const {
-    uploadBgm,
-    isUploading,
-    error: uploadError,
-  } = useUploadBgm();
+  const { uploadBgm, isUploading, error: uploadError } = useUploadBgm();
 
   const isMutating = isSettingBgm || isDeletingBgm || isUploading;
   const error = setError ?? deleteError ?? uploadError;
@@ -62,8 +58,7 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const name = bgmName.trim() || file.name.replace(/\.[^/.]+$/, '');
-    uploadBgm(file, name);
+    uploadBgm(file, bgmName);
     setBgmName('');
 
     if (fileInputRef.current) {

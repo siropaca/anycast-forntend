@@ -8,7 +8,7 @@ import type {
   ResponseEpisodeResponse,
 } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
-import { trimFullWidth } from '@/utils/trimFullWidth';
+import { trimFullWidth } from '@/utils/trim';
 
 interface UpdateOptions {
   onSuccess?: () => void;

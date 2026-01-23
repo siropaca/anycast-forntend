@@ -1,6 +1,6 @@
-import { trimFullWidth } from '@/utils/trimFullWidth';
+import { removeFileExtension, trimFullWidth } from '@/utils/trim';
 
-describe('trimFullWidth', () => {
+describe('trim', () => {
   describe('trimFullWidth()', () => {
     it('半角スペースを削除する', () => {
       expect(trimFullWidth('  hello  ')).toBe('hello');
@@ -39,6 +39,24 @@ describe('trimFullWidth', () => {
 
     it('空白がない文字列はそのまま返す', () => {
       expect(trimFullWidth('hello')).toBe('hello');
+    });
+  });
+
+  describe('removeFileExtension()', () => {
+    it('拡張子を除去する', () => {
+      expect(removeFileExtension('audio.mp3')).toBe('audio');
+    });
+
+    it('複数のドットがある場合は最後の拡張子のみ除去する', () => {
+      expect(removeFileExtension('my.song.wav')).toBe('my.song');
+    });
+
+    it('拡張子がない場合はそのまま返す', () => {
+      expect(removeFileExtension('noextension')).toBe('noextension');
+    });
+
+    it('空文字列は空文字列を返す', () => {
+      expect(removeFileExtension('')).toBe('');
     });
   });
 });

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { trimFullWidth } from '@/utils/trimFullWidth';
+import { trimFullWidth } from '@/utils/trim';
 
 export const scriptLineFormSchema = z.object({
   emotion: z.string(),

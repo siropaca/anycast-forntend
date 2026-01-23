@@ -51,7 +51,11 @@ export function ChannelForm({
   const uploadMutation = usePostImages();
 
   const { userBgms, defaultBgms } = useBgmOptions();
-  const { uploadBgm, isUploading: isBgmUploading, error: bgmUploadError } = useUploadBgm();
+  const {
+    uploadBgm,
+    isUploading: isBgmUploading,
+    error: bgmUploadError,
+  } = useUploadBgm();
 
   const {
     register,
@@ -130,8 +134,7 @@ export function ChannelForm({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const name = bgmName.trim() || file.name.replace(/\.[^/.]+$/, '');
-    uploadBgm(file, name);
+    uploadBgm(file, bgmName);
     setBgmName('');
 
     if (bgmFileInputRef.current) {

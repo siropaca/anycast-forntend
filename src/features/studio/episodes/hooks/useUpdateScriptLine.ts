@@ -6,7 +6,7 @@ import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePatchChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId,
 } from '@/libs/api/generated/script/script';
-import { trimFullWidth } from '@/utils/trimFullWidth';
+import { trimFullWidth } from '@/utils/trim';
 
 /**
  * 台本行の更新ミューテーションを提供する

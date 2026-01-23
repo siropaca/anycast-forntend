@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { usePostChannelsChannelIdEpisodesEpisodeIdAudioGenerate } from '@/libs/api/generated/episodes/episodes';
 import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
 import type { RequestGenerateAudioRequest } from '@/libs/api/generated/schemas';
-import { trimFullWidth } from '@/utils/trimFullWidth';
+import { trimFullWidth } from '@/utils/trim';
 
 /**
  * エピソード音声生成ミューテーションを提供する

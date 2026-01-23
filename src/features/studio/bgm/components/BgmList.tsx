@@ -23,8 +23,7 @@ export function BgmList() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const name = bgmName.trim() || file.name.replace(/\.[^/.]+$/, '');
-    uploadBgm(file, name);
+    uploadBgm(file, bgmName);
     setBgmName('');
 
     if (fileInputRef.current) {

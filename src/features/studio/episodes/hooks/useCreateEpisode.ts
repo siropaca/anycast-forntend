@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { usePostChannelsChannelIdEpisodes } from '@/libs/api/generated/episodes/episodes';
 import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 import type { RequestCreateEpisodeRequest } from '@/libs/api/generated/schemas';
-import { trimFullWidth } from '@/utils/trimFullWidth';
+import { trimFullWidth } from '@/utils/trim';
 
 interface CreateOptions {
   onSuccess?: (episodeId: string) => void;
