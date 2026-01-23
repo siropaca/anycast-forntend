@@ -28,7 +28,7 @@ export const channelFormSchema = z.object({
   characters: z
     .array(characterSchema)
     .min(1, 'キャラクターを1人以上追加してください')
-    .max(2, 'キャラクターは2人までです'),
+    .max(3, 'キャラクターは3人までです'),
 });
 
 export type ChannelFormInput = z.infer<typeof channelFormSchema>;

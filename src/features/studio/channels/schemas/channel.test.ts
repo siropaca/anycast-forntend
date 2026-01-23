@@ -42,6 +42,19 @@ describe('channelFormSchema', () => {
     expect(result.success).toBe(true);
   });
 
+  it('3人のキャラクターでパースが成功する', () => {
+    const input = {
+      ...validInput,
+      characters: [
+        { name: 'キャラクター1', voiceId: 'voice-1' },
+        { name: 'キャラクター2', voiceId: 'voice-2' },
+        { name: 'キャラクター3', voiceId: 'voice-3' },
+      ],
+    };
+    const result = channelFormSchema.safeParse(input);
+    expect(result.success).toBe(true);
+  });
+
   it('name が空の場合はエラー', () => {
     const input = { ...validInput, name: '' };
     const result = channelFormSchema.safeParse(input);
@@ -54,13 +67,14 @@ describe('channelFormSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('characters が3人以上の場合はエラー', () => {
+  it('characters が4人以上の場合はエラー', () => {
     const input = {
       ...validInput,
       characters: [
         { name: 'キャラクター1', voiceId: 'voice-1' },
         { name: 'キャラクター2', voiceId: 'voice-2' },
         { name: 'キャラクター3', voiceId: 'voice-3' },
+        { name: 'キャラクター4', voiceId: 'voice-4' },
       ],
     };
     const result = channelFormSchema.safeParse(input);
