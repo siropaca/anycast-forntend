@@ -38,6 +38,11 @@ export function useDeleteBgm() {
             queryKey: getGetMeBgmsQueryKey(),
           });
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'BGMの削除に失敗しました';
+          setError(message);
+        },
       },
     );
   }

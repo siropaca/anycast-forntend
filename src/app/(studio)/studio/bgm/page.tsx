@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default function StudioBgmPage() {
   return (
     <div>
-      <h1>{Pages.studio.bgm.title}</h1>
       <Suspense fallback={<p>読み込み中...</p>}>
         <BgmList />
       </Suspense>
