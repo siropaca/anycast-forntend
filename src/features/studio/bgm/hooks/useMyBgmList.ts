@@ -1,5 +1,5 @@
 import { useGetMeBgmsSuspense } from '@/libs/api/generated/me/me';
-import type { ResponseBgmResponse } from '@/libs/api/generated/schemas';
+import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 /**
@@ -9,7 +9,7 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
  */
 export function useMyBgmList() {
   const { data } = useGetMeBgmsSuspense();
-  const bgms = unwrapResponse<ResponseBgmResponse[]>(data, []) ?? [];
+  const bgms = unwrapResponse<ResponseBgmWithEpisodesResponse[]>(data, []) ?? [];
 
   return {
     bgms,
