@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { UserPromptForm } from '@/features/studio/settings/components/UserPromptForm';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 export default function StudioSettingsPage() {
   return (
     <div>
-      <p>Studio Setting</p>
+      <UserPromptForm />
     </div>
   );
 }
