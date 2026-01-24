@@ -13,7 +13,6 @@ import {
   getGetMeChannelsChannelIdQueryKey,
 } from '@/libs/api/generated/me/me';
 import type {
-  RequestUpdateChannelRequest,
   ResponseCategoryResponse,
   ResponseChannelResponse,
   ResponseVoiceResponse,
@@ -70,23 +69,23 @@ export function useEditChannel(channelId: string) {
   /**
    * チャンネルを更新する
    *
-   * @param data - チャンネル更新リクエスト
+   * @param data - フォーム入力データ
    * @param options - オプション（成功時コールバック）
    */
-  function updateChannel(
-    data: RequestUpdateChannelRequest,
-    options?: UpdateOptions,
-  ) {
+  function updateChannel(data: ChannelFormInput, options?: UpdateOptions) {
     setError(undefined);
 
     mutation.mutate(
       {
         channelId,
         data: {
-          ...data,
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
-          userPrompt: trimFullWidth(data.userPrompt ?? ''),
+          userPrompt: trimFullWidth(data.userPrompt),
+          categoryId: data.categoryId,
+          artworkImageId: data.artworkImageId,
+          defaultBgmId: data.defaultBgmId,
+          defaultSystemBgmId: data.defaultSystemBgmId,
         },
       },
       {

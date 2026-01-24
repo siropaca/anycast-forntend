@@ -18,18 +18,11 @@ export function EditEpisode({ channelId, episodeId }: Props) {
     useEditEpisode(channelId, episodeId);
 
   function handleSubmit(data: EpisodeFormInput) {
-    updateEpisode(
-      {
-        title: data.title,
-        description: data.description,
-        artworkImageId: data.artworkImageId,
+    updateEpisode(data, {
+      onSuccess: () => {
+        router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
       },
-      {
-        onSuccess: () => {
-          router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
-        },
-      },
-    );
+    });
   }
 
   return (

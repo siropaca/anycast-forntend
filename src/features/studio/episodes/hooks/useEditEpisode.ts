@@ -8,10 +8,7 @@ import {
   getGetMeChannelsChannelIdEpisodesQueryKey,
   useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense,
 } from '@/libs/api/generated/me/me';
-import type {
-  RequestUpdateEpisodeRequest,
-  ResponseEpisodeResponse,
-} from '@/libs/api/generated/schemas';
+import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { trimFullWidth } from '@/utils/trim';
 
@@ -47,13 +44,10 @@ export function useEditEpisode(channelId: string, episodeId: string) {
   /**
    * エピソードを更新する
    *
-   * @param data - エピソード更新リクエスト
+   * @param data - フォーム入力データ
    * @param options - オプション（成功時コールバック）
    */
-  function updateEpisode(
-    data: RequestUpdateEpisodeRequest,
-    options?: UpdateOptions,
-  ) {
+  function updateEpisode(data: EpisodeFormInput, options?: UpdateOptions) {
     setError(undefined);
 
     mutation.mutate(
@@ -61,9 +55,9 @@ export function useEditEpisode(channelId: string, episodeId: string) {
         channelId,
         episodeId,
         data: {
-          ...data,
           title: trimFullWidth(data.title),
           description: trimFullWidth(data.description),
+          artworkImageId: data.artworkImageId,
         },
       },
       {

@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 import { MESSAGES } from '@/constants/messages';
+import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import { usePostChannels } from '@/libs/api/generated/channels/channels';
 import type {
-  RequestCreateChannelRequest,
   ResponseCategoryResponse,
   ResponseVoiceResponse,
 } from '@/libs/api/generated/schemas';
@@ -37,22 +37,28 @@ export function useCreateChannel() {
   /**
    * チャンネルを作成する
    *
-   * @param data - チャンネル作成リクエスト
+   * @param data - フォーム入力データ
    * @param options - オプション（成功時コールバック）
    */
-  function createChannel(
-    data: RequestCreateChannelRequest,
-    options?: CreateOptions,
-  ) {
+  function createChannel(data: ChannelFormInput, options?: CreateOptions) {
     setError(undefined);
 
     mutation.mutate(
       {
         data: {
-          ...data,
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
-          userPrompt: trimFullWidth(data.userPrompt ?? ''),
+          userPrompt: trimFullWidth(data.userPrompt),
+          categoryId: data.categoryId,
+          artworkImageId: data.artworkImageId,
+          characters: {
+            create: data.characters.map((c) => ({
+              name: c.name,
+              voiceId: c.voiceId,
+              persona: c.persona,
+            })),
+            connect: [],
+          },
         },
       },
       {

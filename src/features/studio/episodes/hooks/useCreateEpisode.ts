@@ -2,9 +2,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 import { MESSAGES } from '@/constants/messages';
+import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
 import { usePostChannelsChannelIdEpisodes } from '@/libs/api/generated/episodes/episodes';
 import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
-import type { RequestCreateEpisodeRequest } from '@/libs/api/generated/schemas';
 import { trimFullWidth } from '@/utils/trim';
 
 interface CreateOptions {
@@ -26,22 +26,19 @@ export function useCreateEpisode(channelId: string) {
   /**
    * エピソードを作成する
    *
-   * @param data - エピソード作成リクエスト
+   * @param data - フォーム入力データ
    * @param options - オプション（成功時コールバック）
    */
-  function createEpisode(
-    data: RequestCreateEpisodeRequest,
-    options?: CreateOptions,
-  ) {
+  function createEpisode(data: EpisodeFormInput, options?: CreateOptions) {
     setError(undefined);
 
     mutation.mutate(
       {
         channelId,
         data: {
-          ...data,
           title: trimFullWidth(data.title),
-          description: trimFullWidth(data.description ?? ''),
+          description: trimFullWidth(data.description),
+          artworkImageId: data.artworkImageId,
         },
       },
       {

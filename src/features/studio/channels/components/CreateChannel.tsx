@@ -13,34 +13,15 @@ export function CreateChannel() {
     useCreateChannel();
 
   function handleSubmit(data: ChannelFormInput) {
-    createChannel(
-      {
-        name: data.name,
-        description: data.description,
-        userPrompt: data.userPrompt,
-        categoryId: data.categoryId,
-        characters: {
-          create: data.characters.map((c) => ({
-            name: c.name,
-            voiceId: c.voiceId,
-            persona: c.persona,
-          })),
-          connect: [],
-        },
-        artworkImageId: data.artworkImageId,
+    createChannel(data, {
+      onSuccess: (channelId) => {
+        router.push(Pages.studio.channel.path({ id: channelId }));
       },
-      {
-        onSuccess: (channelId) => {
-          router.push(Pages.studio.channel.path({ id: channelId }));
-        },
-      },
-    );
+    });
   }
 
   return (
     <div>
-      <h1>{Pages.studio.newChannel.title}</h1>
-
       <ChannelForm
         mode="create"
         categories={categories}

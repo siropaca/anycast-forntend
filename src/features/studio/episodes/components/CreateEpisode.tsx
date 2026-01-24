@@ -15,18 +15,11 @@ export function CreateEpisode({ channelId }: Props) {
   const { createEpisode, isCreating, error } = useCreateEpisode(channelId);
 
   function handleSubmit(data: EpisodeFormInput) {
-    createEpisode(
-      {
-        title: data.title,
-        description: data.description,
-        artworkImageId: data.artworkImageId,
+    createEpisode(data, {
+      onSuccess: (episodeId) => {
+        router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
       },
-      {
-        onSuccess: (episodeId) => {
-          router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
-        },
-      },
-    );
+    });
   }
 
   return (

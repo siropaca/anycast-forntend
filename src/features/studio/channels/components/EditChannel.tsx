@@ -21,28 +21,17 @@ export function EditChannel({ channelId }: Props) {
     defaultBgm,
     categories,
     voices,
-    updateChannel,
     isUpdating,
     error,
+    updateChannel,
   } = useEditChannel(channelId);
 
   function handleSubmit(data: ChannelFormInput) {
-    updateChannel(
-      {
-        name: data.name,
-        description: data.description,
-        userPrompt: data.userPrompt,
-        categoryId: data.categoryId,
-        artworkImageId: data.artworkImageId,
-        defaultBgmId: data.defaultBgmId,
-        defaultSystemBgmId: data.defaultSystemBgmId,
+    updateChannel(data, {
+      onSuccess: () => {
+        router.push(Pages.studio.channel.path({ id: channelId }));
       },
-      {
-        onSuccess: () => {
-          router.push(Pages.studio.channel.path({ id: channelId }));
-        },
-      },
-    );
+    });
   }
 
   if (!channel || !defaultValues) {
@@ -51,8 +40,6 @@ export function EditChannel({ channelId }: Props) {
 
   return (
     <div>
-      <h1>{Pages.studio.editChannel.title}</h1>
-
       <ChannelForm
         mode="edit"
         channelId={channelId}
