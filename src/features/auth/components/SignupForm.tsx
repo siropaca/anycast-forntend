@@ -1,12 +1,9 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSignup } from '@/features/auth/hooks/useSignup';
 import { type SignupInput, signupSchema } from '@/features/auth/schemas/auth';
-import { usePostAuthRegister } from '@/libs/api/generated/auth/auth';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -15,9 +12,7 @@ interface Props {
 
 // TODO: 仮コンポーネント
 export function SignupForm({ redirectTo = Pages.home.path() }: Props) {
-  const router = useRouter();
-  const registerMutation = usePostAuthRegister();
-  const [error, setError] = useState<string | null>(null);
+  const { signup, isLoading, error } = useSignup(redirectTo);
 
   const {
     register,
@@ -27,42 +22,9 @@ export function SignupForm({ redirectTo = Pages.home.path() }: Props) {
     resolver: zodResolver(signupSchema),
   });
 
-  async function onSubmit(data: SignupInput) {
-    setError(null);
-
-    try {
-      const response = await registerMutation.mutateAsync({
-        data: {
-          displayName: data.displayName,
-          email: data.email,
-          password: data.password,
-        },
-      });
-
-      if (response.status !== 201) {
-        setError(response.data.error?.message ?? 'ユーザー登録に失敗しました');
-        return;
-      }
-
-      const signInResponse = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
-
-      if (signInResponse?.error) {
-        router.push(Pages.login.path());
-        return;
-      }
-
-      router.push(redirectTo);
-      router.refresh();
-    } catch {
-      setError('ユーザー登録に失敗しました');
-    }
+  function onSubmit(data: SignupInput) {
+    signup(data);
   }
-
-  const isLoading = registerMutation.isPending;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
