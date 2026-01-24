@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
+import { MESSAGES } from '@/constants/messages';
 import type { RequestUpdateScriptLineRequest } from '@/libs/api/generated/schemas';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
@@ -58,7 +59,7 @@ export function useUpdateScriptLine(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : '台本行の更新に失敗しました';
+            err instanceof Error ? err.message : MESSAGES.scriptLine.updateError;
           setError(message);
         },
       },

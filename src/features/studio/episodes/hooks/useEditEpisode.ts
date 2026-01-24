@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
+import { MESSAGES } from '@/constants/messages';
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
 import { usePatchChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import { useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense } from '@/libs/api/generated/me/me';
@@ -64,7 +65,7 @@ export function useEditEpisode(channelId: string, episodeId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? 'エピソードの更新に失敗しました',
+              response.data.error?.message ?? MESSAGES.episode.updateError,
             );
             return;
           }
@@ -75,7 +76,7 @@ export function useEditEpisode(channelId: string, episodeId: string) {
           const message =
             err instanceof Error
               ? err.message
-              : 'エピソードの更新に失敗しました';
+              : MESSAGES.episode.updateError;
           setError(message);
         },
       },

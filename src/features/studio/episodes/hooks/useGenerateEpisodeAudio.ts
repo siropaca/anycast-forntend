@@ -1,24 +1,19 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect, useRef, useState } from 'react';
+import { MESSAGES } from '@/constants/messages';
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
 import { getAudioJobsJobId } from '@/libs/api/generated/audio-jobs/audio-jobs';
 import { usePostChannelsChannelIdEpisodesEpisodeIdAudioGenerateAsync } from '@/libs/api/generated/episodes/episodes';
 import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
 import type { RequestGenerateAudioAsyncRequest } from '@/libs/api/generated/schemas';
 import { useAudioJobWebSocket } from '@/libs/websocket/useAudioJobWebSocket';
+import type { JobStatus } from '@/types/job';
 import { trimFullWidth } from '@/utils/trim';
-
-export type AudioJobStatus =
-  | 'idle'
-  | 'pending'
-  | 'processing'
-  | 'completed'
-  | 'failed';
 
 interface AudioJobState {
   jobId: string | null;
-  status: AudioJobStatus;
+  status: JobStatus;
   progress: number;
   errorMessage: string | null;
 }
@@ -32,6 +27,7 @@ interface AudioJobState {
  */
 export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
+
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const jobIdRef = useRef<string | null>(null);
 
@@ -92,13 +88,13 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
           setJobState((prev) => ({
             ...prev,
             progress: job.progress,
-            status: job.status as AudioJobStatus,
+            status: job.status as JobStatus,
           }));
 
           if (job.status === 'completed') {
             handleJobCompleted();
           } else if (job.status === 'failed') {
-            handleJobFailed(job.errorMessage ?? '音声生成に失敗しました');
+            handleJobFailed(job.errorMessage ?? MESSAGES.audio.generateError);
           }
         }
       } catch {
@@ -204,7 +200,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
               errorMessage:
                 'error' in response.data
                   ? response.data.error.message
-                  : '音声生成の開始に失敗しました',
+                  : MESSAGES.audio.generateStartError,
             }));
             return;
           }
@@ -224,7 +220,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
           const message =
             error instanceof Error
               ? error.message
-              : '音声生成の開始に失敗しました';
+              : MESSAGES.audio.generateStartError;
           setJobState((prev) => ({
             ...prev,
             status: 'failed',

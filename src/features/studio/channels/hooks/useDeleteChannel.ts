@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
+import { MESSAGES } from '@/constants/messages';
 import { useDeleteChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import { getGetMeChannelsQueryKey } from '@/libs/api/generated/me/me';
 
@@ -36,7 +37,7 @@ export function useDeleteChannel() {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
             setError(
-              response.data.error?.message ?? 'チャンネルの削除に失敗しました',
+              response.data.error?.message ?? MESSAGES.channel.deleteError,
             );
             return;
           }
@@ -50,7 +51,7 @@ export function useDeleteChannel() {
           const message =
             err instanceof Error
               ? err.message
-              : 'チャンネルの削除に失敗しました';
+              : MESSAGES.channel.deleteError;
           setError(message);
         },
       },

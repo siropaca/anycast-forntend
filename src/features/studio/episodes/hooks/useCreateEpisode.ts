@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
+import { MESSAGES } from '@/constants/messages';
 import { usePostChannelsChannelIdEpisodes } from '@/libs/api/generated/episodes/episodes';
 import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 import type { RequestCreateEpisodeRequest } from '@/libs/api/generated/schemas';
@@ -47,7 +48,7 @@ export function useCreateEpisode(channelId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.CREATED) {
             setError(
-              response.data.error?.message ?? 'エピソードの作成に失敗しました',
+              response.data.error?.message ?? MESSAGES.episode.createError,
             );
             return;
           }
@@ -61,7 +62,7 @@ export function useCreateEpisode(channelId: string) {
           const message =
             err instanceof Error
               ? err.message
-              : 'エピソードの作成に失敗しました';
+              : MESSAGES.episode.createError;
           setError(message);
         },
       },
