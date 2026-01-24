@@ -29,6 +29,7 @@ interface Props {
   channelId: string;
   episodeId: string;
   episodeName: string;
+  voiceStyle: string;
   fullAudio?: ResponseEpisodeResponseFullAudio;
   bgm?: ResponseEpisodeResponseBgm;
 }
@@ -37,6 +38,7 @@ export function ScriptLineList({
   channelId,
   episodeId,
   episodeName,
+  voiceStyle,
   fullAudio,
   bgm,
 }: Props) {
@@ -79,7 +81,7 @@ export function ScriptLineList({
   } = useForm<GenerateAudioFormInput>({
     resolver: zodResolver(generateAudioFormSchema),
     defaultValues: {
-      voiceStyle: '',
+      voiceStyle,
     },
   });
 
