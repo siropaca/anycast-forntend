@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'storage.googleapis.com',
         pathname: '/anycast-dev/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        pathname: '/anycast-prd/**',
+      },
     ],
   },
 };
