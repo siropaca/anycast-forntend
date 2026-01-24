@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { MESSAGES } from '@/constants/messages';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
 import { useEditChannel } from '@/features/studio/channels/hooks/useEditChannel';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
@@ -45,7 +46,7 @@ export function EditChannel({ channelId }: Props) {
   }
 
   if (!channel || !defaultValues) {
-    return <p>チャンネルが見つかりません</p>;
+    return <p>{MESSAGES.channel.notFound}</p>;
   }
 
   return (
