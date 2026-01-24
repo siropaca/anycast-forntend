@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { StatusCodes } from 'http-status-codes';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,7 +8,7 @@ import {
   type EpisodeFormInput,
   episodeFormSchema,
 } from '@/features/studio/episodes/schemas/episode';
-import { usePostImages } from '@/libs/api/generated/images/images';
+import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 
 interface Props {
   mode: 'create' | 'edit';
@@ -27,13 +26,17 @@ export function EpisodeForm({
   onSubmit,
   isSubmitting = false,
 }: Props) {
-  const isEditMode = mode === 'edit';
+  const {
+    uploadArtwork,
+    isUploading: isArtworkUploading,
+    error: artworkUploadError,
+  } = useUploadArtwork();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
     string | undefined
   >(defaultArtworkUrl);
-  const [uploadError, setUploadError] = useState<string | undefined>();
-  const uploadMutation = usePostImages();
 
   const {
     register,
@@ -48,25 +51,20 @@ export function EpisodeForm({
     },
   });
 
+  const isEditMode = mode === 'edit';
+
   function handleArtworkButtonClick() {
     fileInputRef.current?.click();
   }
 
-  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    setUploadError(undefined);
-
-    const response = await uploadMutation.mutateAsync({ data: { file } });
-    if (response.status !== StatusCodes.CREATED) {
-      setUploadError('画像のアップロードに失敗しました');
-      return;
-    }
-
-    const { id, url } = response.data.data;
-    setValue('artworkImageId', id, { shouldDirty: true });
-    setArtworkPreviewUrl(url);
+    uploadArtwork(file, ({ id, url }) => {
+      setValue('artworkImageId', id, { shouldDirty: true });
+      setArtworkPreviewUrl(url);
+    });
   }
 
   return (
@@ -115,15 +113,15 @@ export function EpisodeForm({
           type="button"
           className="border"
           onClick={handleArtworkButtonClick}
-          disabled={uploadMutation.isPending}
+          disabled={isArtworkUploading}
         >
-          {uploadMutation.isPending
+          {isArtworkUploading
             ? 'アップロード中...'
             : artworkPreviewUrl
               ? 'アートワークを変更'
               : 'アートワークを登録'}
         </button>
-        {uploadError && <p>{uploadError}</p>}
+        {artworkUploadError && <p>{artworkUploadError}</p>}
       </div>
 
       <button type="submit" className="border" disabled={isSubmitting}>

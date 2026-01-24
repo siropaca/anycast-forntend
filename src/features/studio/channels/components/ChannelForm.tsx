@@ -5,13 +5,13 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useDeleteChannelDefaultBgm } from '@/features/studio/channels/hooks/useDeleteChannelDefaultBgm';
-import { useUploadArtwork } from '@/features/studio/channels/hooks/useUploadArtwork';
 import {
   type ChannelFormInput,
   channelFormSchema,
 } from '@/features/studio/channels/schemas/channel';
 import { useBgmOptions } from '@/features/studio/episodes/hooks/useBgmOptions';
 import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
+import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 import type {
   ResponseCategoryResponse,
   ResponseChannelResponseDefaultBgm,
