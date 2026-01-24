@@ -1,18 +1,17 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { StatusCodes } from 'http-status-codes';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useDeleteChannelDefaultBgm } from '@/features/studio/channels/hooks/useDeleteChannelDefaultBgm';
+import { useUploadArtwork } from '@/features/studio/channels/hooks/useUploadArtwork';
 import {
   type ChannelFormInput,
   channelFormSchema,
 } from '@/features/studio/channels/schemas/channel';
 import { useBgmOptions } from '@/features/studio/episodes/hooks/useBgmOptions';
 import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
-import { usePostImages } from '@/libs/api/generated/images/images';
 import type {
   ResponseCategoryResponse,
   ResponseChannelResponseDefaultBgm,
@@ -45,20 +44,11 @@ export function ChannelForm({
   isSubmitting = false,
   submitError,
 }: Props) {
-  const isEditMode = mode === 'edit';
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const bgmFileInputRef = useRef<HTMLInputElement>(null);
-  const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
-    string | undefined
-  >(defaultArtworkUrl);
-  const [uploadError, setUploadError] = useState<string | undefined>();
-  const [bgmName, setBgmName] = useState('');
-  const [selectedBgmValue, setSelectedBgmValue] = useState(
-    defaultBgm
-      ? `${defaultBgm.isDefault ? 'default' : 'user'}:${defaultBgm.id}`
-      : '',
-  );
-  const uploadMutation = usePostImages();
+  const {
+    uploadArtwork,
+    isUploading: isArtworkUploading,
+    error: artworkUploadError,
+  } = useUploadArtwork();
 
   const { userBgms, defaultBgms } = useBgmOptions();
   const {
@@ -66,6 +56,7 @@ export function ChannelForm({
     isUploading: isBgmUploading,
     error: bgmUploadError,
   } = useUploadBgm();
+
   const {
     deleteDefaultBgm,
     isDeletingDefaultBgm,
@@ -89,25 +80,33 @@ export function ChannelForm({
     },
   });
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const bgmFileInputRef = useRef<HTMLInputElement>(null);
+
+  const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
+    string | undefined
+  >(defaultArtworkUrl);
+  const [bgmName, setBgmName] = useState('');
+  const [selectedBgmValue, setSelectedBgmValue] = useState(
+    defaultBgm
+      ? `${defaultBgm.isDefault ? 'default' : 'user'}:${defaultBgm.id}`
+      : '',
+  );
+
+  const isEditMode = mode === 'edit';
+
   function handleArtworkButtonClick() {
     fileInputRef.current?.click();
   }
 
-  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    setUploadError(undefined);
-
-    const response = await uploadMutation.mutateAsync({ data: { file } });
-    if (response.status !== StatusCodes.CREATED) {
-      setUploadError('画像のアップロードに失敗しました');
-      return;
-    }
-
-    const { id, url } = response.data.data;
-    setValue('artworkImageId', id, { shouldDirty: true });
-    setArtworkPreviewUrl(url);
+    uploadArtwork(file, ({ id, url }) => {
+      setValue('artworkImageId', id, { shouldDirty: true });
+      setArtworkPreviewUrl(url);
+    });
   }
 
   const { fields, append, remove } = useFieldArray({
@@ -215,15 +214,15 @@ export function ChannelForm({
           type="button"
           className="border"
           onClick={handleArtworkButtonClick}
-          disabled={uploadMutation.isPending}
+          disabled={isArtworkUploading}
         >
-          {uploadMutation.isPending
+          {isArtworkUploading
             ? 'アップロード中...'
             : artworkPreviewUrl
               ? 'アートワークを変更'
               : 'アートワークを登録'}
         </button>
-        {uploadError && <p>{uploadError}</p>}
+        {artworkUploadError && <p>{artworkUploadError}</p>}
       </div>
 
       <div>
