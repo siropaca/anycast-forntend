@@ -379,7 +379,7 @@ export function ChannelForm({
               </div>
             ))}
 
-            {fields.length < 3 && (
+            {fields.length < 2 && (
               <button
                 type="button"
                 className="border"
