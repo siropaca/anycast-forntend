@@ -52,7 +52,7 @@ export function useCreateChannel() {
           ...data,
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
-          userPrompt: trimFullWidth(data.userPrompt),
+          userPrompt: trimFullWidth(data.userPrompt ?? ''),
         },
       },
       {
