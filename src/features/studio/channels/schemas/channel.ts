@@ -1,31 +1,34 @@
 import { z } from 'zod';
+import { MESSAGES } from '@/constants/messages';
 
 const characterSchema = z.object({
-  name: z.string().min(1, '名前を入力してください').max(255),
-  voiceId: z.string().min(1, 'ボイスを選択してください'),
+  name: z.string().min(1, MESSAGES.validation.required('名前')).max(255),
+  voiceId: z.string().min(1, MESSAGES.validation.select('ボイス')),
   persona: z
     .string()
-    .max(2000, 'ペルソナは2000文字以内で入力してください')
+    .max(2000, MESSAGES.validation.maxLength('ペルソナ', 2000))
     .optional(),
 });
 
 export const channelFormSchema = z.object({
   name: z
     .string()
-    .min(1, 'チャンネル名を入力してください')
-    .max(255, 'チャンネル名は255文字以内で入力してください'),
-  description: z.string().max(2000, '説明は2000文字以内で入力してください'),
+    .min(1, MESSAGES.validation.required('チャンネル名'))
+    .max(255, MESSAGES.validation.maxLength('チャンネル名', 255)),
+  description: z
+    .string()
+    .max(2000, MESSAGES.validation.maxLength('説明', 2000)),
   userPrompt: z
     .string()
-    .max(2000, 'プロンプトは2000文字以内で入力してください'),
-  categoryId: z.string().min(1, 'カテゴリを選択してください'),
+    .max(2000, MESSAGES.validation.maxLength('プロンプト', 2000)),
+  categoryId: z.string().min(1, MESSAGES.validation.select('カテゴリ')),
   artworkImageId: z.string().optional(),
   defaultBgmId: z.string().optional(),
   defaultSystemBgmId: z.string().optional(),
   characters: z
     .array(characterSchema)
-    .min(1, 'キャラクターを1人以上追加してください')
-    .max(2, 'キャラクターは2人までです'),
+    .min(1, MESSAGES.validation.minCount('キャラクター', 1))
+    .max(2, MESSAGES.validation.maxCount('キャラクター', 2)),
 });
 
 export type ChannelFormInput = z.infer<typeof channelFormSchema>;

@@ -138,15 +138,17 @@ describe('myFunction', () => {
 - ユーザー向けのエラーメッセージやシステムメッセージは `src/constants/messages.ts` の `MESSAGES` で一元管理する
 - 将来の多言語化対応を見据え、コンポーネントやフック内にハードコードしない
 - ドメインごとにグループ化して管理する（例: `MESSAGES.channel.createError`）
+- Zod スキーマのバリデーションメッセージも `MESSAGES.validation` を使用する
 
 ```typescript
 import { MESSAGES } from '@/constants/messages';
 
-// Good
+// APIエラーメッセージ
 setError(MESSAGES.channel.createError);
 
-// Bad
-setError('チャンネルの作成に失敗しました');
+// バリデーションメッセージ
+z.string().min(1, MESSAGES.validation.required('タイトル'));
+z.string().max(255, MESSAGES.validation.maxLength('タイトル', 255));
 ```
 
 ### ページパスの管理

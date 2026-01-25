@@ -1,25 +1,28 @@
 import { z } from 'zod';
+import { MESSAGES } from '@/constants/messages';
 
 export const loginSchema = z.object({
-  email: z.email('有効なメールアドレスを入力してください'),
-  password: z.string().min(1, 'パスワードを入力してください'),
+  email: z.email(MESSAGES.validation.invalidFormat('メールアドレス')),
+  password: z.string().min(1, MESSAGES.validation.required('パスワード')),
 });
 
 export const signupSchema = z
   .object({
     displayName: z
       .string()
-      .min(1, '表示名を入力してください')
-      .max(20, '表示名は20文字以内で入力してください'),
-    email: z.email('有効なメールアドレスを入力してください'),
+      .min(1, MESSAGES.validation.required('表示名'))
+      .max(20, MESSAGES.validation.maxLength('表示名', 20)),
+    email: z.email(MESSAGES.validation.invalidFormat('メールアドレス')),
     password: z
       .string()
-      .min(8, 'パスワードは8文字以上で入力してください')
-      .max(100, 'パスワードは100文字以内で入力してください'),
-    confirmPassword: z.string().min(1, '確認用パスワードを入力してください'),
+      .min(8, MESSAGES.validation.minLength('パスワード', 8))
+      .max(100, MESSAGES.validation.maxLength('パスワード', 100)),
+    confirmPassword: z
+      .string()
+      .min(1, MESSAGES.validation.required('確認用パスワード')),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'パスワードが一致しません',
+    message: MESSAGES.validation.mismatch('パスワード'),
     path: ['confirmPassword'],
   });
 
