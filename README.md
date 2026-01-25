@@ -86,13 +86,7 @@ pnpm dev
 │   ├── constants/       # 定数ファイル
 │   ├── features/     # 機能ごとのモジュール
 │   │   ├── app/          # アプリ共通
-│   │   │   ├── components/  # 共通コンポーネント
-│   │   │   ├── constants/   # 定数
-│   │   │   ├── layouts/     # レイアウトコンポーネント
-│   │   │   └── providers/   # プロバイダー
 │   │   ├── auth/         # 認証機能
-│   │   │   ├── components/  # 認証コンポーネント
-│   │   │   └── schemas/     # バリデーションスキーマ
 │   │   ├── settings/     # 設定機能
 │   │   │   └── account/     # アカウント設定
 │   │   └── studio/       # Studio 機能
