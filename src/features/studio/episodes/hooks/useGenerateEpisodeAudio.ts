@@ -363,9 +363,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
         },
         onError: (error: unknown) => {
           const message =
-            error instanceof Error
-              ? error.message
-              : MESSAGES.audio.cancelError;
+            error instanceof Error ? error.message : MESSAGES.audio.cancelError;
           setJobState((prev) => ({
             ...prev,
             errorMessage: message,
