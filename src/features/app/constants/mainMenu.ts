@@ -2,10 +2,10 @@ import {
   BookmarkSimpleIcon,
   CheckSquareOffsetIcon,
   ClockCounterClockwiseIcon,
+  CompassIcon,
   GearIcon,
   HeartIcon,
   HouseIcon,
-  RocketLaunchIcon,
   VideoIcon,
 } from '@phosphor-icons/react';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
@@ -22,7 +22,7 @@ export const MAIN_MENU_SECTIONS: MenuSection[] = [
       {
         label: Pages.explore.title,
         href: Pages.explore.path(),
-        icon: RocketLaunchIcon,
+        icon: CompassIcon,
       },
     ],
   },
