@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeaderSearchInput } from '@/components/navigation/HeaderSearchInput';
+import { HeaderSearchInput } from '@/components/navigation/Header/HeaderSearchInput';
 import { AuthButton } from '@/features/auth/components/AuthButton';
 import { Pages } from '@/libs/pages';
 

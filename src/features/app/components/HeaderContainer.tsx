@@ -1,4 +1,4 @@
-import { Header } from '@/components/navigation/Header';
+import { Header } from '@/components/navigation/Header/Header';
 import { auth } from '@/libs/auth/auth';
 
 export async function HeaderContainer() {
