@@ -7,16 +7,20 @@ interface Props {
 
 export function StudioLayout({ children }: Props) {
   return (
-    <div className="flex flex-1">
-      <Sidebar>
-        <StudioLayoutSideMenu />
-      </Sidebar>
+    <div className="flex flex-col flex-1">
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar>
+          <StudioLayoutSideMenu />
+        </Sidebar>
 
-      <main className="flex-1 p-4 pt-0 flex">
-        <div className="overflow-y-auto bg-surface rounded-md grow p-4">
-          {children}
-        </div>
-      </main>
+        <main className="flex-1 p-4 pt-0 flex">
+          <div className="overflow-y-auto bg-surface rounded-md flex-1 p-4">
+            {children}
+          </div>
+        </main>
+      </div>
+
+      <div className="h-bottom-player">プレイヤー</div>
     </div>
   );
 }
