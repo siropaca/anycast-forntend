@@ -15,7 +15,7 @@ const DEFAULT_ICON_SIZE = 24;
 
 export function SideMenu({ sections }: Props) {
   return (
-    <nav className="flex flex-col p-4 pr-0 pt-0 space-y-2">
+    <nav className="flex flex-col p-4 md:pr-0 md:pt-0 space-y-2">
       {sections.map((section, index) => (
         <div key={section.title ?? index} className="space-y-2">
           {/* セクションタイトル */}
@@ -30,7 +30,7 @@ export function SideMenu({ sections }: Props) {
               href={item.href}
               className={cn(
                 'px-3 py-3 flex gap-x-4 items-center transition-colors rounded-md cursor-pointer',
-                item.isActive ? 'bg-elevated' : 'hover:bg-surface',
+                item.isActive ? 'bg-bg-elevated' : 'hover:bg-bg-surface',
               )}
             >
               <item.icon size={item.iconSize ?? DEFAULT_ICON_SIZE} />

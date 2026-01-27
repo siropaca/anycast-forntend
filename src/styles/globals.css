@@ -5,9 +5,9 @@
   --color-primary: #1876a5;
 
   /* Background */
-  --color-background: #0f0f0f;
-  --color-surface: #181818;
-  --color-elevated: #272727;
+  --color-bg-main: #0f0f0f;
+  --color-bg-surface: #181818;
+  --color-bg-elevated: #272727;
 
   /* Text */
   --color-foreground: #ffffff;
@@ -39,6 +39,6 @@
 }
 
 body {
-  background: var(--color-background);
+  background: var(--color-bg-main);
   color: var(--color-foreground);
 }
