@@ -6,7 +6,7 @@ type Size = 'sm' | 'md' | 'lg';
 type Color = 'primary' | 'secondary' | 'danger';
 type Variant = 'solid' | 'outline' | 'text';
 
-type BaseProps = {
+interface BaseProps {
   size?: Size;
   color?: Color;
   variant?: Variant;
@@ -14,7 +14,7 @@ type BaseProps = {
   rightIcon?: ReactNode;
   className?: string;
   children?: ReactNode;
-};
+}
 
 type ButtonAsButton = BaseProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps> & {
