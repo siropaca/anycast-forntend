@@ -33,7 +33,7 @@ export function HeaderSearchInput() {
       value={value}
       leftIcon={<MagnifyingGlassIcon />}
       clearable
-      className="w-80"
+      className="w-80 border-none bg-bg-elevated rounded-full"
       onFocus={handleFocus}
       onChange={handleChange}
       onClear={handleClear}

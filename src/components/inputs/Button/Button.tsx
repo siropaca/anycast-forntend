@@ -62,7 +62,7 @@ export function Button({
   ...props
 }: Props) {
   const buttonClassName = cn(
-    'inline-flex cursor-pointer items-center justify-center rounded-full border font-medium leading-none transition-colors disabled:cursor-not-allowed disabled:opacity-50',
+    'inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-full border font-medium leading-none transition-colors disabled:cursor-not-allowed disabled:opacity-50',
     sizeClasses[size],
     colorVariantClasses[color][variant],
     className,
@@ -71,7 +71,7 @@ export function Button({
   const content = (
     <>
       {leftIcon && <span className="shrink-0">{leftIcon}</span>}
-      {children}
+      <span className="truncate">{children}</span>
       {rightIcon && <span className="shrink-0">{rightIcon}</span>}
     </>
   );
