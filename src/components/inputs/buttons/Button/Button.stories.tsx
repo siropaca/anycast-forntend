@@ -4,13 +4,13 @@ import {
   PlusIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Button } from '@/components/inputs/Button/Button';
-import { ButtonSkeleton } from '@/components/inputs/Button/ButtonSkeleton';
+import { Button } from '@/components/inputs/buttons/Button/Button';
+import { ButtonSkeleton } from '@/components/inputs/buttons/Button/ButtonSkeleton';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
 const meta = {
-  title: 'inputs/Button',
+  title: 'inputs/buttons/Button',
   component: Button,
   parameters: {
     layout: 'centered',

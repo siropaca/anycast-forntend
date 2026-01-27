@@ -1,6 +1,6 @@
 import { PlusIcon } from '@phosphor-icons/react/ssr';
 import Link from 'next/link';
-import { Button } from '@/components/inputs/Button/Button';
+import { Button } from '@/components/inputs/buttons/Button/Button';
 import { HeaderAvatarMenu } from '@/components/navigation/Header/HeaderAvatarMenu';
 import { HeaderSearchInput } from '@/components/navigation/Header/HeaderSearchInput';
 import { MobileMenu } from '@/components/navigation/MobileMenu/MobileMenu';
