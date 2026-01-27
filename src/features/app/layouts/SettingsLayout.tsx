@@ -1,5 +1,6 @@
 import { ScrollArea } from '@base-ui/react/scroll-area';
 import { Sidebar } from '@/components/navigation/Sidebar';
+import { BottomPlayer } from '@/features/app/components/BottomPlayer';
 import { HeaderContainer } from '@/features/app/components/HeaderContainer';
 import { SettingsLayoutSideMenu } from '@/features/app/components/SettingsLayoutSideMenu';
 
@@ -30,7 +31,7 @@ export function SettingsLayout({ children }: Props) {
         </div>
       </div>
 
-      <div className="h-bottom-player">プレイヤー</div>
+      <BottomPlayer />
     </div>
   );
 }

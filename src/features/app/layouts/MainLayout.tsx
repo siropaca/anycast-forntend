@@ -1,5 +1,6 @@
 import { ScrollArea } from '@base-ui/react/scroll-area';
 import { Sidebar } from '@/components/navigation/Sidebar';
+import { BottomPlayer } from '@/features/app/components/BottomPlayer';
 import { HeaderContainer } from '@/features/app/components/HeaderContainer';
 import { MainLayoutSideMenu } from '@/features/app/components/MainLayoutSideMenu';
 import { auth } from '@/libs/auth/auth';
@@ -33,7 +34,7 @@ export async function MainLayout({ children }: Props) {
         </div>
       </div>
 
-      <div className="h-bottom-player">プレイヤー</div>
+      <BottomPlayer />
     </div>
   );
 }
