@@ -1,0 +1,128 @@
+import { EnvelopeIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { HelperText } from '@/components/inputs/Input/HelperText';
+import { Input } from '@/components/inputs/Input/Input';
+import { Label } from '@/components/inputs/Input/Label';
+import { Section } from '@/libs/storybook/Section';
+import { Stack } from '@/libs/storybook/Stack';
+
+const meta = {
+  title: 'inputs/Input',
+  component: Input,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+} satisfies Meta<typeof Input>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Playground: Story = {
+  args: {
+    size: 'md',
+    placeholder: 'Placeholder',
+  },
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <Stack direction="column">
+      <Input size="sm" placeholder="Small" />
+      <Input size="md" placeholder="Medium" />
+      <Input size="lg" placeholder="Large" />
+    </Stack>
+  ),
+};
+
+export const WithIcons: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Left Icon">
+        <Stack direction="column">
+          <Input
+            size="sm"
+            leftIcon={<MagnifyingGlassIcon />}
+            placeholder="検索"
+          />
+          <Input
+            size="md"
+            leftIcon={<MagnifyingGlassIcon />}
+            placeholder="検索"
+          />
+          <Input
+            size="lg"
+            leftIcon={<MagnifyingGlassIcon />}
+            placeholder="検索"
+          />
+        </Stack>
+      </Section>
+
+      <Section title="Right Icon">
+        <Stack direction="column">
+          <Input size="md" rightIcon={<EnvelopeIcon />} placeholder="Email" />
+        </Stack>
+      </Section>
+
+      <Section title="Both Icons">
+        <Stack direction="column">
+          <Input
+            size="md"
+            leftIcon={<MagnifyingGlassIcon />}
+            rightIcon={<EnvelopeIcon />}
+            placeholder="検索"
+          />
+        </Stack>
+      </Section>
+    </Stack>
+  ),
+};
+
+export const States: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Default">
+        <Input placeholder="Default" />
+      </Section>
+
+      <Section title="Disabled">
+        <Input placeholder="Disabled" disabled />
+      </Section>
+
+      <Section title="Error">
+        <Input placeholder="Error" error />
+      </Section>
+    </Stack>
+  ),
+};
+
+export const WithLabelAndHelperText: Story = {
+  render: () => (
+    <Stack direction="column" align="start" gap={24}>
+      <Section title="Basic">
+        <Stack direction="column" align="stretch" gap={8}>
+          <Label htmlFor="email">メールアドレス</Label>
+          <Input id="email" type="email" placeholder="example@example.com" />
+          <HelperText>有効なメールアドレスを入力してください</HelperText>
+        </Stack>
+      </Section>
+
+      <Section title="Required">
+        <Stack direction="column" align="stretch" gap={8}>
+          <Label htmlFor="username" required>
+            ユーザー名
+          </Label>
+          <Input id="username" placeholder="username" />
+        </Stack>
+      </Section>
+
+      <Section title="Error State">
+        <Stack direction="column" align="stretch" gap={8}>
+          <Label htmlFor="password">パスワード</Label>
+          <Input id="password" type="password" placeholder="••••••••" error />
+          <HelperText error>パスワードは8文字以上必要です</HelperText>
+        </Stack>
+      </Section>
+    </Stack>
+  ),
+};
