@@ -3,6 +3,8 @@
 @theme inline {
   /* Primary */
   --color-primary: #2e86c1;
+  --color-secondary: #ffffff;
+  --color-danger: #ef4444;
 
   /* Background */
   --color-bg-main: #0a0a0a;

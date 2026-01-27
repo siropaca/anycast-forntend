@@ -47,8 +47,11 @@ export const Colors: Story = {
           <Button color="primary" variant="solid">
             Primary
           </Button>
-          <Button color="white" variant="solid">
-            White
+          <Button color="secondary" variant="solid">
+            Secondary
+          </Button>
+          <Button color="danger" variant="solid">
+            Danger
           </Button>
         </Stack>
       </Section>
@@ -58,8 +61,11 @@ export const Colors: Story = {
           <Button color="primary" variant="outline">
             Primary
           </Button>
-          <Button color="white" variant="outline">
-            White
+          <Button color="secondary" variant="outline">
+            Secondary
+          </Button>
+          <Button color="danger" variant="outline">
+            Danger
           </Button>
         </Stack>
       </Section>
@@ -69,8 +75,11 @@ export const Colors: Story = {
           <Button color="primary" variant="text">
             Primary
           </Button>
-          <Button color="white" variant="text">
-            White
+          <Button color="secondary" variant="text">
+            Secondary
+          </Button>
+          <Button color="danger" variant="text">
+            Danger
           </Button>
         </Stack>
       </Section>
@@ -109,29 +118,71 @@ export const AllVariants: Story = {
         </Stack>
       </Section>
 
-      <Section title="White Solid">
+      <Section title="Secondary Solid">
         <Stack>
-          <Button size="sm" color="white" variant="solid">
+          <Button size="sm" color="secondary" variant="solid">
             Small
           </Button>
-          <Button size="md" color="white" variant="solid">
+          <Button size="md" color="secondary" variant="solid">
             Medium
           </Button>
-          <Button size="lg" color="white" variant="solid">
+          <Button size="lg" color="secondary" variant="solid">
             Large
           </Button>
         </Stack>
       </Section>
 
-      <Section title="White Outline">
+      <Section title="Secondary Outline">
         <Stack>
-          <Button size="sm" color="white" variant="outline">
+          <Button size="sm" color="secondary" variant="outline">
             Small
           </Button>
-          <Button size="md" color="white" variant="outline">
+          <Button size="md" color="secondary" variant="outline">
             Medium
           </Button>
-          <Button size="lg" color="white" variant="outline">
+          <Button size="lg" color="secondary" variant="outline">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Danger Solid">
+        <Stack>
+          <Button size="sm" color="danger" variant="solid">
+            Small
+          </Button>
+          <Button size="md" color="danger" variant="solid">
+            Medium
+          </Button>
+          <Button size="lg" color="danger" variant="solid">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Danger Outline">
+        <Stack>
+          <Button size="sm" color="danger" variant="outline">
+            Small
+          </Button>
+          <Button size="md" color="danger" variant="outline">
+            Medium
+          </Button>
+          <Button size="lg" color="danger" variant="outline">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Danger Text">
+        <Stack>
+          <Button size="sm" color="danger" variant="text">
+            Small
+          </Button>
+          <Button size="md" color="danger" variant="text">
+            Medium
+          </Button>
+          <Button size="lg" color="danger" variant="text">
             Large
           </Button>
         </Stack>
@@ -151,15 +202,15 @@ export const AllVariants: Story = {
         </Stack>
       </Section>
 
-      <Section title="White Text">
+      <Section title="Secondary Text">
         <Stack>
-          <Button size="sm" color="white" variant="text">
+          <Button size="sm" color="secondary" variant="text">
             Small
           </Button>
-          <Button size="md" color="white" variant="text">
+          <Button size="md" color="secondary" variant="text">
             Medium
           </Button>
-          <Button size="lg" color="white" variant="text">
+          <Button size="lg" color="secondary" variant="text">
             Large
           </Button>
         </Stack>
@@ -227,14 +278,23 @@ export const States: Story = {
           <Button color="primary" variant="text">
             Primary Text
           </Button>
-          <Button color="white" variant="solid">
-            White Solid
+          <Button color="secondary" variant="solid">
+            Secondary Solid
           </Button>
-          <Button color="white" variant="outline">
-            White Outline
+          <Button color="secondary" variant="outline">
+            Secondary Outline
           </Button>
-          <Button color="white" variant="text">
-            White Text
+          <Button color="secondary" variant="text">
+            Secondary Text
+          </Button>
+          <Button color="danger" variant="solid">
+            Danger Solid
+          </Button>
+          <Button color="danger" variant="outline">
+            Danger Outline
+          </Button>
+          <Button color="danger" variant="text">
+            Danger Text
           </Button>
         </Stack>
       </Section>
@@ -250,14 +310,23 @@ export const States: Story = {
           <Button color="primary" variant="text" disabled>
             Primary Text
           </Button>
-          <Button color="white" variant="solid" disabled>
-            White Solid
+          <Button color="secondary" variant="solid" disabled>
+            Secondary Solid
           </Button>
-          <Button color="white" variant="outline" disabled>
-            White Outline
+          <Button color="secondary" variant="outline" disabled>
+            Secondary Outline
           </Button>
-          <Button color="white" variant="text" disabled>
-            White Text
+          <Button color="secondary" variant="text" disabled>
+            Secondary Text
+          </Button>
+          <Button color="danger" variant="solid" disabled>
+            Danger Solid
+          </Button>
+          <Button color="danger" variant="outline" disabled>
+            Danger Outline
+          </Button>
+          <Button color="danger" variant="text" disabled>
+            Danger Text
           </Button>
         </Stack>
       </Section>

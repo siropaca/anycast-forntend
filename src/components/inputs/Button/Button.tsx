@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 
 type Size = 'sm' | 'md' | 'lg';
-type Color = 'primary' | 'white';
+type Color = 'primary' | 'secondary' | 'danger';
 type Variant = 'solid' | 'outline' | 'text';
 
 type BaseProps = {
@@ -41,12 +41,19 @@ const colorVariantClasses: Record<Color, Record<Variant, string>> = {
       'bg-transparent text-primary border-primary enabled:hover:bg-primary/10 enabled:active:bg-primary/20',
     text: 'bg-transparent text-primary border-transparent enabled:hover:bg-primary/10 enabled:active:bg-primary/20',
   },
-  white: {
+  secondary: {
     solid:
-      'bg-white text-black border-transparent enabled:hover:bg-white/80 enabled:active:bg-white/70',
+      'bg-secondary text-black border-transparent enabled:hover:bg-secondary/80 enabled:active:bg-secondary/70',
     outline:
-      'bg-transparent text-white border-white enabled:hover:bg-white/10 enabled:active:bg-white/20',
-    text: 'bg-transparent text-white border-transparent enabled:hover:bg-white/10 enabled:active:bg-white/20',
+      'bg-transparent text-secondary border-secondary enabled:hover:bg-secondary/10 enabled:active:bg-secondary/20',
+    text: 'bg-transparent text-secondary border-transparent enabled:hover:bg-secondary/10 enabled:active:bg-secondary/20',
+  },
+  danger: {
+    solid:
+      'bg-danger text-white border-transparent enabled:hover:bg-danger/80 enabled:active:bg-danger/70',
+    outline:
+      'bg-transparent text-danger border-danger enabled:hover:bg-danger/10 enabled:active:bg-danger/20',
+    text: 'bg-transparent text-danger border-transparent enabled:hover:bg-danger/10 enabled:active:bg-danger/20',
   },
 };
 
