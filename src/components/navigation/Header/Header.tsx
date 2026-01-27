@@ -69,7 +69,7 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
           </Menu.Root>
         ) : (
           <div className="flex items-center gap-2">
-            <Button variant="text" href={Pages.signup.path()}>
+            <Button variant="text" color="white" href={Pages.signup.path()}>
               サインアップ
             </Button>
             <Button href={Pages.login.path()}>ログイン</Button>
