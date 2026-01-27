@@ -25,6 +25,11 @@
   --radius-lg: 16px;
   --radius-full: 1000px;
 
+  /* Button Sizes */
+  --button-height-sm: 30px;
+  --button-height-md: 36px;
+  --button-height-lg: 42px;
+
   /* Font Size */
   --text-xs: 12px;
   --text-sm: 14px;
