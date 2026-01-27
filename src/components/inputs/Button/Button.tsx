@@ -14,9 +14,9 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const sizeClasses: Record<Size, string> = {
-  sm: 'h-[var(--button-height-sm)] px-3 text-xs gap-1',
-  md: 'h-[var(--button-height-md)] px-4 text-sm gap-1.5',
-  lg: 'h-[var(--button-height-lg)] px-5 text-base gap-2',
+  sm: 'h-[var(--size-sm)] px-3 text-xs gap-1',
+  md: 'h-[var(--size-md)] px-4 text-sm gap-1.5',
+  lg: 'h-[var(--size-lg)] px-5 text-base gap-2',
 };
 
 const colorVariantClasses: Record<Color, Record<Variant, string>> = {

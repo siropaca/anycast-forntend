@@ -1,8 +1,8 @@
-import { definePreview } from '@storybook/nextjs-vite';
+import type { Preview } from '@storybook/nextjs-vite';
 
 import '@/styles/globals.css';
 
-export default definePreview({
+const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
@@ -11,4 +11,6 @@ export default definePreview({
       },
     },
   },
-});
+};
+
+export default preview;
