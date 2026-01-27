@@ -106,7 +106,11 @@ export const WithLabelAndHelperText: Story = {
           <Label htmlFor="bio" required>
             自己紹介
           </Label>
-          <Textarea id="bio" placeholder="自己紹介を入力してください" rows={4} />
+          <Textarea
+            id="bio"
+            placeholder="自己紹介を入力してください"
+            rows={4}
+          />
         </Stack>
       </Section>
 

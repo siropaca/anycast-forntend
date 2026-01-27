@@ -68,7 +68,12 @@ export function Input({
       )}
     >
       {leftIcon && (
-        <span className={cn('shrink-0 text-text-placeholder', iconSizeClasses[size])}>
+        <span
+          className={cn(
+            'shrink-0 text-text-placeholder',
+            iconSizeClasses[size],
+          )}
+        >
           {leftIcon}
         </span>
       )}
@@ -106,7 +111,12 @@ export function Input({
         </span>
       )}
       {rightIcon && (
-        <span className={cn('shrink-0 text-text-placeholder', iconSizeClasses[size])}>
+        <span
+          className={cn(
+            'shrink-0 text-text-placeholder',
+            iconSizeClasses[size],
+          )}
+        >
           {rightIcon}
         </span>
       )}

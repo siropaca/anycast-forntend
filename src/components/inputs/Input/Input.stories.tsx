@@ -23,7 +23,7 @@ export const Playground: Story = {
   args: {
     size: 'md',
     placeholder: 'Placeholder',
-    showCounter: false
+    showCounter: false,
   },
 };
 

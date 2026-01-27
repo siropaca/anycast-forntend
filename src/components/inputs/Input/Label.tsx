@@ -7,13 +7,18 @@ type Props = LabelHTMLAttributes<HTMLLabelElement> & {
 
 export function Label({
   required = false,
+  htmlFor,
   className,
   children,
   ...props
 }: Props) {
   return (
     <label
-      className={cn('block text-left text-sm font-medium text-text-main', className)}
+      htmlFor={htmlFor}
+      className={cn(
+        'block text-left text-sm font-medium text-text-main',
+        className,
+      )}
       {...props}
     >
       {children}
