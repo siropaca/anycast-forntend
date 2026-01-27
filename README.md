@@ -87,6 +87,7 @@ pnpm dev
 │   ├── features/     # 機能ごとのモジュール
 │   │   ├── app/          # アプリ共通
 │   │   ├── auth/         # 認証機能
+│   │   ├── player/       # オーディオプレイヤー
 │   │   ├── settings/     # 設定機能
 │   │   │   └── account/     # アカウント設定
 │   │   └── studio/       # Studio 機能

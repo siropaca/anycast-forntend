@@ -28,6 +28,7 @@ export function HeaderAvatarMenu() {
               <GearIcon size={16} />
               設定
             </Menu.Item>
+
             <Menu.Item
               className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm outline-none hover:bg-white/10 focus:bg-white/10"
               onClick={handleSignOut}

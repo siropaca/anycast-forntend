@@ -1,6 +1,6 @@
 'use client';
 
-import '@/styles/player-slider.css';
+import '@/features/player/styles/player-slider.css';
 import { BottomPlayerDesktop } from '@/features/player/components/BottomPlayerDesktop';
 import { BottomPlayerMobile } from '@/features/player/components/BottomPlayerMobile';
 import { useMockPlayer } from '@/features/player/hooks/useMockPlayer';
