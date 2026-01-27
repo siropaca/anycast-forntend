@@ -1,5 +1,6 @@
 import { EnvelopeIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { useState } from 'react';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Label } from '@/components/inputs/Input/Label';
@@ -91,6 +92,31 @@ export const States: Story = {
 
       <Section title="Error">
         <Input placeholder="Error" error />
+      </Section>
+    </Stack>
+  ),
+};
+
+function ClearableInputExample() {
+  const [value, setValue] = useState('テキストを入力');
+
+  return (
+    <Input
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      clearable
+      onClear={() => setValue('')}
+      placeholder="検索"
+      leftIcon={<MagnifyingGlassIcon />}
+    />
+  );
+}
+
+export const Clearable: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Clearable">
+        <ClearableInputExample />
       </Section>
     </Stack>
   ),

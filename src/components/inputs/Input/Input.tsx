@@ -1,3 +1,4 @@
+import { XIcon } from '@phosphor-icons/react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 
@@ -8,6 +9,8 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   error?: boolean;
+  clearable?: boolean;
+  onClear?: () => void;
 };
 
 const sizeClasses: Record<Size, string> = {
@@ -22,16 +25,27 @@ const iconSizeClasses: Record<Size, string> = {
   lg: '[&>svg]:size-5',
 };
 
+const clearButtonSizeClasses: Record<Size, string> = {
+  sm: 'size-3.5',
+  md: 'size-4',
+  lg: 'size-5',
+};
+
 export function Input({
   size = 'md',
   leftIcon,
   rightIcon,
   error = false,
+  clearable = false,
+  onClear,
   className,
+  value,
   ...props
 }: Props) {
   const hasLeftIcon = !!leftIcon;
-  const hasRightIcon = !!rightIcon;
+  const hasValue = value !== undefined && value !== '';
+  const showClearButton = clearable && hasValue;
+  const hasRightContent = !!rightIcon || showClearButton;
 
   return (
     <div
@@ -52,11 +66,22 @@ export function Input({
         className={cn(
           'w-full bg-transparent text-foreground outline-none placeholder:text-placeholder',
           hasLeftIcon && 'pl-0',
-          hasRightIcon && 'pr-0',
+          hasRightContent && 'pr-0',
           'disabled:cursor-not-allowed disabled:opacity-50',
         )}
+        value={value}
         {...props}
       />
+      {showClearButton && (
+        <button
+          type="button"
+          onClick={onClear}
+          className="shrink-0 cursor-pointer text-placeholder transition-colors hover:text-foreground"
+          aria-label="クリア"
+        >
+          <XIcon className={clearButtonSizeClasses[size]} />
+        </button>
+      )}
       {rightIcon && (
         <span className={cn('shrink-0 text-placeholder', iconSizeClasses[size])}>
           {rightIcon}
