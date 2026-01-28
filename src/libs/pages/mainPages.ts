@@ -23,6 +23,11 @@ export const mainPages = {
     path: () => '/',
     title: 'ホーム',
   },
+  /** ユーザー */
+  user: {
+    path: (username: string) => `/@${username}`,
+    title: (username: string) => `@${username}`,
+  },
   /** ログイン */
   login: {
     path: (params?: LoginSearchParams) => `/login${buildQuery(params)}`,
