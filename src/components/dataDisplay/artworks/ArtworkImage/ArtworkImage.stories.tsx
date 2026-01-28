@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ArtworkImage } from '@/components/dataDisplay/ArtworkImage/ArtworkImage';
-import { ArtworkImageSkeleton } from '@/components/dataDisplay/ArtworkImage/ArtworkImageSkeleton';
+import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
+import { ArtworkImageSkeleton } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImageSkeleton';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
 const meta = {
-  title: 'dataDisplay/ArtworkImage',
+  title: 'dataDisplay/artworks/ArtworkImage',
   component: ArtworkImage,
   parameters: {
     layout: 'centered',

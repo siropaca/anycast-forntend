@@ -1,4 +1,4 @@
-import { ArtworkImage } from '@/components/dataDisplay/ArtworkImage/ArtworkImage';
+import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { cn } from '@/utils/cn';
 
 interface Props {
