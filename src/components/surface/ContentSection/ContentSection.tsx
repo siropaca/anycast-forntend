@@ -31,7 +31,7 @@ export function ContentSection({ title, moreHref, children }: Props) {
 
         <ScrollArea.Scrollbar
           orientation="horizontal"
-          className="flex h-scrollbar items-center bg-transparent p-0.5"
+          className="flex h-scrollbar items-center bg-transparent pt-1"
         >
           <ScrollArea.Thumb className="h-full rounded-full bg-bg-elevated/75" />
         </ScrollArea.Scrollbar>
