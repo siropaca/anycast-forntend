@@ -18,9 +18,10 @@ export function Textarea({
 
   return (
     <div className="relative inline-block">
+      {/* インプット */}
       <textarea
         className={cn(
-          'block w-full resize-none rounded-sm border bg-transparent px-4 py-3 text-sm transition-colors',
+          'block w-full resize-none rounded-sm border bg-bg-elevated px-4 py-3 text-sm transition-colors',
           'text-text-main outline-none placeholder:text-text-placeholder',
           'focus:ring-2 focus:ring-primary',
           'disabled:cursor-not-allowed disabled:opacity-50',
@@ -32,6 +33,8 @@ export function Textarea({
         maxLength={maxLength}
         {...props}
       />
+
+      {/* カウンター */}
       {showCounter && (
         <span className="absolute bottom-2 right-3 text-xs tabular-nums text-text-placeholder">
           {maxLength !== undefined

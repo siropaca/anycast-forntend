@@ -60,13 +60,14 @@ export function Input({
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-sm border bg-transparent transition-colors',
+        'inline-flex items-center rounded-sm border bg-bg-elevated transition-colors',
         'focus-within:ring-2 focus-within:ring-primary',
         error ? 'border-border-error' : 'border-border',
         sizeClasses[size],
         className,
       )}
     >
+      {/* 左アイコン */}
       {leftIcon && (
         <span
           className={cn(
@@ -77,6 +78,8 @@ export function Input({
           {leftIcon}
         </span>
       )}
+
+      {/* インプット */}
       <input
         className={cn(
           'w-full bg-transparent text-text-main outline-none placeholder:text-text-placeholder',
@@ -88,6 +91,8 @@ export function Input({
         maxLength={maxLength}
         {...props}
       />
+
+      {/* クリアボタン */}
       {showClearButton && (
         <button
           type="button"
@@ -98,6 +103,8 @@ export function Input({
           <XIcon className={clearButtonSizeClasses[size]} />
         </button>
       )}
+
+      {/* カウンター */}
       {showCounter && (
         <span
           className={cn(
@@ -110,6 +117,8 @@ export function Input({
             : currentLength}
         </span>
       )}
+
+      {/* 右アイコン */}
       {rightIcon && (
         <span
           className={cn(
