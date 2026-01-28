@@ -12,7 +12,13 @@ interface Props {
   className?: string;
 }
 
-export function ArtworkImage({ src, alt = '', size, rounded, className }: Props) {
+export function ArtworkImage({
+  src,
+  alt = '',
+  size,
+  rounded,
+  className,
+}: Props) {
   const [hasError, setHasError] = useState(false);
 
   const showFallback = !src || hasError;

@@ -14,7 +14,16 @@ interface Props {
 
 export const ARTWORK_FIXED_SIZE = 170;
 
-export function Artwork({ src, alt, size, rounded, title, subtext, subtext2, className }: Props) {
+export function Artwork({
+  src,
+  alt,
+  size,
+  rounded,
+  title,
+  subtext,
+  subtext2,
+  className,
+}: Props) {
   return (
     <div
       className={cn(
