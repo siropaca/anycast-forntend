@@ -2,6 +2,8 @@ import { ScrollArea } from '@base-ui/react/scroll-area';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+
 interface Props {
   title: string;
   moreHref?: string;
@@ -12,7 +14,7 @@ export function ContentSection({ title, moreHref, children }: Props) {
   return (
     <section>
       <div className="mb-2 flex items-center justify-between">
-        <h2 className="text-lg font-bold">{title}</h2>
+        <SectionTitle title={title} />
 
         {moreHref && (
           <Link
@@ -26,7 +28,7 @@ export function ContentSection({ title, moreHref, children }: Props) {
 
       <ScrollArea.Root className="relative">
         <ScrollArea.Viewport className="overflow-x-auto">
-          <div className="inline-flex">{children}</div>
+          <div className="inline-flex space-x-2">{children}</div>
         </ScrollArea.Viewport>
 
         <ScrollArea.Scrollbar
