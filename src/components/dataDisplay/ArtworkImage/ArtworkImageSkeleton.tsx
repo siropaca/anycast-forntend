@@ -6,7 +6,7 @@ interface Props {
   className?: string;
 }
 
-export function ArtworkSkeleton({ size = 128, className }: Props) {
+export function ArtworkImageSkeleton({ size = 128, className }: Props) {
   return (
     <Skeleton
       style={{ width: size, height: size }}

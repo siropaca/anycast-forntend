@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-export function Artwork({ src, alt = '', size = 128, className }: Props) {
+export function ArtworkImage({ src, alt = '', size = 128, className }: Props) {
   const [hasError, setHasError] = useState(false);
 
   const showFallback = !src || hasError;
