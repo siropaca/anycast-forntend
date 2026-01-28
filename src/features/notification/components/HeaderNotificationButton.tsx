@@ -3,6 +3,7 @@
 import { Popover } from '@base-ui/react/popover';
 import { BellIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
+import { Badge } from '@/components/dataDisplay/Badge/Badge';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import {
   mockNotifications,
@@ -43,11 +44,7 @@ export function HeaderNotificationButton() {
         />
 
         {/* バッヂ */}
-        {unreadCount > 0 && (
-          <span className="pointer-events-none absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-badge text-[10px] font-semibold text-white">
-            {unreadCount > 99 ? '99+' : unreadCount}
-          </span>
-        )}
+        <Badge count={unreadCount} className="absolute top-0 right-0" />
       </div>
 
       <Popover.Portal>
