@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
-import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
+import {
+  ARTWORK_FIXED_SIZE,
+  Artwork,
+} from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
 import { Pages } from '@/libs/pages';
 
@@ -49,6 +52,7 @@ export default function HomePage() {
             src={`https://picsum.photos/seed/episode-${item.id}/400/400`}
             title={item.title}
             subtext={item.subtext}
+            size={ARTWORK_FIXED_SIZE}
           />
         ))}
       </ContentSection>
@@ -60,6 +64,7 @@ export default function HomePage() {
             src={`https://picsum.photos/seed/channel-${item.id}/400/400`}
             title={item.title}
             subtext={item.subtext}
+            size={ARTWORK_FIXED_SIZE}
           />
         ))}
       </ContentSection>
@@ -74,6 +79,7 @@ export default function HomePage() {
             src={`https://picsum.photos/seed/recent-${item.id}/400/400`}
             title={item.title}
             subtext={item.subtext}
+            size={ARTWORK_FIXED_SIZE}
           />
         ))}
       </ContentSection>
