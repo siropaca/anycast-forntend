@@ -15,6 +15,7 @@ function createEpisode(
     userPrompt: 'テストプロンプト',
     voiceStyle: 'normal',
     audioOutdated: false,
+    playCount: 0,
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',
     artwork: { id: 'artwork-1', url: 'https://example.com/artwork.png' },
