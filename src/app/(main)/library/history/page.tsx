@@ -30,7 +30,7 @@ const bookmarks = [
 export default function LibraryHistoryPage() {
   return (
     <div>
-      <SectionTitle title="履歴" />
+      <SectionTitle title={Pages.library.history.title} />
 
       <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {bookmarks.map((item) => (

@@ -31,7 +31,7 @@ const followingUsers = [
 export default function LibraryFollowingPage() {
   return (
     <div>
-      <SectionTitle title="フォロー中" />
+      <SectionTitle title={Pages.library.following.title} />
 
       <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {followingUsers.map((user) => (
