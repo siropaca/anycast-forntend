@@ -35,7 +35,7 @@ export function HeaderNotificationButton() {
         <Popover.Trigger
           render={
             <IconButton
-              icon={<BellIcon size={20} />}
+              icon={<BellIcon size={24} />}
               aria-label="お知らせ"
               color="secondary"
               variant="text"
