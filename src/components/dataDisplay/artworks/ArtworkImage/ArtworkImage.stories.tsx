@@ -46,6 +46,16 @@ export const NoImage: Story = {
   ),
 };
 
+export const Rounded: Story = {
+  render: () => (
+    <Stack>
+      <ArtworkImage src={sampleImage} size={64} alt="64px" rounded />
+      <ArtworkImage src={sampleImage} size={128} alt="128px" rounded />
+      <ArtworkImage src={sampleImage} size={192} alt="192px" rounded />
+    </Stack>
+  ),
+};
+
 export const AllVariants: Story = {
   render: () => (
     <Stack direction="column" gap={24}>
@@ -61,6 +71,13 @@ export const AllVariants: Story = {
           <ArtworkImage size={64} />
           <ArtworkImage size={128} />
           <ArtworkImage size={192} />
+        </Stack>
+      </Section>
+      <Section title="Rounded">
+        <Stack>
+          <ArtworkImage src={sampleImage} size={64} rounded />
+          <ArtworkImage src={sampleImage} size={128} rounded />
+          <ArtworkImage size={128} rounded />
         </Stack>
       </Section>
       <Section title="Skeleton">

@@ -8,10 +8,11 @@ interface Props {
   src?: string;
   alt?: string;
   size?: number;
+  rounded?: boolean;
   className?: string;
 }
 
-export function ArtworkImage({ src, alt = '', size, className }: Props) {
+export function ArtworkImage({ src, alt = '', size, rounded, className }: Props) {
   const [hasError, setHasError] = useState(false);
 
   const showFallback = !src || hasError;
@@ -27,7 +28,8 @@ export function ArtworkImage({ src, alt = '', size, className }: Props) {
     <div
       style={size ? { width: size, height: size } : undefined}
       className={cn(
-        'relative shrink-0 overflow-hidden rounded-md',
+        'relative shrink-0 overflow-hidden',
+        rounded ? 'rounded-full' : 'rounded-md',
         !size && 'aspect-square w-full',
         showFallback && 'bg-linear-to-br from-primary to-primary/40',
         className,
