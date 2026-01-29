@@ -31,26 +31,20 @@ export function VoiceList() {
     {
       key: 'name',
       header: 'ボイス名',
-      accessor: (voice: ResponseVoiceResponse) => (
-        <span className="text-sm">{voice.name}</span>
-      ),
+      accessor: (voice: ResponseVoiceResponse) => <span>{voice.name}</span>,
     },
     {
       key: 'gender',
       header: '性別',
       accessor: (voice: ResponseVoiceResponse) => (
-        <span className="text-sm text-text-secondary">
-          {getGenderLabel(voice.gender)}
-        </span>
+        <span>{getGenderLabel(voice.gender)}</span>
       ),
     },
     {
       key: 'provider',
       header: 'プロバイダー',
       accessor: (voice: ResponseVoiceResponse) => (
-        <span className="text-sm text-text-secondary">
-          {getProviderLabel(voice.provider)}
-        </span>
+        <span>{getProviderLabel(voice.provider)}</span>
       ),
     },
     {

@@ -45,7 +45,7 @@ export function ChannelList() {
       key: 'category',
       header: 'カテゴリ',
       accessor: (channel: ResponseChannelResponse) => (
-        <span className="text-sm text-text-secondary">
+        <span className="text-sm text-text-subtle">
           {channel.category.name}
         </span>
       ),
@@ -61,7 +61,7 @@ export function ChannelList() {
       key: 'episodeCount',
       header: 'エピソード数',
       accessor: (channel: ResponseChannelResponse) => (
-        <span className="text-sm text-text-secondary">
+        <span className="text-sm text-text-subtle">
           {channel.episodes.length}
         </span>
       ),

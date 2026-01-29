@@ -44,14 +44,14 @@ const columns = [
     key: 'email',
     header: 'メールアドレス',
     accessor: (user: User) => (
-      <span className="text-sm text-text-secondary">{user.email}</span>
+      <span className="text-sm text-text-subtle">{user.email}</span>
     ),
   },
   {
     key: 'role',
     header: 'ロール',
     accessor: (user: User) => (
-      <span className="text-sm text-text-secondary">{user.role}</span>
+      <span className="text-sm text-text-subtle">{user.role}</span>
     ),
   },
   {

@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 
 export interface Track {
   id: string;
-  type: 'episode' | 'voiceSample';
+  type: 'episode' | 'voiceSample' | 'bgm';
   title: string;
   subtitle?: string;
   artworkUrl?: string;

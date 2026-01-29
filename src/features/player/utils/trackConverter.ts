@@ -1,4 +1,5 @@
 import { getProviderLabel } from '@/features/studio/voices/utils/voiceLabels';
+import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas/responseBgmWithEpisodesResponse';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import type { ResponseVoiceResponse } from '@/libs/api/generated/schemas/responseVoiceResponse';
 import type { Track } from '@/stores/playerStore';
@@ -53,5 +54,27 @@ export function toTrackFromVoice(voice: ResponseVoiceResponse): Track {
     artworkUrl: undefined,
     audioUrl: voice.sampleAudioUrl,
     durationMs: 0,
+  };
+}
+
+/**
+ * BGM レスポンスを Track に変換する
+ *
+ * @param bgm - BGM レスポンス
+ * @returns Track オブジェクト
+ *
+ * @example
+ * toTrackFromBgm(bgm)
+ * // => { id: '...', type: 'bgm', title: '...', ... }
+ */
+export function toTrackFromBgm(bgm: ResponseBgmWithEpisodesResponse): Track {
+  return {
+    id: bgm.id,
+    type: 'bgm',
+    title: bgm.name,
+    subtitle: undefined,
+    artworkUrl: undefined,
+    audioUrl: bgm.audio.url,
+    durationMs: bgm.audio.durationMs,
   };
 }

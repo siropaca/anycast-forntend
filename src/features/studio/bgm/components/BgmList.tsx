@@ -1,72 +1,82 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { BgmListItem } from '@/features/studio/bgm/components/BgmListItem';
+import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
+import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
+import { Pagination } from '@/components/navigation/Pagination/Pagination';
+import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
+import { useBgmPlayer } from '@/features/studio/bgm/hooks/useBgmPlayer';
 import { useMyBgmList } from '@/features/studio/bgm/hooks/useMyBgmList';
-import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
+import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas';
 
 export function BgmList() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [bgmName, setBgmName] = useState('');
+  const { bgms, currentPage, totalPages, setCurrentPage } = useMyBgmList();
+  const { isBgmPlaying, playBgm, pauseBgm } = useBgmPlayer();
 
-  const { bgms } = useMyBgmList();
-  const { uploadBgm, isUploading, error: uploadError } = useUploadBgm();
-
-  function handleUploadClick() {
-    fileInputRef.current?.click();
+  function handlePageChange(page: number) {
+    setCurrentPage(page);
+    document
+      .getElementById(MAIN_SCROLL_VIEWPORT_ID)
+      ?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  function handlePlayClick(
+    e: React.MouseEvent<HTMLButtonElement>,
+    bgm: ResponseBgmWithEpisodesResponse,
+  ) {
+    e.stopPropagation();
 
-    uploadBgm(file, bgmName);
-    setBgmName('');
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    if (isBgmPlaying(bgm)) {
+      pauseBgm();
+    } else {
+      playBgm(bgm, bgms);
     }
   }
 
-  return (
-    <div>
-      <div className="mb-4">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="audio/*"
-          className="hidden"
-          onChange={handleFileChange}
-        />
-        <input
-          type="text"
-          placeholder="BGM名（省略時はファイル名）"
-          className="border mr-2"
-          value={bgmName}
-          disabled={isUploading}
-          onChange={(e) => setBgmName(e.target.value)}
-        />
+  const columns = [
+    {
+      key: 'name',
+      header: 'BGM名',
+      accessor: (bgm: ResponseBgmWithEpisodesResponse) => (
+        <span>{bgm.name}</span>
+      ),
+    },
+    {
+      key: 'play',
+      header: '',
+      className: 'px-4 py-3 text-right',
+      accessor: (bgm: ResponseBgmWithEpisodesResponse) => (
         <button
           type="button"
-          className="border"
-          disabled={isUploading}
-          onClick={handleUploadClick}
+          aria-label={isBgmPlaying(bgm) ? '一時停止' : '再生'}
+          className="inline-flex size-8 items-center justify-center rounded-full bg-secondary text-bg-main transition-transform hover:scale-105 cursor-pointer"
+          onClick={(e) => handlePlayClick(e, bgm)}
         >
-          {isUploading ? 'アップロード中...' : 'BGMをアップロード'}
+          {isBgmPlaying(bgm) ? (
+            <PauseIcon size={16} weight="fill" />
+          ) : (
+            <PlayIcon size={16} weight="fill" />
+          )}
         </button>
+      ),
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <DataTable
+        columns={columns}
+        data={bgms}
+        emptyMessage="BGMがありません"
+        keyExtractor={(bgm) => bgm.id}
+      />
+
+      <div className="flex justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-
-      {uploadError && <p>{uploadError}</p>}
-
-      <hr className="my-4" />
-
-      <ul className="space-y-2">
-        {bgms.length === 0 && <li>BGMがありません</li>}
-
-        {bgms.map((bgm) => (
-          <BgmListItem key={bgm.id} bgm={bgm} />
-        ))}
-      </ul>
     </div>
   );
 }

@@ -18,7 +18,10 @@ export default function StudioChannelsPage() {
         title={Pages.studio.channels.title}
         description="作成したチャンネルの管理ができます"
         action={
-          <Button href={Pages.studio.newChannel.path()} leftIcon={<PlusIcon />}>
+          <Button
+            href={Pages.studio.newChannel.path()}
+            leftIcon={<PlusIcon size={18} />}
+          >
             新規追加
           </Button>
         }

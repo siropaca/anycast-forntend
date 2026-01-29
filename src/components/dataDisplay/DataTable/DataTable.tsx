@@ -29,19 +29,20 @@ export function DataTable<T>({
             {columns.map((column) => (
               <th
                 key={column.key}
-                className="px-4 py-3 text-left text-sm text-text-secondary"
+                className="px-4 py-3 text-left text-sm text-text-subtle"
               >
                 {column.header}
               </th>
             ))}
           </tr>
         </thead>
+
         <tbody>
           {data.length === 0 ? (
             <tr>
               <td
                 colSpan={columns.length}
-                className="py-8 text-center text-text-secondary"
+                className="py-8 text-center text-text-subtle"
               >
                 {emptyMessage}
               </td>
