@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { CharacterList } from '@/features/studio/characters/components/CharacterList';
 import { Pages } from '@/libs/pages';
 
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
 
 export default function StudioCharactersPage() {
   return (
-    <div>
+    <div className="space-y-6">
+      <SectionTitle title={Pages.studio.characters.title} />
+
       <Suspense fallback={<p>読み込み中...</p>}>
         <CharacterList />
       </Suspense>
