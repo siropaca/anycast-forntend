@@ -5,7 +5,7 @@ type Props = LabelHTMLAttributes<HTMLLabelElement> & {
   required?: boolean;
 };
 
-export function Label({
+export function FormLabel({
   required = false,
   htmlFor,
   className,
@@ -19,7 +19,7 @@ export function Label({
       {...props}
     >
       {children}
-      {required && <span className="ml-1 text-text-error">*</span>}
+      {required && <span className="ml-1 inline-block text-text-required">*</span>}
     </label>
   );
 }

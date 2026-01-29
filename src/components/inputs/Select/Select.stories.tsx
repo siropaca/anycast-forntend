@@ -2,7 +2,7 @@ import { GlobeIcon, UserIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 import { HelperText } from '@/components/inputs/Input/HelperText';
-import { Label } from '@/components/inputs/Input/Label';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Select } from '@/components/inputs/Select/Select';
 import { SelectSkeleton } from '@/components/inputs/Select/SelectSkeleton';
 import { Section } from '@/libs/storybook/Section';
@@ -147,7 +147,7 @@ export const WithLabelAndHelperText: Story = {
     <Stack direction="column" align="start" gap={24}>
       <Section title="Basic">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="role">役職</Label>
+          <FormLabel htmlFor="role">役職</FormLabel>
           <Select
             options={[
               { label: '管理者', value: 'admin' },
@@ -162,9 +162,9 @@ export const WithLabelAndHelperText: Story = {
 
       <Section title="Required">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="category" required>
+          <FormLabel htmlFor="category" required>
             カテゴリー
-          </Label>
+          </FormLabel>
           <Select
             options={[
               { label: 'テクノロジー', value: 'tech' },
@@ -179,7 +179,7 @@ export const WithLabelAndHelperText: Story = {
 
       <Section title="Error State">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="status">ステータス</Label>
+          <FormLabel htmlFor="status">ステータス</FormLabel>
           <Select
             options={[
               { label: '公開', value: 'public' },
@@ -195,7 +195,7 @@ export const WithLabelAndHelperText: Story = {
 
       <Section title="With Left Icon">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="member">メンバー</Label>
+          <FormLabel htmlFor="member">メンバー</FormLabel>
           <Select
             leftIcon={<UserIcon />}
             options={[

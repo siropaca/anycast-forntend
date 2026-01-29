@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { InputSkeleton } from '@/components/inputs/Input/InputSkeleton';
-import { Label } from '@/components/inputs/Input/Label';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
@@ -180,7 +180,7 @@ export const WithLabelAndHelperText: Story = {
     <Stack direction="column" align="start" gap={24}>
       <Section title="Basic">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="email">メールアドレス</Label>
+          <FormLabel htmlFor="email">メールアドレス</FormLabel>
           <Input id="email" type="email" placeholder="example@example.com" />
           <HelperText>有効なメールアドレスを入力してください</HelperText>
         </Stack>
@@ -188,16 +188,16 @@ export const WithLabelAndHelperText: Story = {
 
       <Section title="Required">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="username" required>
+          <FormLabel htmlFor="username" required>
             ユーザー名
-          </Label>
+          </FormLabel>
           <Input id="username" placeholder="username" />
         </Stack>
       </Section>
 
       <Section title="Error State">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="password">パスワード</Label>
+          <FormLabel htmlFor="password">パスワード</FormLabel>
           <Input id="password" type="password" placeholder="••••••••" error />
           <HelperText error>パスワードは8文字以上必要です</HelperText>
         </Stack>

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 import { HelperText } from '@/components/inputs/Input/HelperText';
-import { Label } from '@/components/inputs/Input/Label';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { TextareaSkeleton } from '@/components/inputs/Textarea/TextareaSkeleton';
 import { Section } from '@/libs/storybook/Section';
@@ -102,7 +102,7 @@ export const WithLabelAndHelperText: Story = {
     <Stack direction="column" align="start" gap={24}>
       <Section title="Basic">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="description">説明</Label>
+          <FormLabel htmlFor="description">説明</FormLabel>
           <Textarea
             id="description"
             placeholder="説明を入力してください"
@@ -114,9 +114,9 @@ export const WithLabelAndHelperText: Story = {
 
       <Section title="Required">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="bio" required>
+          <FormLabel htmlFor="bio" required>
             自己紹介
-          </Label>
+          </FormLabel>
           <Textarea
             id="bio"
             placeholder="自己紹介を入力してください"
@@ -127,7 +127,7 @@ export const WithLabelAndHelperText: Story = {
 
       <Section title="Error State">
         <Stack direction="column" align="stretch" gap={8}>
-          <Label htmlFor="comment">コメント</Label>
+          <FormLabel htmlFor="comment">コメント</FormLabel>
           <Textarea
             id="comment"
             placeholder="コメントを入力してください"
