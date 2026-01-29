@@ -2,6 +2,7 @@
 
 import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
+import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { useVoiceList } from '@/features/studio/voices/hooks/useVoiceList';
 import { useVoicePlayer } from '@/features/studio/voices/hooks/useVoicePlayer';
 import {
@@ -52,18 +53,21 @@ export function VoiceList() {
       header: '',
       className: 'px-4 py-3 text-right',
       accessor: (voice: ResponseVoiceResponse) => (
-        <button
-          type="button"
+        <IconButton
+          icon={
+            isVoicePlaying(voice) ? (
+              <PauseIcon size={16} weight="fill" />
+            ) : (
+              <PlayIcon size={16} weight="fill" />
+            )
+          }
           aria-label={isVoicePlaying(voice) ? '一時停止' : '再生'}
-          className="inline-flex size-8 items-center justify-center rounded-full bg-secondary text-bg-main transition-transform hover:scale-105 cursor-pointer"
+          size="sm"
+          color="secondary"
+          variant="solid"
+          className="transition-transform hover:scale-105"
           onClick={(e) => handlePlayClick(e, voice)}
-        >
-          {isVoicePlaying(voice) ? (
-            <PauseIcon size={16} weight="fill" />
-          ) : (
-            <PlayIcon size={16} weight="fill" />
-          )}
-        </button>
+        />
       ),
     },
   ];

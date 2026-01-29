@@ -6,6 +6,7 @@ import {
   SkipBackIcon,
   SkipForwardIcon,
 } from '@phosphor-icons/react';
+import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { ProgressBar } from '@/features/player/components/ProgressBar';
 import { cn } from '@/utils/cn';
 
@@ -50,18 +51,21 @@ export function PlaybackControls({
           <SkipBackIcon size={20} weight="fill" />
         </button>
 
-        <button
-          type="button"
+        <IconButton
+          icon={
+            isPlaying ? (
+              <PauseIcon size={18} weight="fill" />
+            ) : (
+              <PlayIcon size={18} weight="fill" />
+            )
+          }
           aria-label={isPlaying ? '一時停止' : '再生'}
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary text-bg-main transition-transform hover:scale-105 cursor-pointer"
+          size="sm"
+          color="secondary"
+          variant="solid"
+          className="transition-transform hover:scale-105"
           onClick={onPlayPause}
-        >
-          {isPlaying ? (
-            <PauseIcon size={18} weight="fill" />
-          ) : (
-            <PlayIcon size={18} weight="fill" />
-          )}
-        </button>
+        />
 
         <button
           type="button"

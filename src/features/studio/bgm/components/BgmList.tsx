@@ -1,7 +1,13 @@
 'use client';
 
-import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
+import {
+  PauseIcon,
+  PencilSimpleIcon,
+  PlayIcon,
+  TrashIcon,
+} from '@phosphor-icons/react';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
+import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { Pagination } from '@/components/navigation/Pagination/Pagination';
 import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
 import { useBgmPlayer } from '@/features/studio/bgm/hooks/useBgmPlayer';
@@ -41,22 +47,39 @@ export function BgmList() {
       ),
     },
     {
-      key: 'play',
+      key: 'actions',
       header: '',
-      className: 'px-4 py-3 text-right',
+      className: 'w-0 px-4 py-3',
       accessor: (bgm: ResponseBgmWithEpisodesResponse) => (
-        <button
-          type="button"
-          aria-label={isBgmPlaying(bgm) ? '一時停止' : '再生'}
-          className="inline-flex size-8 items-center justify-center rounded-full bg-secondary text-bg-main transition-transform hover:scale-105 cursor-pointer"
-          onClick={(e) => handlePlayClick(e, bgm)}
-        >
-          {isBgmPlaying(bgm) ? (
-            <PauseIcon size={16} weight="fill" />
-          ) : (
-            <PlayIcon size={16} weight="fill" />
-          )}
-        </button>
+        <div className="flex items-center justify-end gap-2">
+          <IconButton
+            icon={
+              isBgmPlaying(bgm) ? (
+                <PauseIcon size={16} weight="fill" />
+              ) : (
+                <PlayIcon size={16} weight="fill" />
+              )
+            }
+            aria-label={isBgmPlaying(bgm) ? '一時停止' : '再生'}
+            size="sm"
+            color="secondary"
+            variant="solid"
+            className="transition-transform hover:scale-105 mr-2"
+            onClick={(e) => handlePlayClick(e, bgm)}
+          />
+          <IconButton
+            icon={<PencilSimpleIcon size={18} />}
+            aria-label="編集"
+            color="secondary"
+            variant="text"
+          />
+          <IconButton
+            icon={<TrashIcon size={18} />}
+            aria-label="削除"
+            color="danger"
+            variant="text"
+          />
+        </div>
       ),
     },
   ];
