@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
@@ -22,9 +23,7 @@ export const Default: Story = {
     children: (
       <div className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="name" className="block text-sm">
-            名前
-          </label>
+          <FormLabel htmlFor="name">名前</FormLabel>
           <Input id="name" placeholder="名前を入力" />
         </div>
       </div>
@@ -40,15 +39,11 @@ export const WithMultipleFields: Story = {
     children: (
       <div className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="title" className="block text-sm">
-            タイトル
-          </label>
+          <FormLabel htmlFor="title">タイトル</FormLabel>
           <Input id="title" placeholder="タイトルを入力" />
         </div>
         <div className="space-y-2">
-          <label htmlFor="description" className="block text-sm">
-            説明
-          </label>
+          <FormLabel htmlFor="description">説明</FormLabel>
           <Input id="description" placeholder="説明を入力" />
         </div>
       </div>
@@ -73,9 +68,9 @@ export const SubmitDisabled: Story = {
     title: '新規作成',
     children: (
       <div className="space-y-2">
-        <label htmlFor="required-field" className="block text-sm">
+        <FormLabel htmlFor="required-field" required>
           必須項目
-        </label>
+        </FormLabel>
         <Input id="required-field" placeholder="入力してください" />
       </div>
     ),

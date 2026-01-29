@@ -19,6 +19,7 @@ export const Playground: Story = {
   args: {
     children: 'ラベル',
     required: false,
+    description: '',
   },
 };
 
@@ -33,8 +34,14 @@ export const Default: Story = {
         <FormLabel required>ユーザー名</FormLabel>
       </Section>
 
-      <Section title="With htmlFor">
-        <FormLabel htmlFor="email">メールアドレス</FormLabel>
+      <Section title="With Description">
+        <FormLabel description="省略時はファイル名になります">BGM名</FormLabel>
+      </Section>
+
+      <Section title="Required with Description">
+        <FormLabel required description="3文字以上で入力してください">
+          ユーザー名
+        </FormLabel>
       </Section>
     </Stack>
   ),

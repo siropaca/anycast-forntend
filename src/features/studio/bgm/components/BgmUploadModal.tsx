@@ -86,12 +86,9 @@ export function BgmUploadModal() {
 
         {/* BGM名 */}
         <div className="space-y-2">
-          <label htmlFor="bgm-name" className="block text-sm leading-relaxed">
-            BGM名 <br />
-            <span className="text-text-subtle">
-              省略時はファイル名になります
-            </span>
-          </label>
+          <FormLabel htmlFor="bgm-name" description="省略時はファイル名になります">
+            BGM名
+          </FormLabel>
           <Input
             id="bgm-name"
             value={bgmName}

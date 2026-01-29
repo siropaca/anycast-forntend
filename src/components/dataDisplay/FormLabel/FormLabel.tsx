@@ -3,10 +3,12 @@ import { cn } from '@/utils/cn';
 
 type Props = LabelHTMLAttributes<HTMLLabelElement> & {
   required?: boolean;
+  description?: string;
 };
 
 export function FormLabel({
   required = false,
+  description,
   htmlFor,
   className,
   children,
@@ -21,6 +23,12 @@ export function FormLabel({
       {children}
       {required && (
         <span className="ml-1 inline-block text-text-required">*</span>
+      )}
+      {description && (
+        <>
+          <br />
+          <span className="text-text-subtle">{description}</span>
+        </>
       )}
     </label>
   );
