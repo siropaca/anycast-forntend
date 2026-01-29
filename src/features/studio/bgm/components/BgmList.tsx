@@ -9,7 +9,9 @@ import {
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { Pagination } from '@/components/navigation/Pagination/Pagination';
+import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
+import { useBgmDeleteDialog } from '@/features/studio/bgm/hooks/useBgmDeleteDialog';
 import { useBgmPlayer } from '@/features/studio/bgm/hooks/useBgmPlayer';
 import { useMyBgmList } from '@/features/studio/bgm/hooks/useMyBgmList';
 import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas';
@@ -17,6 +19,7 @@ import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schem
 export function BgmList() {
   const { bgms, currentPage, totalPages, setCurrentPage } = useMyBgmList();
   const { isBgmPlaying, playBgm, pauseBgm } = useBgmPlayer();
+  const deleteDialog = useBgmDeleteDialog();
 
   function handlePageChange(page: number) {
     setCurrentPage(page);
@@ -37,6 +40,7 @@ export function BgmList() {
       playBgm(bgm, bgms);
     }
   }
+
 
   const columns = [
     {
@@ -78,6 +82,7 @@ export function BgmList() {
             aria-label="削除"
             color="danger"
             variant="text"
+            onClick={() => deleteDialog.open(bgm)}
           />
         </div>
       ),
@@ -100,6 +105,17 @@ export function BgmList() {
           onPageChange={handlePageChange}
         />
       </div>
+
+      <ConfirmDialog
+        trigger={<span className="hidden" />}
+        open={deleteDialog.isOpen}
+        title="BGMを削除"
+        description={`「${deleteDialog.deleteTarget?.name}」を削除しますか？この操作は取り消せません。`}
+        confirmLabel="削除"
+        confirmColor="danger"
+        onOpenChange={(open) => !open && deleteDialog.close()}
+        onConfirm={deleteDialog.confirm}
+      />
     </div>
   );
 }
