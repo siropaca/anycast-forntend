@@ -1,5 +1,12 @@
 import { usePlayerStore } from '@/stores/playerStore';
 
+/**
+ * ボトムプレイヤーの状態と操作を提供する
+ *
+ * PlayerStore から必要な状態を取得し、再生・停止・シーク・音量調整などの操作を提供する。
+ *
+ * @returns プレイヤーの状態と操作関数
+ */
 export function useBottomPlayer() {
   const currentTrack = usePlayerStore((s) => s.currentTrack);
   const queue = usePlayerStore((s) => s.queue);
