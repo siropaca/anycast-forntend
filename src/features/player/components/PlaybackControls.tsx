@@ -43,7 +43,7 @@ export function PlaybackControls({
           onClick={onPrevious}
           className={cn(
             'text-text-subtle transition-colors',
-            hasPrevious && 'hover:text-text-main',
+            hasPrevious && 'hover:text-text-main cursor-pointer',
             !hasPrevious && 'opacity-50 cursor-default',
           )}
         >
@@ -53,8 +53,8 @@ export function PlaybackControls({
         <button
           type="button"
           aria-label={isPlaying ? '一時停止' : '再生'}
+          className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary text-bg-main transition-transform hover:scale-105 cursor-pointer"
           onClick={onPlayPause}
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary text-bg-main transition-transform hover:scale-105"
         >
           {isPlaying ? (
             <PauseIcon size={18} weight="fill" />
@@ -67,12 +67,12 @@ export function PlaybackControls({
           type="button"
           aria-label="次のトラック"
           disabled={!hasNext}
-          onClick={onNext}
           className={cn(
             'text-text-subtle transition-colors',
-            hasNext && 'hover:text-text-main',
+            hasNext && 'hover:text-text-main cursor-pointer',
             !hasNext && 'opacity-50 cursor-default',
           )}
+          onClick={onNext}
         >
           <SkipForwardIcon size={20} weight="fill" />
         </button>

@@ -55,7 +55,7 @@ describe('trackConverter', () => {
         id: 'episode-1',
         type: 'episode',
         title: 'テストエピソード',
-        channelName: 'テストチャンネル',
+        subtitle: 'テストチャンネル',
         artworkUrl: 'https://example.com/artwork.png',
         audioUrl: 'https://example.com/audio.mp3',
         durationMs: 300000,
@@ -95,18 +95,25 @@ describe('trackConverter', () => {
 
   describe('toTrackFromVoice()', () => {
     it('ボイスを Track に変換する', () => {
-      const voice = createVoice();
+      const voice = createVoice({ provider: 'google' });
       const track = toTrackFromVoice(voice);
 
       expect(track).toEqual({
         id: 'voice-1',
         type: 'voiceSample',
         title: 'テストボイス',
-        channelName: undefined,
+        subtitle: 'Gemini TTS',
         artworkUrl: undefined,
         audioUrl: 'https://example.com/sample.mp3',
         durationMs: 0,
       });
+    });
+
+    it('未知のプロバイダーの場合は subtitle にそのまま設定される', () => {
+      const voice = createVoice({ provider: 'unknown-provider' });
+      const track = toTrackFromVoice(voice);
+
+      expect(track.subtitle).toBe('unknown-provider');
     });
   });
 });

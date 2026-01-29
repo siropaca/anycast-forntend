@@ -4,7 +4,7 @@ import { cn } from '@/utils/cn';
 interface Props {
   title: string;
   artworkUrl?: string;
-  channelName?: string;
+  subtitle?: string;
   artworkSize?: number;
   className?: string;
 }
@@ -12,7 +12,7 @@ interface Props {
 export function TrackInfo({
   title,
   artworkUrl,
-  channelName,
+  subtitle,
   artworkSize = 56,
   className,
 }: Props) {
@@ -21,8 +21,8 @@ export function TrackInfo({
       <ArtworkImage src={artworkUrl} alt={title} size={artworkSize} />
       <div className="min-w-0">
         <p className="text-sm text-text-main truncate">{title}</p>
-        {channelName && (
-          <p className="text-xs text-text-subtle truncate">{channelName}</p>
+        {subtitle && (
+          <p className="text-xs text-text-subtle truncate">{subtitle}</p>
         )}
       </div>
     </div>

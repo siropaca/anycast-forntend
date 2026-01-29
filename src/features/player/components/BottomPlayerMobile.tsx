@@ -3,7 +3,7 @@ import { TrackInfo } from '@/features/player/components/TrackInfo';
 
 interface Props {
   title: string;
-  channelName?: string;
+  subtitle?: string;
   artworkUrl?: string;
   isPlaying: boolean;
   currentTimeMs: number;
@@ -14,7 +14,7 @@ interface Props {
 
 export function BottomPlayerMobile({
   title,
-  channelName,
+  subtitle,
   artworkUrl,
   isPlaying,
   currentTimeMs,
@@ -33,7 +33,7 @@ export function BottomPlayerMobile({
       <div className="flex items-center justify-between px-4 h-14">
         <TrackInfo
           title={title}
-          channelName={channelName}
+          subtitle={subtitle}
           artworkUrl={artworkUrl}
           artworkSize={40}
           className="flex-1 min-w-0"

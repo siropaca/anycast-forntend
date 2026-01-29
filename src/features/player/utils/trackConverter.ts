@@ -1,3 +1,4 @@
+import { getProviderLabel } from '@/features/studio/voices/utils/voiceLabels';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import type { ResponseVoiceResponse } from '@/libs/api/generated/schemas/responseVoiceResponse';
 import type { Track } from '@/stores/playerStore';
@@ -6,7 +7,7 @@ import type { Track } from '@/stores/playerStore';
  * エピソードレスポンスを Track に変換する
  *
  * @param episode - エピソードレスポンス
- * @param channelName - チャンネル名
+ * @param subtitle - サブタイトル（チャンネル名など）
  * @returns Track オブジェクト
  * @throws fullAudio が存在しない場合
  *
@@ -16,7 +17,7 @@ import type { Track } from '@/stores/playerStore';
  */
 export function toTrackFromEpisode(
   episode: ResponseEpisodeResponse,
-  channelName: string,
+  subtitle: string,
 ): Track {
   if (!episode.fullAudio) {
     throw new Error('エピソードに音声データが存在しません');
@@ -26,7 +27,7 @@ export function toTrackFromEpisode(
     id: episode.id,
     type: 'episode',
     title: episode.title,
-    channelName,
+    subtitle,
     artworkUrl: episode.artwork?.url,
     audioUrl: episode.fullAudio.url,
     durationMs: episode.fullAudio.durationMs,
@@ -48,7 +49,7 @@ export function toTrackFromVoice(voice: ResponseVoiceResponse): Track {
     id: voice.id,
     type: 'voiceSample',
     title: voice.name,
-    channelName: undefined,
+    subtitle: getProviderLabel(voice.provider),
     artworkUrl: undefined,
     audioUrl: voice.sampleAudioUrl,
     durationMs: 0,

@@ -5,7 +5,7 @@ export interface Track {
   id: string;
   type: 'episode' | 'voiceSample';
   title: string;
-  channelName?: string;
+  subtitle?: string;
   artworkUrl?: string;
   audioUrl: string;
   durationMs: number;

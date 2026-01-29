@@ -6,7 +6,7 @@ function createTrack(overrides: Partial<Track> = {}): Track {
     id: 'track-1',
     type: 'episode',
     title: 'テストトラック',
-    channelName: 'テストチャンネル',
+    subtitle: 'テストチャンネル',
     artworkUrl: 'https://example.com/artwork.png',
     audioUrl: 'https://example.com/audio.mp3',
     durationMs: 300000,

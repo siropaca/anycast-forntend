@@ -4,7 +4,7 @@ import { VolumeControl } from '@/features/player/components/VolumeControl';
 
 interface Props {
   title: string;
-  channelName?: string;
+  subtitle?: string;
   artworkUrl?: string;
   isPlaying: boolean;
   currentTimeMs: number;
@@ -24,7 +24,7 @@ interface Props {
 
 export function BottomPlayerDesktop({
   title,
-  channelName,
+  subtitle,
   artworkUrl,
   isPlaying,
   currentTimeMs,
@@ -45,7 +45,7 @@ export function BottomPlayerDesktop({
       <div className="flex-1 min-w-0">
         <TrackInfo
           title={title}
-          channelName={channelName}
+          subtitle={subtitle}
           artworkUrl={artworkUrl}
         />
       </div>

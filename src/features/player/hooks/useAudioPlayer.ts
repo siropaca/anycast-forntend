@@ -28,7 +28,11 @@ export function useAudioPlayer() {
     }
 
     function handleEnded() {
-      usePlayerStore.getState().next();
+      const { currentTrack } = usePlayerStore.getState();
+      // voiceSample の場合は自動で次のトラックに進まない
+      if (currentTrack?.type !== 'voiceSample') {
+        usePlayerStore.getState().next();
+      }
     }
 
     function handlePlay() {

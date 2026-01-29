@@ -30,7 +30,7 @@ export function BottomPlayer() {
     <section aria-label="オーディオプレイヤー">
       <BottomPlayerDesktop
         title={currentTrack?.title ?? ''}
-        channelName={currentTrack?.channelName}
+        subtitle={currentTrack?.subtitle}
         artworkUrl={currentTrack?.artworkUrl}
         isPlaying={isPlaying}
         currentTimeMs={currentTimeMs}
@@ -49,7 +49,7 @@ export function BottomPlayer() {
 
       <BottomPlayerMobile
         title={currentTrack?.title ?? ''}
-        channelName={currentTrack?.channelName}
+        subtitle={currentTrack?.subtitle}
         artworkUrl={currentTrack?.artworkUrl}
         isPlaying={isPlaying}
         currentTimeMs={currentTimeMs}
