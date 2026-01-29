@@ -137,6 +137,38 @@ describe('myFunction', () => {
 - ミューテーションの `onSuccess` でキャッシュを無効化する
 - コンポーネントでは `mutate` + `onSuccess` コールバックを使用し、`mutateAsync` + try-catch は避ける
 
+### ページネーション付き API のカスタムフック
+
+ページネーション付きの API をカスタムフックにする際は、以下をフック内で管理する：
+
+- `currentPage` の状態（`useState`）
+- `limit`（デフォルト値として定数で定義）
+- `offset` の計算（`(currentPage - 1) * limit`）
+- `totalPages` の計算（`Math.ceil(pagination.total / limit)`）
+
+```typescript
+const DEFAULT_LIMIT = 20;
+
+export function useMyList() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data } = useGetListSuspense({
+    limit: DEFAULT_LIMIT,
+    offset: (currentPage - 1) * DEFAULT_LIMIT,
+  });
+
+  const response = unwrapResponse(data, { data: [], pagination: DEFAULT_PAGINATION });
+  const totalPages = Math.ceil(response.pagination.total / DEFAULT_LIMIT);
+
+  return {
+    items: response.data,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+  };
+}
+```
+
 ### メッセージ管理
 
 - ユーザー向けのエラーメッセージやシステムメッセージは `src/constants/messages.ts` の `MESSAGES` で一元管理する
