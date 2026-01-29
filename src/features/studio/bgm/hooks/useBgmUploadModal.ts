@@ -36,6 +36,8 @@ export function useBgmUploadModal() {
     setOpen(false);
   }
 
+  const isDirty = selectedFile !== null || bgmName !== '';
+
   return {
     open,
     setOpen,
@@ -45,6 +47,7 @@ export function useBgmUploadModal() {
     selectedFile,
     isUploading,
     uploadError,
+    isDirty,
     reset,
     openFilePicker,
     selectFile,

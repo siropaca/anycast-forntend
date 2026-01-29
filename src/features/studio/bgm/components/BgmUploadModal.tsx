@@ -6,6 +6,7 @@ import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
 import { useBgmUploadModal } from '@/features/studio/bgm/hooks/useBgmUploadModal';
+import { confirmDiscard } from '@/utils/confirmDiscard';
 
 export function BgmUploadModal() {
   const {
@@ -17,6 +18,7 @@ export function BgmUploadModal() {
     selectedFile,
     isUploading,
     uploadError,
+    isDirty,
     reset,
     openFilePicker,
     selectFile,
@@ -24,6 +26,8 @@ export function BgmUploadModal() {
   } = useBgmUploadModal();
 
   function handleOpenChange(isOpen: boolean) {
+    if (!isOpen && !confirmDiscard(isDirty)) return;
+
     setOpen(isOpen);
     if (!isOpen) {
       reset();
