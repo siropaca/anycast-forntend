@@ -10,7 +10,7 @@ type Size = 'sm' | 'md' | 'lg';
 interface Props {
   trigger: ReactNode;
   title: string;
-  description?: string;
+  description?: ReactNode;
   confirmLabel?: string;
   cancelLabel?: string;
   confirmColor?: ButtonColor;

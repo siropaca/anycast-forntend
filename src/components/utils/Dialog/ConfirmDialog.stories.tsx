@@ -33,6 +33,22 @@ export const Delete: Story = {
   },
 };
 
+export const WithLineBreaks: Story = {
+  args: {
+    trigger: <Button color="danger">削除</Button>,
+    title: 'BGMを削除',
+    description: (
+      <>
+        「サンプルBGM」を削除しますか？
+        <br />
+        この操作は取り消せません。
+      </>
+    ),
+    confirmLabel: '削除',
+    confirmColor: 'danger',
+  },
+};
+
 export const Variants: Story = {
   args: {
     trigger: <Button>デフォルト</Button>,

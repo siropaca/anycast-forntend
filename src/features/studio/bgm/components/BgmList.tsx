@@ -109,7 +109,13 @@ export function BgmList() {
         trigger={<span className="hidden" />}
         open={deleteDialog.isOpen}
         title="BGMを削除"
-        description={`「${deleteDialog.deleteTarget?.name}」を削除しますか？この操作は取り消せません。`}
+        description={
+          <>
+            「{deleteDialog.deleteTarget?.name}」を削除しますか？
+            <br />
+            この操作は取り消せません。
+          </>
+        }
         confirmLabel="削除"
         confirmColor="danger"
         onOpenChange={(open) => !open && deleteDialog.close()}
