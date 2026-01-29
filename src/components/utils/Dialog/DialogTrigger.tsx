@@ -1,7 +1,7 @@
 'use client';
 
 import { Dialog } from '@base-ui/react/dialog';
-import type { ReactNode } from 'react';
+import { isValidElement, type ReactNode } from 'react';
 
 interface Props {
   className?: string;
@@ -9,5 +9,17 @@ interface Props {
 }
 
 export function DialogTrigger({ className, children }: Props) {
+  if (isValidElement(children)) {
+    const isNativeButton =
+      typeof children.type !== 'string' || children.type === 'button';
+
+    return (
+      <Dialog.Trigger
+        className={className}
+        render={children}
+        nativeButton={isNativeButton}
+      />
+    );
+  }
   return <Dialog.Trigger className={className}>{children}</Dialog.Trigger>;
 }
