@@ -2,16 +2,73 @@
 
 import { PlusIcon } from '@phosphor-icons/react/ssr';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
+import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
 import { Button } from '@/components/inputs/buttons/Button/Button';
-import { useKey } from '@/hooks/useKey';
+import { Pagination } from '@/components/navigation/Pagination/Pagination';
+import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
+import { StatusTag } from '@/features/studio/channels/components/StatusTag';
 import { useMyChannelList } from '@/features/studio/channels/hooks/useMyChannelList';
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
 import { Pages } from '@/libs/pages';
 
 export function ChannelList() {
-  const { channels } = useMyChannelList();
+  const router = useRouter();
+  const { channels, currentPage, totalPages, setCurrentPage } =
+    useMyChannelList();
+
+  function handlePageChange(page: number) {
+    setCurrentPage(page);
+    document
+      .getElementById(MAIN_SCROLL_VIEWPORT_ID)
+      ?.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleRowClick(channel: ResponseChannelResponse) {
+    router.push(Pages.studio.channel.path({ id: channel.id }));
+  }
+
+  const columns = [
+    {
+      key: 'channel',
+      header: 'チャンネル',
+      accessor: (channel: ResponseChannelResponse) => (
+        <div className="flex items-center gap-3">
+          <ArtworkImage
+            src={channel.artwork?.url}
+            alt={channel.name}
+            size={48}
+          />
+          <span className="text-sm">{channel.name}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'category',
+      header: 'カテゴリ',
+      accessor: (channel: ResponseChannelResponse) => (
+        <span className="text-sm text-text-secondary">
+          {channel.category.name}
+        </span>
+      ),
+    },
+    {
+      key: 'status',
+      header: 'ステータス',
+      accessor: (channel: ResponseChannelResponse) => (
+        <StatusTag isPublished={channel.publishedAt !== null} />
+      ),
+    },
+    {
+      key: 'episodeCount',
+      header: 'エピソード数',
+      accessor: (channel: ResponseChannelResponse) => (
+        <span className="text-sm text-text-secondary">
+          {channel.episodes.length}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <div className="space-y-4">
@@ -21,110 +78,21 @@ export function ChannelList() {
         </Button>
       </div>
 
-      <div className="overflow-x-auto rounded-md border border-border">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-border bg-bg-elevated">
-              <th className="px-4 py-3 text-left text-sm text-text-secondary">
-                チャンネル
-              </th>
-              <th className="px-4 py-3 text-left text-sm text-text-secondary">
-                カテゴリ
-              </th>
-              <th className="px-4 py-3 text-left text-sm text-text-secondary">
-                ステータス
-              </th>
-              <th className="px-4 py-3 text-left text-sm text-text-secondary">
-                エピソード数
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {channels.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="py-8 text-center text-text-secondary">
-                  チャンネルがありません
-                </td>
-              </tr>
-            ) : (
-              channels.map((channel) => (
-                <ChannelRow key={channel.id} channel={channel} />
-              ))
-            )}
-          </tbody>
-        </table>
+      <DataTable
+        columns={columns}
+        data={channels}
+        emptyMessage="チャンネルがありません"
+        keyExtractor={(channel) => channel.id}
+        onRowClick={handleRowClick}
+      />
+
+      <div className="flex justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
-  );
-}
-
-interface ChannelRowProps {
-  channel: ResponseChannelResponse;
-}
-
-function ChannelRow({ channel }: ChannelRowProps) {
-  const router = useRouter();
-  const rowRef = useRef<HTMLTableRowElement>(null);
-
-  function handleRowClick() {
-    router.push(Pages.studio.channel.path({ id: channel.id }));
-  }
-
-  useKey(
-    ['Enter', ' '],
-    (e) => {
-      e.preventDefault();
-      handleRowClick();
-    },
-    rowRef,
-  );
-
-  return (
-    // biome-ignore lint/a11y/useSemanticElements: テーブル行のクリック可能化のため
-    <tr
-      ref={rowRef}
-      className="cursor-pointer border-b border-border last:border-b-0 hover:bg-white/5"
-      onClick={handleRowClick}
-      tabIndex={0}
-      role="button"
-    >
-      <td className="px-4 py-3">
-        <div className="flex items-center gap-3">
-          <ArtworkImage
-            src={channel.artwork?.url}
-            alt={channel.name}
-            size={48}
-          />
-          <span className="text-sm">{channel.name}</span>
-        </div>
-      </td>
-      <td className="px-4 py-3 text-sm text-text-secondary">
-        {channel.category.name}
-      </td>
-      <td className="px-4 py-3">
-        <StatusTag isPublished={channel.publishedAt !== null} />
-      </td>
-      <td className="px-4 py-3 text-sm text-text-secondary">
-        {channel.episodes.length}
-      </td>
-    </tr>
-  );
-}
-
-interface StatusTagProps {
-  isPublished: boolean;
-}
-
-function StatusTag({ isPublished }: StatusTagProps) {
-  return (
-    <span
-      className={`inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs ${
-        isPublished
-          ? 'bg-status-published-bg text-status-published'
-          : 'bg-status-draft-bg text-status-draft'
-      }`}
-    >
-      {isPublished ? '公開中' : '下書き'}
-    </span>
   );
 }
