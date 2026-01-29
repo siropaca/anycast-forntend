@@ -1,10 +1,8 @@
 'use client';
 
-import { PlusIcon } from '@phosphor-icons/react/ssr';
 import { useRouter } from 'next/navigation';
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
-import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Pagination } from '@/components/navigation/Pagination/Pagination';
 import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
@@ -33,7 +31,7 @@ export function ChannelList() {
       key: 'channel',
       header: 'チャンネル',
       accessor: (channel: ResponseChannelResponse) => (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <ArtworkImage
             src={channel.artwork?.url}
             alt={channel.name}
@@ -72,12 +70,6 @@ export function ChannelList() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <Button href={Pages.studio.newChannel.path()} leftIcon={<PlusIcon />}>
-          新規追加
-        </Button>
-      </div>
-
       <DataTable
         columns={columns}
         data={channels}
