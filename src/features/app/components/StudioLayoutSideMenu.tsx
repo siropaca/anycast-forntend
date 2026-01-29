@@ -3,12 +3,23 @@
 import { usePathname } from 'next/navigation';
 import { withActiveState } from '@/components/navigation/SideMenu/helper';
 import { SideMenu } from '@/components/navigation/SideMenu/SideMenu';
-import { STUDIO_MENU_SECTIONS } from '@/features/app/constants/studioMenu';
+import { createStudioMenuSections } from '@/features/app/constants/studioMenu';
 
 export function StudioLayoutSideMenu() {
   const pathname = usePathname();
 
-  const sectionsWithActive = withActiveState(STUDIO_MENU_SECTIONS, pathname);
+  function handleFeedbackClick() {
+    // TODO: フィードバックモーダルを開く
+  }
 
-  return <SideMenu sections={sectionsWithActive} />;
+  const { sections, bottomSections } = createStudioMenuSections({
+    onFeedbackClick: handleFeedbackClick,
+  });
+
+  return (
+    <SideMenu
+      sections={withActiveState(sections, pathname)}
+      bottomSections={withActiveState(bottomSections, pathname)}
+    />
+  );
 }

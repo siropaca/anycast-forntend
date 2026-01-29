@@ -1,5 +1,6 @@
 import type {
   IsActivePathOptions,
+  MenuItem,
   MenuSection,
 } from '@/components/navigation/SideMenu/types';
 import { Pages } from '@/libs/pages';
@@ -59,6 +60,16 @@ export function isActivePath(
 }
 
 /**
+ * メニューアイテムがリンクかどうかを判定する
+ *
+ * @param item - メニューアイテム
+ * @returns リンクの場合は true
+ */
+function isLinkItem(item: MenuItem): item is MenuItem & { href: string } {
+  return 'href' in item && typeof item.href === 'string';
+}
+
+/**
  * セクションの各アイテムに isActive を付与する
  *
  * @param sections - メニューセクション
@@ -71,13 +82,19 @@ export function withActiveState(
 ): MenuSection[] {
   return sections.map((section) => ({
     ...section,
-    items: section.items.map((item) => ({
-      ...item,
-      isActive: isActivePath(pathname, item.href, {
-        matchPaths: item.matchPaths,
-        matchPrefix: item.matchPrefix,
-      }),
-    })),
+    items: section.items.map((item): MenuItem => {
+      if (!isLinkItem(item)) {
+        return item;
+      }
+
+      return {
+        ...item,
+        isActive: isActivePath(pathname, item.href, {
+          matchPaths: item.matchPaths,
+          matchPrefix: item.matchPrefix,
+        }),
+      };
+    }),
   }));
 }
 
@@ -94,10 +111,12 @@ export function withProfileHref(
 ): MenuSection[] {
   return sections.map((section) => ({
     ...section,
-    items: section.items.map((item) =>
-      item.label === 'プロフィール'
-        ? { ...item, href: Pages.user.path(username) }
-        : item,
-    ),
+    items: section.items.map((item): MenuItem => {
+      if (!isLinkItem(item) || item.label !== 'プロフィール') {
+        return item;
+      }
+
+      return { ...item, href: Pages.user.path(username) };
+    }),
   }));
 }
