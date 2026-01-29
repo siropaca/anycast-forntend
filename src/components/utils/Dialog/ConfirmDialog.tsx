@@ -42,17 +42,12 @@ export function ConfirmDialog({
 
         <Dialog.Footer>
           <Dialog.Close>
-            <Button variant="outline" color="secondary">
+            <Button variant="outline" color="secondary" className="w-26">
               {cancelLabel}
             </Button>
           </Dialog.Close>
 
-          <Button
-            color={confirmColor}
-            // キャンセルと同じくらいの幅にする
-            className="min-w-[6.4rem]"
-            onClick={onConfirm}
-          >
+          <Button color={confirmColor} className="min-w-26" onClick={onConfirm}>
             {confirmLabel}
           </Button>
         </Dialog.Footer>

@@ -48,7 +48,7 @@ export function VolumeControl({
 
       <input
         type="range"
-        className="player-slider w-[100px]"
+        className="player-slider w-25"
         min={0}
         max={100}
         value={Math.round(displayVolume * 100)}
