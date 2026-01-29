@@ -76,6 +76,8 @@ function add(a: number, b: number): number {
 - カスタムフックには**宣言的な操作関数**を定義し、イベントハンドラーはコンポーネント側に置く
 - 宣言的な操作関数の例: `reset()`, `submit()`, `openFilePicker()`, `selectFile(file)`
 - イベントハンドラー（`handleXxx`）はコンポーネント側で定義し、イベントオブジェクトから値を抽出してフックの操作関数を呼び出す
+- ブラウザ API（`window.confirm`, `window.alert` など）はフックではなくコンポーネント側で呼び出す
+- フックは状態（例: `isDirty`）を提供し、コンポーネントがその状態を使って確認ダイアログを表示する
 
 ```typescript
 // カスタムフック - 宣言的な操作を提供
