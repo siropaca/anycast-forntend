@@ -77,8 +77,8 @@ export function HeaderNotificationButton() {
                       <button
                         type="button"
                         className={cn(
-                          'flex w-full cursor-pointer flex-col gap-1 px-4 py-3 text-left transition-colors hover:bg-white/5',
-                          !notification.read && 'bg-white/[0.03]',
+                          'flex w-full cursor-pointer flex-col gap-1 px-4 py-3 text-left transition-colors hover:bg-bg-hover',
+                          !notification.read && 'bg-bg-highlight',
                         )}
                         onClick={() => handleMarkAsRead(notification.id)}
                       >
