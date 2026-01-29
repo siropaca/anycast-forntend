@@ -1,6 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import { describe, expect, it } from 'vitest';
-import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import {
+  unwrapPaginatedResponse,
+  unwrapResponse,
+} from '@/libs/api/unwrapResponse';
 
 describe('unwrapResponse', () => {
   describe('unwrapResponse()', () => {
@@ -143,6 +146,153 @@ describe('unwrapResponse', () => {
 
         expect(() => unwrapResponse(response)).toThrow(
           'Failed to unwrap response: data not found',
+        );
+      });
+    });
+  });
+
+  describe('unwrapPaginatedResponse()', () => {
+    const defaultPagination = { limit: 20, offset: 0, total: 0 };
+    const defaultValue = { data: [], pagination: defaultPagination };
+
+    describe('成功レスポンス（status: OK）', () => {
+      it('data を返す（pagination を含む）', () => {
+        const response = {
+          status: StatusCodes.OK,
+          data: {
+            data: [{ id: '1', name: 'Channel 1' }],
+            pagination: { limit: 20, offset: 0, total: 1 },
+          },
+        };
+
+        const result = unwrapPaginatedResponse(response, defaultValue);
+
+        expect(result).toEqual({
+          data: [{ id: '1', name: 'Channel 1' }],
+          pagination: { limit: 20, offset: 0, total: 1 },
+        });
+      });
+
+      it('data が undefined の場合はデフォルト値を返す', () => {
+        const response = {
+          status: StatusCodes.OK,
+          data: undefined,
+        };
+
+        const result = unwrapPaginatedResponse(response, defaultValue);
+
+        expect(result).toEqual(defaultValue);
+      });
+    });
+
+    describe('成功レスポンス（status: CREATED）', () => {
+      it('data を返す（pagination を含む）', () => {
+        const response = {
+          status: StatusCodes.CREATED,
+          data: {
+            data: [{ id: '1', name: 'New Item' }],
+            pagination: { limit: 20, offset: 0, total: 1 },
+          },
+        };
+
+        const result = unwrapPaginatedResponse(response, defaultValue);
+
+        expect(result).toEqual({
+          data: [{ id: '1', name: 'New Item' }],
+          pagination: { limit: 20, offset: 0, total: 1 },
+        });
+      });
+    });
+
+    describe('エラーレスポンス', () => {
+      it('status: BAD_REQUEST の場合はデフォルト値を返す', () => {
+        const response = {
+          status: StatusCodes.BAD_REQUEST,
+          data: { error: 'Bad Request' },
+        };
+
+        const result = unwrapPaginatedResponse(response, defaultValue);
+
+        expect(result).toEqual(defaultValue);
+      });
+
+      it('status: UNAUTHORIZED の場合はデフォルト値を返す', () => {
+        const response = {
+          status: StatusCodes.UNAUTHORIZED,
+          data: { error: 'Unauthorized' },
+        };
+
+        const result = unwrapPaginatedResponse(response, defaultValue);
+
+        expect(result).toEqual(defaultValue);
+      });
+
+      it('status: INTERNAL_SERVER_ERROR の場合はデフォルト値を返す', () => {
+        const response = {
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
+          data: { error: 'Internal Server Error' },
+        };
+
+        const result = unwrapPaginatedResponse(response, defaultValue);
+
+        expect(result).toEqual(defaultValue);
+      });
+    });
+
+    describe('undefined レスポンス', () => {
+      it('response が undefined の場合はデフォルト値を返す', () => {
+        const result = unwrapPaginatedResponse(undefined, defaultValue);
+
+        expect(result).toEqual(defaultValue);
+      });
+    });
+
+    describe('デフォルト値なし（Suspense フック向け）', () => {
+      it('成功レスポンスの場合は data を返す', () => {
+        const response = {
+          status: StatusCodes.OK,
+          data: {
+            data: [{ id: '1', name: 'Channel 1' }],
+            pagination: { limit: 20, offset: 0, total: 1 },
+          },
+        };
+
+        const result = unwrapPaginatedResponse<{
+          data: { id: string; name: string }[];
+          pagination: { limit: number; offset: number; total: number };
+        }>(response);
+
+        expect(result).toEqual({
+          data: [{ id: '1', name: 'Channel 1' }],
+          pagination: { limit: 20, offset: 0, total: 1 },
+        });
+      });
+
+      it('エラーレスポンスの場合は例外を throw する', () => {
+        const response = {
+          status: StatusCodes.BAD_REQUEST,
+          data: { error: 'Bad Request' },
+        };
+
+        expect(() => unwrapPaginatedResponse(response)).toThrow(
+          'Failed to unwrap paginated response: data not found',
+        );
+      });
+
+      it('response が undefined の場合は例外を throw する', () => {
+        expect(() => unwrapPaginatedResponse(undefined)).toThrow(
+          'Failed to unwrap paginated response: data not found',
+        );
+      });
+
+      it('data が undefined の場合は例外を throw する', () => {
+        const response = {
+          status: StatusCodes.OK,
+          data: undefined,
+        };
+
+        expect(() => unwrapPaginatedResponse(response)).toThrow(
+          'Failed to unwrap paginated response: data not found',
         );
       });
     });
