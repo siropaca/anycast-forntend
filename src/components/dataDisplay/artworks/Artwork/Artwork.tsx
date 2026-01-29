@@ -34,7 +34,7 @@ export function Artwork({
       <ArtworkImage src={src} alt={alt} size={size} rounded={rounded} />
 
       <div className="mt-2" style={size ? { width: size } : undefined}>
-        <p className="truncate text-sm font-medium">{title}</p>
+        <p className="truncate text-sm">{title}</p>
         {subtext && (
           <p className="truncate text-sm text-text-subtle">{subtext}</p>
         )}

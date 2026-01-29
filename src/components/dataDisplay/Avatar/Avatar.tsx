@@ -45,7 +45,7 @@ export function Avatar({
       )}
     >
       {showFallback ? (
-        <span className="font-medium">{fallback}</span>
+        <span>{fallback}</span>
       ) : (
         <Image
           src={src}

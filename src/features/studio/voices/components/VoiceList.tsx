@@ -13,7 +13,7 @@ export function VoiceList() {
         {voices.map((voice) => (
           <li key={voice.id} className="border">
             <div className="flex-1">
-              <span className="font-medium">{voice.name}</span>
+              <span>{voice.name}</span>
               <span className="ml-2 text-sm text-gray-500">
                 ({voice.gender})
               </span>

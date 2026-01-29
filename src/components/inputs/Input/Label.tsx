@@ -16,7 +16,7 @@ export function Label({
     <label
       htmlFor={htmlFor}
       className={cn(
-        'block text-left text-sm font-medium text-text-main',
+        'block text-left text-sm text-text-main',
         className,
       )}
       {...props}

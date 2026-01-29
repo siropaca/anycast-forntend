@@ -89,7 +89,7 @@ export function HeaderNotificationButton() {
 
                           <span
                             className={cn(
-                              'text-sm font-medium',
+                              'text-sm',
                               notification.read && 'text-text-subtle',
                             )}
                           >
