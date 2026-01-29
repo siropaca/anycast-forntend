@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Label } from '@/components/inputs/Input/Label';
 import { Select } from '@/components/inputs/Select/Select';
+import { SelectSkeleton } from '@/components/inputs/Select/SelectSkeleton';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
@@ -127,6 +128,16 @@ export const Controlled: Story = {
       <Section title="Controlled">
         <ControlledSelectExample />
       </Section>
+    </Stack>
+  ),
+};
+
+export const Skeleton: Story = {
+  render: () => (
+    <Stack direction="column">
+      <SelectSkeleton size="sm" />
+      <SelectSkeleton size="md" />
+      <SelectSkeleton size="lg" />
     </Stack>
   ),
 };
