@@ -2,7 +2,7 @@
 
 import { Dialog } from '@base-ui/react/dialog';
 import { XIcon } from '@phosphor-icons/react';
-import type { ReactNode } from 'react';
+import { isValidElement, type ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -11,12 +11,23 @@ interface Props {
 }
 
 export function ModalClose({ className, children }: Props) {
-  const isIconButton = !children;
+  if (isValidElement(children)) {
+    const isNativeButton =
+      typeof children.type !== 'string' || children.type === 'button';
+
+    return (
+      <Dialog.Close
+        className={className}
+        render={children}
+        nativeButton={isNativeButton}
+      />
+    );
+  }
 
   return (
     <Dialog.Close
       className={cn(
-        isIconButton &&
+        !children &&
           'cursor-pointer text-text-subtle transition-colors hover:text-text-main',
         className,
       )}
