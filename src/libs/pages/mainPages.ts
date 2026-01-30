@@ -76,6 +76,11 @@ export const mainPages = {
       path: () => '/library/playlist',
       title: '再生リスト',
     },
+    /** 再生リスト詳細 */
+    playListDetail: {
+      path: (playlistId: string) => `/library/playlist/${playlistId}`,
+      title: '再生リスト詳細',
+    },
     /** 高評価 */
     likes: {
       path: () => '/library/likes',

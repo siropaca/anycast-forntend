@@ -117,6 +117,16 @@ describe('mainPages', () => {
       expect(mainPages.library.playList.title).toBe('再生リスト');
     });
 
+    it('playListDetail の path が /library/playlist/:playlistId を返す', () => {
+      expect(mainPages.library.playListDetail.path('pl-123')).toBe(
+        '/library/playlist/pl-123',
+      );
+    });
+
+    it('playListDetail の title が設定されている', () => {
+      expect(mainPages.library.playListDetail.title).toBe('再生リスト詳細');
+    });
+
     it('likes の path が /library/likes を返す', () => {
       expect(mainPages.library.likes.path()).toBe('/library/likes');
     });

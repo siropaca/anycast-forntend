@@ -124,6 +124,16 @@ describe('Pages', () => {
       expect(Pages.library.playList.title).toBe('再生リスト');
     });
 
+    it('再生リスト詳細ページのパスを返す', () => {
+      expect(Pages.library.playListDetail.path('pl-123')).toBe(
+        '/library/playlist/pl-123',
+      );
+    });
+
+    it('再生リスト詳細のタイトルを返す', () => {
+      expect(Pages.library.playListDetail.title).toBe('再生リスト詳細');
+    });
+
     it('高評価ページのパスを返す', () => {
       expect(Pages.library.likes.path()).toBe('/library/likes');
     });

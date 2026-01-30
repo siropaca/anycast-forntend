@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
-import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
+import { PlayList } from '@/components/dataDisplay/artworks/PlayList/PlayList';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Pages } from '@/libs/pages';
 
@@ -9,38 +10,33 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-const items = [
-  { id: 1, title: 'テクノロジーの未来', subtext: 'TechCast' },
-  { id: 2, title: '朝の瞑想ガイド', subtext: 'マインドフルネス FM' },
-  { id: 3, title: '世界のニュースまとめ', subtext: 'グローバルニュース' },
-  { id: 4, title: 'スタートアップの裏側', subtext: 'ビジネスラボ' },
-  { id: 5, title: '英語リスニング入門', subtext: 'Language Lab' },
-  { id: 6, title: '宇宙の不思議', subtext: 'サイエンストーク' },
-  { id: 7, title: '映画レビュー最新回', subtext: 'シネマパラダイス' },
-  { id: 8, title: '料理のコツ 10 選', subtext: 'クッキングラジオ' },
-  { id: 9, title: '深夜ラジオ #42', subtext: 'ミッドナイトFM' },
-  { id: 10, title: '歴史を紐解く', subtext: 'ヒストリーチャンネル' },
-  { id: 11, title: 'ランニング BGM', subtext: 'フィットネスラジオ' },
-  { id: 12, title: 'プログラミング雑談', subtext: 'DevTalk' },
-  { id: 13, title: '読書の時間', subtext: 'ブックカフェ' },
-  { id: 14, title: '旅行プランニング', subtext: 'トラベルガイド' },
-  { id: 15, title: 'ゲーム実況振り返り', subtext: 'GameStream' },
+// TODO: モック実装
+const playlists = [
+  { id: 1, title: 'テクノロジーの未来', episodeCount: 12 },
+  { id: 2, title: '朝の瞑想ガイド', episodeCount: 8 },
+  { id: 3, title: '世界のニュースまとめ', episodeCount: 24 },
+  { id: 4, title: 'スタートアップの裏側', episodeCount: 5 },
+  { id: 5, title: '英語リスニング入門', episodeCount: 30 },
+  { id: 6, title: '宇宙の不思議', episodeCount: 3 },
 ];
 
-// TODO: モック実装
 export default function LibraryPlaylistPage() {
   return (
     <div>
       <SectionTitle title={Pages.library.playList.title} />
 
       <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {items.map((item) => (
-          <Artwork
-            key={item.id}
-            src={`https://picsum.photos/seed/playlist-${item.id}/400/400`}
-            title={item.title}
-            subtext={item.subtext}
-          />
+        {playlists.map((playlist) => (
+          <Link
+            key={playlist.id}
+            href={Pages.library.playListDetail.path(String(playlist.id))}
+          >
+            <PlayList
+              src={`https://picsum.photos/seed/playlist-${playlist.id}/400/400`}
+              title={playlist.title}
+              episodeCount={playlist.episodeCount}
+            />
+          </Link>
         ))}
       </div>
     </div>
