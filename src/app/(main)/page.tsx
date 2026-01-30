@@ -6,6 +6,8 @@ import {
   Artwork,
 } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
+import { RecommendedChannels } from '@/features/home/components/RecommendedChannels';
+import { RecommendedChannelsSkeleton } from '@/features/home/components/RecommendedChannelsSkeleton';
 import { RecommendedEpisodes } from '@/features/home/components/RecommendedEpisodes';
 import { RecommendedEpisodesSkeleton } from '@/features/home/components/RecommendedEpisodesSkeleton';
 import { Pages } from '@/libs/pages';
@@ -13,15 +15,6 @@ import { Pages } from '@/libs/pages';
 export const metadata: Metadata = {
   title: Pages.home.title,
 };
-
-const recommendedChannels = [
-  { id: 1, title: 'TechCast', subtext: 'テクノロジー' },
-  { id: 2, title: 'マインドフルネス FM', subtext: 'ヘルスケア' },
-  { id: 3, title: 'グローバルニュース', subtext: 'ニュース' },
-  { id: 4, title: 'ビジネスラボ', subtext: 'ビジネス' },
-  { id: 5, title: 'Language Lab', subtext: '教育' },
-  { id: 6, title: 'サイエンストーク', subtext: 'サイエンス' },
-];
 
 const recentlyPlayed = [
   { id: 1, title: '深夜ラジオ #42', subtext: 'ミッドナイトFM' },
@@ -41,17 +34,9 @@ export default function HomePage() {
         <RecommendedEpisodes />
       </Suspense>
 
-      <ContentSection title="おすすめのチャンネル" moreHref="/channels">
-        {recommendedChannels.map((item) => (
-          <Artwork
-            key={item.id}
-            src={`https://picsum.photos/seed/channel-${item.id}/400/400`}
-            title={item.title}
-            subtext={item.subtext}
-            size={ARTWORK_FIXED_SIZE}
-          />
-        ))}
-      </ContentSection>
+      <Suspense fallback={<RecommendedChannelsSkeleton />}>
+        <RecommendedChannels />
+      </Suspense>
 
       <ContentSection
         title="最近聴いたコンテンツ"
