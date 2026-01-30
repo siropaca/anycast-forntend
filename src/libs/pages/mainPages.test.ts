@@ -66,6 +66,26 @@ describe('mainPages', () => {
     });
   });
 
+  describe('episodes', () => {
+    it('path が /episodes を返す', () => {
+      expect(mainPages.episodes.path()).toBe('/episodes');
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.episodes.title).toBe('おすすめのエピソード');
+    });
+  });
+
+  describe('channels', () => {
+    it('path が /channels を返す', () => {
+      expect(mainPages.channels.path()).toBe('/channels');
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.channels.title).toBe('おすすめのチャンネル');
+    });
+  });
+
   describe('explore', () => {
     it('パラメータなしで /explore を返す', () => {
       expect(mainPages.explore.path()).toBe('/explore');
@@ -97,12 +117,12 @@ describe('mainPages', () => {
       expect(mainPages.library.playList.title).toBe('再生リスト');
     });
 
-    it('favorites の path が /library/favorites を返す', () => {
-      expect(mainPages.library.favorites.path()).toBe('/library/favorites');
+    it('likes の path が /library/likes を返す', () => {
+      expect(mainPages.library.likes.path()).toBe('/library/likes');
     });
 
-    it('favorites の title が設定されている', () => {
-      expect(mainPages.library.favorites.title).toBe('お気に入り');
+    it('likes の title が設定されている', () => {
+      expect(mainPages.library.likes.title).toBe('高評価');
     });
 
     it('history の path が /library/history を返す', () => {

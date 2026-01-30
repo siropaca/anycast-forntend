@@ -49,6 +49,16 @@ export const mainPages = {
     path: (params?: SignupSearchParams) => `/signup${buildQuery(params)}`,
     title: '新規登録',
   },
+  /** おすすめのエピソード一覧 */
+  episodes: {
+    path: () => '/episodes',
+    title: 'おすすめのエピソード',
+  },
+  /** おすすめのチャンネル一覧 */
+  channels: {
+    path: () => '/channels',
+    title: 'おすすめのチャンネル',
+  },
   /** 探索 */
   explore: {
     path: (params?: ExploreSearchParams) => `/explore${buildQuery(params)}`,
@@ -66,10 +76,10 @@ export const mainPages = {
       path: () => '/library/playlist',
       title: '再生リスト',
     },
-    /** お気に入り */
-    favorites: {
-      path: () => '/library/favorites',
-      title: 'お気に入り',
+    /** 高評価 */
+    likes: {
+      path: () => '/library/likes',
+      title: '高評価',
     },
     /** 履歴 */
     history: {

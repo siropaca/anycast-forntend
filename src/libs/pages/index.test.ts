@@ -69,6 +69,26 @@ describe('Pages', () => {
     });
   });
 
+  describe('episodes', () => {
+    it('おすすめのエピソード一覧ページのパスを返す', () => {
+      expect(Pages.episodes.path()).toBe('/episodes');
+    });
+
+    it('タイトルを返す', () => {
+      expect(Pages.episodes.title).toBe('おすすめのエピソード');
+    });
+  });
+
+  describe('channels', () => {
+    it('おすすめのチャンネル一覧ページのパスを返す', () => {
+      expect(Pages.channels.path()).toBe('/channels');
+    });
+
+    it('タイトルを返す', () => {
+      expect(Pages.channels.title).toBe('おすすめのチャンネル');
+    });
+  });
+
   describe('explore', () => {
     it('探索ページのパスを返す', () => {
       expect(Pages.explore.path()).toBe('/explore');
@@ -104,12 +124,12 @@ describe('Pages', () => {
       expect(Pages.library.playList.title).toBe('再生リスト');
     });
 
-    it('お気に入りページのパスを返す', () => {
-      expect(Pages.library.favorites.path()).toBe('/library/favorites');
+    it('高評価ページのパスを返す', () => {
+      expect(Pages.library.likes.path()).toBe('/library/likes');
     });
 
-    it('お気に入りのタイトルを返す', () => {
-      expect(Pages.library.favorites.title).toBe('お気に入り');
+    it('高評価のタイトルを返す', () => {
+      expect(Pages.library.likes.title).toBe('高評価');
     });
   });
 
