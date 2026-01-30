@@ -1,26 +1,18 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import {
   ARTWORK_FIXED_SIZE,
   Artwork,
 } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
+import { RecommendedEpisodes } from '@/features/home/components/RecommendedEpisodes';
+import { RecommendedEpisodesSkeleton } from '@/features/home/components/RecommendedEpisodesSkeleton';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
   title: Pages.home.title,
 };
-
-const recommendedEpisodes = [
-  { id: 1, title: 'テクノロジーの未来', subtext: 'TechCast' },
-  { id: 2, title: '朝の瞑想ガイド', subtext: 'マインドフルネス FM' },
-  { id: 3, title: '世界のニュースまとめ', subtext: 'グローバルニュース' },
-  { id: 4, title: 'スタートアップの裏側', subtext: 'ビジネスラボ' },
-  { id: 5, title: '英語リスニング入門', subtext: 'Language Lab' },
-  { id: 6, title: '宇宙の不思議', subtext: 'サイエンストーク' },
-  { id: 7, title: '映画レビュー最新回', subtext: 'シネマパラダイス' },
-  { id: 8, title: '料理のコツ 10 選', subtext: 'クッキングラジオ' },
-];
 
 const recommendedChannels = [
   { id: 1, title: 'TechCast', subtext: 'テクノロジー' },
@@ -45,17 +37,9 @@ const recentlyPlayed = [
 export default function HomePage() {
   return (
     <div className="flex flex-col gap-6">
-      <ContentSection title="おすすめのエピソード" moreHref="/episodes">
-        {recommendedEpisodes.map((item) => (
-          <Artwork
-            key={item.id}
-            src={`https://picsum.photos/seed/episode-${item.id}/400/400`}
-            title={item.title}
-            subtext={item.subtext}
-            size={ARTWORK_FIXED_SIZE}
-          />
-        ))}
-      </ContentSection>
+      <Suspense fallback={<RecommendedEpisodesSkeleton />}>
+        <RecommendedEpisodes />
+      </Suspense>
 
       <ContentSection title="おすすめのチャンネル" moreHref="/channels">
         {recommendedChannels.map((item) => (
