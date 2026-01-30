@@ -3,7 +3,7 @@
 import { Dialog } from '@base-ui/react/dialog';
 import { ScrollArea } from '@base-ui/react/scroll-area';
 import { ListIcon, XIcon } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -11,10 +11,11 @@ interface Props {
 
 export function MobileMenu({ children }: Props) {
   const [open, setOpen] = useState(false);
+  const triggerId = useId();
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger className="md:hidden p-2 -ml-2">
+      <Dialog.Trigger id={triggerId} className="md:hidden p-2 -ml-2">
         <ListIcon size={24} weight="bold" aria-label="メニューを開く" />
       </Dialog.Trigger>
 

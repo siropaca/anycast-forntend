@@ -7,13 +7,16 @@ import { RecommendedChannels } from '@/features/home/components/RecommendedChann
 import { RecommendedChannelsSkeleton } from '@/features/home/components/RecommendedChannelsSkeleton';
 import { RecommendedEpisodes } from '@/features/home/components/RecommendedEpisodes';
 import { RecommendedEpisodesSkeleton } from '@/features/home/components/RecommendedEpisodesSkeleton';
+import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
   title: Pages.home.title,
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { isLoggedIn } = await auth();
+
   return (
     <div className="flex flex-col gap-6">
       {/* おすすめのエピソード */}
@@ -26,10 +29,12 @@ export default function HomePage() {
         <RecommendedChannels />
       </Suspense>
 
-      {/* 最近聴いたコンテンツ */}
-      <Suspense fallback={<RecentlyPlayedSkeleton />}>
-        <RecentlyPlayed />
-      </Suspense>
+      {/* 最近聴いたコンテンツ（ログイン時のみ） */}
+      {isLoggedIn && (
+        <Suspense fallback={<RecentlyPlayedSkeleton />}>
+          <RecentlyPlayed />
+        </Suspense>
+      )}
     </div>
   );
 }
