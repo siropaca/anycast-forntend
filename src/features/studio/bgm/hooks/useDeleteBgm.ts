@@ -22,32 +22,36 @@ export function useDeleteBgm() {
    * BGMを削除する
    *
    * @param bgmId - 削除するBGMのID
+   * @returns 削除が成功したかどうか
    */
-  function deleteBgm(bgmId: string) {
+  async function deleteBgm(bgmId: string): Promise<boolean> {
     setError(undefined);
 
-    mutation.mutate(
-      {
-        bgmId,
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.NO_CONTENT) {
-            setError(response.data.error.message);
-            return;
-          }
+    try {
+      const response = await mutation.mutateAsync({ bgmId });
 
-          queryClient.invalidateQueries({
-            queryKey: getGetMeBgmsQueryKey(),
-          });
-        },
-        onError: (err: unknown) => {
-          const message =
-            err instanceof Error ? err.message : MESSAGES.bgm.deleteError;
-          setError(message);
-        },
-      },
-    );
+      if (response.status !== StatusCodes.NO_CONTENT) {
+        setError(response.data.error.message);
+        return false;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: getGetMeBgmsQueryKey(),
+      });
+      return true;
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : MESSAGES.bgm.deleteError;
+      setError(message);
+      return false;
+    }
+  }
+
+  /**
+   * エラー状態をクリアする
+   */
+  function clearError() {
+    setError(undefined);
   }
 
   return {
@@ -55,5 +59,6 @@ export function useDeleteBgm() {
     error,
 
     deleteBgm,
+    clearError,
   };
 }

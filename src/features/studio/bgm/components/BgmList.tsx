@@ -189,6 +189,7 @@ export function BgmList() {
             この操作は取り消せません。
           </>
         }
+        error={deleteDialog.error}
         confirmLabel="削除"
         confirmColor="danger"
         onOpenChange={(open) => !open && deleteDialog.close()}

@@ -11,6 +11,7 @@ interface Props {
   trigger: ReactNode;
   title: string;
   description?: ReactNode;
+  error?: string;
   confirmLabel?: string;
   cancelLabel?: string;
   confirmColor?: ButtonColor;
@@ -25,6 +26,7 @@ export function ConfirmDialog({
   trigger,
   title,
   description,
+  error,
   confirmLabel = '確認',
   cancelLabel = 'キャンセル',
   confirmColor = 'primary',
@@ -40,6 +42,8 @@ export function ConfirmDialog({
       <Dialog.Content size={size}>
         <Dialog.Title>{title}</Dialog.Title>
         {description && <Dialog.Description>{description}</Dialog.Description>}
+
+        {error && <p className="mt-2 text-sm text-text-danger">{error}</p>}
 
         <Dialog.Footer>
           <Dialog.Close>

@@ -10,11 +10,12 @@ import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schem
 export function useBgmDeleteDialog() {
   const [deleteTarget, setDeleteTarget] =
     useState<ResponseBgmWithEpisodesResponse | null>(null);
-  const { deleteBgm, isDeleting } = useDeleteBgm();
+  const { deleteBgm, isDeleting, error, clearError } = useDeleteBgm();
 
   const isOpen = deleteTarget !== null;
 
   function open(bgm: ResponseBgmWithEpisodesResponse) {
+    clearError();
     setDeleteTarget(bgm);
   }
 
@@ -22,16 +23,19 @@ export function useBgmDeleteDialog() {
     setDeleteTarget(null);
   }
 
-  function confirm() {
+  async function confirm() {
     if (!deleteTarget) return;
-    deleteBgm(deleteTarget.id);
-    setDeleteTarget(null);
+    const success = await deleteBgm(deleteTarget.id);
+    if (success) {
+      setDeleteTarget(null);
+    }
   }
 
   return {
     isOpen,
     deleteTarget,
     isDeleting,
+    error,
     open,
     close,
     confirm,
