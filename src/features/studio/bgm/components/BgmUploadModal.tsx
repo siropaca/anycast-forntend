@@ -52,7 +52,7 @@ export function BgmUploadModal() {
       onOpenChange={handleOpenChange}
       onSubmit={submit}
     >
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* ファイル */}
         <div className="space-y-2">
           <FormLabel htmlFor="bgm-file" required>

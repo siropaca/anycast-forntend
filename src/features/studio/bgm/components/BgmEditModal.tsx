@@ -27,7 +27,7 @@ export function BgmEditModal({ editModal }: BgmEditModalProps) {
       onOpenChange={handleOpenChange}
       onSubmit={editModal.submit}
     >
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="space-y-2">
           <FormLabel htmlFor="bgm-edit-name" required>
             BGM名

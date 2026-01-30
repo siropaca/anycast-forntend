@@ -27,7 +27,7 @@ export function FormLabel({
       {description && (
         <>
           <br />
-          <span className="text-text-subtle">{description}</span>
+          <span className="text-text-subtle text-xs">{description}</span>
         </>
       )}
     </label>
