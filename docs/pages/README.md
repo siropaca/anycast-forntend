@@ -87,12 +87,11 @@ Anycast のページ構成と URL 設計を定義する。
 
 ### ユーザー URL
 
-`/users/:username` 形式を採用。`/@:username` からのアクセスは Next.js の rewrites で `/users/:username` にリダイレクトする。
+`/users/:username` 形式を採用。
 
 **理由:**
 
 - `/users/` プレフィックスにより他のルートとの競合を回避
-- `/@:username` の rewrites を維持し、SNS 等で馴染みのある URL 形式も引き続き利用可能
 
 ### クリエイター機能
 
@@ -103,15 +102,6 @@ Anycast のページ構成と URL 設計を定義する。
 - リスナー向け UI とクリエイター向け UI を明確に分離
 - 将来的に分析機能などを追加しやすい
 - YouTube Studio などの先行サービスと同様の構成
-
----
-
-## ページ仕様
-
-| ページ | 詳細 |
-|--------|------|
-| チャンネル詳細 | [channel-detail.md](./channel-detail.md) |
-| エピソード詳細 | [episode-detail.md](./episode-detail.md) |
 
 ---
 
