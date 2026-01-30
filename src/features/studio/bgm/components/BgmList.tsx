@@ -13,8 +13,10 @@ import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { Pagination } from '@/components/navigation/Pagination/Pagination';
 import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
+import { BgmEditModal } from '@/features/studio/bgm/components/BgmEditModal';
 import { BgmUsageDialog } from '@/features/studio/bgm/components/BgmUsageDialog';
 import { useBgmDeleteDialog } from '@/features/studio/bgm/hooks/useBgmDeleteDialog';
+import { useBgmEditModal } from '@/features/studio/bgm/hooks/useBgmEditModal';
 import { useBgmPlayer } from '@/features/studio/bgm/hooks/useBgmPlayer';
 import { useMyBgmList } from '@/features/studio/bgm/hooks/useMyBgmList';
 import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas';
@@ -29,6 +31,7 @@ export function BgmList() {
   const { bgms, currentPage, totalPages, setCurrentPage } = useMyBgmList();
   const { isBgmPlaying, playBgm, pauseBgm } = useBgmPlayer();
   const deleteDialog = useBgmDeleteDialog();
+  const editModal = useBgmEditModal();
   const [dialogState, setDialogState] = useState<DialogState | null>(null);
 
   function handlePageChange(page: number) {
@@ -147,6 +150,7 @@ export function BgmList() {
             color="secondary"
             variant="text"
             disabled={bgm.isSystem}
+            onClick={() => editModal.open(bgm)}
           />
           <IconButton
             icon={<TrashIcon size={18} />}
@@ -195,6 +199,8 @@ export function BgmList() {
         onOpenChange={(open) => !open && deleteDialog.close()}
         onConfirm={deleteDialog.confirm}
       />
+
+      <BgmEditModal editModal={editModal} />
 
       <BgmUsageDialog
         title={

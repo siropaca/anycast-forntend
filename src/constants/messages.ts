@@ -50,6 +50,7 @@ export const MESSAGES = {
   },
   bgm: {
     setError: 'BGMの設定に失敗しました',
+    updateError: 'BGMの更新に失敗しました',
     deleteError: 'BGMの削除に失敗しました',
   },
   image: {
