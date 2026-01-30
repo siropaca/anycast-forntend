@@ -224,9 +224,7 @@ describe('helper', () => {
         },
         {
           title: 'Library',
-          items: [
-            { label: 'Likes', href: '/library/likes', icon: mockIcon },
-          ],
+          items: [{ label: 'Likes', href: '/library/likes', icon: mockIcon }],
         },
       ];
 

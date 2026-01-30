@@ -24,7 +24,10 @@ export function RecommendedChannels() {
 
   // 通常表示
   return (
-    <ContentSection title="おすすめのチャンネル" moreHref={Pages.channels.path()}>
+    <ContentSection
+      title="おすすめのチャンネル"
+      moreHref={Pages.channels.path()}
+    >
       {channels.map((channel) => (
         <Link key={channel.id} href={Pages.channel.path(channel.id)}>
           <Artwork

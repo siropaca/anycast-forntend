@@ -19,7 +19,10 @@ const mockFavoriteUsers = [
 
 export function FavoriteUsers() {
   return (
-    <ContentSection title="お気に入りのユーザー" moreHref={Pages.library.following.path()}>
+    <ContentSection
+      title="お気に入りのユーザー"
+      moreHref={Pages.library.following.path()}
+    >
       {mockFavoriteUsers.map((user) => (
         <Artwork
           key={user.id}

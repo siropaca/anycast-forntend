@@ -24,7 +24,10 @@ export function RecommendedEpisodes() {
 
   // 通常表示
   return (
-    <ContentSection title="おすすめのエピソード" moreHref={Pages.episodes.path()}>
+    <ContentSection
+      title="おすすめのエピソード"
+      moreHref={Pages.episodes.path()}
+    >
       {episodes.map((episode) => (
         <Link
           key={episode.id}
