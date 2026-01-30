@@ -1,12 +1,10 @@
 'use client';
 
-import {
-  ARTWORK_FIXED_SIZE,
-  Artwork,
-} from '@/components/dataDisplay/artworks/Artwork/Artwork';
+import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
 import { ContentSectionEmpty } from '@/components/surface/ContentSection/ContentSectionEmpty';
 import { RecommendedEpisodesSkeleton } from '@/features/home/components/RecommendedEpisodesSkeleton';
+import { ARTWORK_SIZE } from '@/features/home/constants/layout';
 import {
   getEpisodeArtworkUrl,
   useRecommendedEpisodes,
@@ -33,7 +31,7 @@ export function RecommendedEpisodes() {
           src={getEpisodeArtworkUrl(episode)}
           title={episode.title}
           subtext={episode.channel.name}
-          size={ARTWORK_FIXED_SIZE}
+          size={ARTWORK_SIZE}
         />
       ))}
     </ContentSection>

@@ -1,12 +1,10 @@
 'use client';
 
-import {
-  ARTWORK_FIXED_SIZE,
-  Artwork,
-} from '@/components/dataDisplay/artworks/Artwork/Artwork';
+import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
 import { ContentSectionEmpty } from '@/components/surface/ContentSection/ContentSectionEmpty';
 import { RecommendedChannelsSkeleton } from '@/features/home/components/RecommendedChannelsSkeleton';
+import { ARTWORK_SIZE } from '@/features/home/constants/layout';
 import { useRecommendedChannels } from '@/features/home/hooks/useRecommendedChannels';
 
 export function RecommendedChannels() {
@@ -30,7 +28,7 @@ export function RecommendedChannels() {
           src={channel.artwork?.url}
           title={channel.name}
           subtext={channel.category.name}
-          size={ARTWORK_FIXED_SIZE}
+          size={ARTWORK_SIZE}
         />
       ))}
     </ContentSection>
