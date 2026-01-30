@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
+import { FavoriteUsers } from '@/features/home/components/FavoriteUsers';
+import { FavoriteUsersSkeleton } from '@/features/home/components/FavoriteUsersSkeleton';
 import { RecentlyPlayed } from '@/features/home/components/RecentlyPlayed';
 import { RecentlyPlayedSkeleton } from '@/features/home/components/RecentlyPlayedSkeleton';
 import { RecommendedChannels } from '@/features/home/components/RecommendedChannels';
@@ -27,6 +29,11 @@ export default async function HomePage() {
       {/* おすすめのチャンネル */}
       <Suspense fallback={<RecommendedChannelsSkeleton />}>
         <RecommendedChannels />
+      </Suspense>
+
+      {/* お気に入りのユーザー */}
+      <Suspense fallback={<FavoriteUsersSkeleton />}>
+        <FavoriteUsers />
       </Suspense>
 
       {/* 最近聴いたコンテンツ（ログイン時のみ） */}
