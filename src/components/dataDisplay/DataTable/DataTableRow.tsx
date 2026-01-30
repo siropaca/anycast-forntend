@@ -50,7 +50,7 @@ export function DataTableRow<T>({ columns, row, onRowClick }: Props<T>) {
         {columns.map((column) => (
           <td
             key={column.key}
-            className={column.className ?? 'px-4 py-3 text-sm md:text-base'}
+            className={column.className ?? 'px-4 py-3 text-sm'}
           >
             {renderCell(column)}
           </td>
@@ -64,7 +64,7 @@ export function DataTableRow<T>({ columns, row, onRowClick }: Props<T>) {
       {columns.map((column) => (
         <td
           key={column.key}
-          className={column.className ?? 'px-4 py-3 text-sm md:text-base'}
+          className={column.className ?? 'px-4 py-3 text-sm'}
         >
           {renderCell(column)}
         </td>
