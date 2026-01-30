@@ -1,11 +1,14 @@
 'use client';
 
+import Link from 'next/link';
+
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
 import { ContentSectionEmpty } from '@/components/surface/ContentSection/ContentSectionEmpty';
 import { RecommendedChannelsSkeleton } from '@/features/home/components/RecommendedChannelsSkeleton';
 import { ARTWORK_SIZE } from '@/features/home/constants/layout';
 import { useRecommendedChannels } from '@/features/home/hooks/useRecommendedChannels';
+import { Pages } from '@/libs/pages';
 
 export function RecommendedChannels() {
   const { channels } = useRecommendedChannels();
@@ -23,13 +26,14 @@ export function RecommendedChannels() {
   return (
     <ContentSection title="おすすめのチャンネル" moreHref="/channels">
       {channels.map((channel) => (
-        <Artwork
-          key={channel.id}
-          src={channel.artwork?.url}
-          title={channel.name}
-          subtext={channel.category.name}
-          size={ARTWORK_SIZE}
-        />
+        <Link key={channel.id} href={Pages.channel.path(channel.id)}>
+          <Artwork
+            src={channel.artwork?.url}
+            title={channel.name}
+            subtext={channel.category.name}
+            size={ARTWORK_SIZE}
+          />
+        </Link>
       ))}
     </ContentSection>
   );

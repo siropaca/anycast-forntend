@@ -55,8 +55,10 @@ describe('mainPages', () => {
   });
 
   describe('episode', () => {
-    it('path が /episode/:episodeId を返す', () => {
-      expect(mainPages.episode.path('ep-123')).toBe('/episode/ep-123');
+    it('path が /channel/:channelId/episodes/:episodeId を返す', () => {
+      expect(mainPages.episode.path('ch-456', 'ep-123')).toBe(
+        '/channel/ch-456/episodes/ep-123',
+      );
     });
 
     it('title が設定されている', () => {

@@ -35,7 +35,8 @@ export const mainPages = {
   },
   /** エピソード詳細 */
   episode: {
-    path: (episodeId: string) => `/episode/${episodeId}`,
+    path: (channelSlug: string, episodeId: string) =>
+      `/channel/${channelSlug}/episodes/${episodeId}`,
     title: 'エピソード詳細',
   },
   /** ログイン */

@@ -34,7 +34,7 @@ Anycast のページ構成と URL 設計を定義する。
 | カテゴリ別 | `/explore/:category` | 特定カテゴリのチャンネル一覧 | | | |
 | ユーザー | `/users/:username` | ユーザーが配信しているチャンネル一覧 | ✅ | | |
 | チャンネル | `/channel/:channelSlug` | チャンネル詳細とエピソード一覧 | ✅ | | [詳細](./channel-detail.md) |
-| エピソード | `/episode/:episodeId` | エピソード再生ページ | ✅ | | [詳細](./episode-detail.md) |
+| エピソード | `/channel/:channelId/episodes/:episodeId` | エピソード再生ページ | ✅ | | [詳細](./episode-detail.md) |
 | 利用規約 | `/legal/terms` | 利用規約 | | | |
 | プライバシーポリシー | `/legal/privacy` | プライバシーポリシー | | | |
 
@@ -78,12 +78,12 @@ Anycast のページ構成と URL 設計を定義する。
 
 ### エピソード URL
 
-エピソードは独立したパス `/episode/:episodeId` を採用。
+エピソードはチャンネル配下のパス `/channel/:channelId/episodes/:episodeId` を採用。
 
 **理由:**
 
-- シンプルで共有しやすい
-- Spotify、YouTube などの主要サービスと同様の方式
+- チャンネルとエピソードの親子関係が URL に反映される
+- API エンドポイント `GET /channels/{channelId}/episodes/{episodeId}` と一致する
 
 ### ユーザー URL
 

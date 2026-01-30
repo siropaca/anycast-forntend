@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
-import { Pages } from '@/libs/pages';
+import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
+import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
+import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 interface Props {
   params: Promise<{ channelSlug: string }>;
@@ -8,18 +10,22 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { channelSlug } = await params;
+  const response = await getChannelsChannelId(channelSlug);
+  const channel = unwrapResponse<ResponseChannelResponse>(response);
+
   return {
-    title: `${Pages.channel.title} - ${channelSlug}`,
+    title: channel.name,
   };
 }
 
 export default async function ChannelPage({ params }: Props) {
   const { channelSlug } = await params;
+  const response = await getChannelsChannelId(channelSlug);
+  const channel = unwrapResponse<ResponseChannelResponse>(response);
 
   return (
     <div>
-      <div>チャンネル詳細</div>
-      <div>{channelSlug}</div>
+      <div>{channel.name}</div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-# エピソード詳細 (`/episode/:episodeId`)
+# エピソード詳細 (`/channel/:channelId/episodes/:episodeId`)
 
 リスナー向けのエピソード再生ページ。認証不要でアクセスできる。
 

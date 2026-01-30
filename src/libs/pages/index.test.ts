@@ -59,7 +59,9 @@ describe('Pages', () => {
 
   describe('episode', () => {
     it('エピソード詳細ページのパスを返す', () => {
-      expect(Pages.episode.path('ep-123')).toBe('/episode/ep-123');
+      expect(Pages.episode.path('ch-456', 'ep-123')).toBe(
+        '/channel/ch-456/episodes/ep-123',
+      );
     });
 
     it('タイトルを返す', () => {
