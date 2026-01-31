@@ -26,13 +26,14 @@ export function RecentlyPlayed() {
       title="最近聴いたコンテンツ"
       moreHref={Pages.library.history.path()}
     >
-      {items.map((item) => (
+      {items.map((item, index) => (
         <Artwork
           key={item.episode.id}
           src={item.episode.channel.artwork?.url}
           title={item.episode.title}
           subtext={item.episode.channel.name}
           size={ARTWORK_SIZE}
+          priority={index < 8}
         />
       ))}
     </ContentSection>

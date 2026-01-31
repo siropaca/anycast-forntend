@@ -28,7 +28,7 @@ export function RecommendedEpisodes() {
       title="おすすめのエピソード"
       moreHref={Pages.episodes.path()}
     >
-      {episodes.map((episode) => (
+      {episodes.map((episode, index) => (
         <Link
           key={episode.id}
           href={Pages.episode.path({
@@ -41,6 +41,7 @@ export function RecommendedEpisodes() {
             title={episode.title}
             subtext={episode.channel.name}
             size={ARTWORK_SIZE}
+            priority={index < 8}
           />
         </Link>
       ))}

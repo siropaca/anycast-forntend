@@ -28,7 +28,7 @@ export function RecommendedChannels() {
       title="おすすめのチャンネル"
       moreHref={Pages.channels.path()}
     >
-      {channels.map((channel) => (
+      {channels.map((channel, index) => (
         <Link
           key={channel.id}
           href={Pages.channel.path({ channelSlug: channel.id })}
@@ -38,6 +38,7 @@ export function RecommendedChannels() {
             title={channel.name}
             subtext={channel.category.name}
             size={ARTWORK_SIZE}
+            priority={index < 8}
           />
         </Link>
       ))}

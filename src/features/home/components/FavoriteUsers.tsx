@@ -23,7 +23,7 @@ export function FavoriteUsers() {
       title="お気に入りのユーザー"
       moreHref={Pages.library.following.path()}
     >
-      {mockFavoriteUsers.map((user) => (
+      {mockFavoriteUsers.map((user, index) => (
         <Artwork
           key={user.id}
           src={`https://picsum.photos/seed/user-${user.id}/400/400`}
@@ -31,6 +31,7 @@ export function FavoriteUsers() {
           subtext={user.subtext}
           size={ARTWORK_SIZE}
           rounded
+          priority={index < 8}
         />
       ))}
     </ContentSection>
