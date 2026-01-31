@@ -33,7 +33,7 @@ export type SignupSearchParams = {
   redirect?: string;
 };
 
-/** 探索ページの検索パラメータ */
+/** 見つけるページの検索パラメータ */
 export type ExploreSearchParams = {
   q?: string;
 };
@@ -80,10 +80,10 @@ export const mainPages = {
     path: () => '/channels',
     title: 'おすすめのチャンネル',
   },
-  /** 探索 */
+  /** 見つける */
   explore: {
     path: (params?: ExploreSearchParams) => `/explore${buildQuery(params)}`,
-    title: '探索',
+    title: '見つける',
   },
   /** ライブラリ */
   library: {
