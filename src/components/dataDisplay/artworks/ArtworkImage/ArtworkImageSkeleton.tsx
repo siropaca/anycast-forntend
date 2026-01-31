@@ -7,15 +7,16 @@ interface Props {
   className?: string;
 }
 
-export function ArtworkImageSkeleton({
-  size = 128,
-  rounded,
-  className,
-}: Props) {
+export function ArtworkImageSkeleton({ size, rounded, className }: Props) {
   return (
     <Skeleton
-      style={{ width: size, height: size }}
-      className={cn('shrink-0', rounded ? 'rounded-full' : '', className)}
+      style={size ? { width: size, height: size } : undefined}
+      className={cn(
+        'shrink-0',
+        rounded ? 'rounded-full' : '',
+        !size && 'aspect-square w-full',
+        className,
+      )}
     />
   );
 }

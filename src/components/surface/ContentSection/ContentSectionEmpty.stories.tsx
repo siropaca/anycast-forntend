@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ContentSectionEmpty } from '@/components/surface/ContentSection/ContentSectionEmpty';
 import { ArtworkSkeleton } from '@/components/dataDisplay/artworks/Artwork/ArtworkSkeleton';
+import { ContentSectionEmpty } from '@/components/surface/ContentSection/ContentSectionEmpty';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
