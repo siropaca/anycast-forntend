@@ -29,7 +29,10 @@ export function RecommendedChannels() {
       moreHref={Pages.channels.path()}
     >
       {channels.map((channel) => (
-        <Link key={channel.id} href={Pages.channel.path(channel.id)}>
+        <Link
+          key={channel.id}
+          href={Pages.channel.path({ channelSlug: channel.id })}
+        >
           <Artwork
             src={channel.artwork?.url}
             title={channel.name}

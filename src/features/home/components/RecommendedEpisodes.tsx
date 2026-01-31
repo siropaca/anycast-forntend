@@ -31,7 +31,10 @@ export function RecommendedEpisodes() {
       {episodes.map((episode) => (
         <Link
           key={episode.id}
-          href={Pages.episode.path(episode.channel.id, episode.id)}
+          href={Pages.episode.path({
+            channelSlug: episode.channel.id,
+            episodeId: episode.id,
+          })}
         >
           <Artwork
             src={episode.artwork?.url}

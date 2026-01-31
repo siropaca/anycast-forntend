@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
 
 import { Pages } from '@/libs/pages';
+import type { UserParams } from '@/libs/pages/mainPages';
 
 interface Props {
-  params: Promise<{ username: string }>;
+  params: Promise<UserParams>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { username } = await params;
+  const resolvedParams = await params;
   return {
-    title: Pages.user.title(username),
+    title: Pages.user.title(resolvedParams),
   };
 }
 

@@ -30,7 +30,9 @@ export default function LibraryPlaylistPage() {
         {playlists.map((playlist) => (
           <Link
             key={playlist.id}
-            href={Pages.library.playListDetail.path(String(playlist.id))}
+            href={Pages.library.playListDetail.path({
+              playlistId: String(playlist.id),
+            })}
           >
             <PlayList
               src={`https://picsum.photos/seed/playlist-${playlist.id}/400/400`}

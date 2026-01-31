@@ -3,9 +3,10 @@ import type { Metadata } from 'next';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import type { ChannelParams } from '@/libs/pages/mainPages';
 
 interface Props {
-  params: Promise<{ channelSlug: string }>;
+  params: Promise<ChannelParams>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

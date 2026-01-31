@@ -116,7 +116,7 @@ export function withProfileHref(
         return item;
       }
 
-      return { ...item, href: Pages.user.path(username) };
+      return { ...item, href: Pages.user.path({ username }) };
     }),
   }));
 }

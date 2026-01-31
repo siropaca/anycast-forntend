@@ -46,7 +46,9 @@ describe('mainPages', () => {
 
   describe('channel', () => {
     it('path が /channel/:channelSlug を返す', () => {
-      expect(mainPages.channel.path('my-channel')).toBe('/channel/my-channel');
+      expect(mainPages.channel.path({ channelSlug: 'my-channel' })).toBe(
+        '/channel/my-channel',
+      );
     });
 
     it('title が設定されている', () => {
@@ -56,9 +58,9 @@ describe('mainPages', () => {
 
   describe('episode', () => {
     it('path が /channel/:channelId/episodes/:episodeId を返す', () => {
-      expect(mainPages.episode.path('ch-456', 'ep-123')).toBe(
-        '/channel/ch-456/episodes/ep-123',
-      );
+      expect(
+        mainPages.episode.path({ channelSlug: 'ch-456', episodeId: 'ep-123' }),
+      ).toBe('/channel/ch-456/episodes/ep-123');
     });
 
     it('title が設定されている', () => {
@@ -110,7 +112,9 @@ describe('mainPages', () => {
     });
 
     it('following の pageTitle が設定されている', () => {
-      expect(mainPages.library.following.pageTitle).toBe('フォロー中のユーザー');
+      expect(mainPages.library.following.pageTitle).toBe(
+        'フォロー中のユーザー',
+      );
     });
 
     it('playList の path が /library/playlist を返す', () => {
@@ -122,9 +126,9 @@ describe('mainPages', () => {
     });
 
     it('playListDetail の path が /library/playlist/:playlistId を返す', () => {
-      expect(mainPages.library.playListDetail.path('pl-123')).toBe(
-        '/library/playlist/pl-123',
-      );
+      expect(
+        mainPages.library.playListDetail.path({ playlistId: 'pl-123' }),
+      ).toBe('/library/playlist/pl-123');
     });
 
     it('playListDetail の title が設定されている', () => {

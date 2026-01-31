@@ -1,5 +1,26 @@
 import { buildQuery } from '@/libs/pages/buildQuery';
 
+/** ユーザーページのパラメータ */
+export interface UserParams {
+  username: string;
+}
+
+/** チャンネル詳細ページのパラメータ */
+export interface ChannelParams {
+  channelSlug: string;
+}
+
+/** エピソード詳細ページのパラメータ */
+export interface EpisodeParams {
+  channelSlug: string;
+  episodeId: string;
+}
+
+/** 再生リスト詳細ページのパラメータ */
+export interface PlaylistDetailParams {
+  playlistId: string;
+}
+
 /** ログインページの検索パラメータ */
 export type LoginSearchParams = {
   /** ログイン後のリダイレクト先 */
@@ -25,18 +46,18 @@ export const mainPages = {
   },
   /** ユーザー */
   user: {
-    path: (username: string) => `/users/${username}`,
-    title: (username: string) => `@${username}`,
+    path: (params: UserParams) => `/users/${params.username}`,
+    title: (params: UserParams) => `@${params.username}`,
   },
   /** チャンネル詳細 */
   channel: {
-    path: (channelSlug: string) => `/channel/${channelSlug}`,
+    path: (params: ChannelParams) => `/channel/${params.channelSlug}`,
     title: 'チャンネル詳細',
   },
   /** エピソード詳細 */
   episode: {
-    path: (channelSlug: string, episodeId: string) =>
-      `/channel/${channelSlug}/episodes/${episodeId}`,
+    path: (params: EpisodeParams) =>
+      `/channel/${params.channelSlug}/episodes/${params.episodeId}`,
     title: 'エピソード詳細',
   },
   /** ログイン */
@@ -79,7 +100,8 @@ export const mainPages = {
     },
     /** 再生リスト詳細 */
     playListDetail: {
-      path: (playlistId: string) => `/library/playlist/${playlistId}`,
+      path: (params: PlaylistDetailParams) =>
+        `/library/playlist/${params.playlistId}`,
       title: '再生リスト詳細',
     },
     /** 高評価 */

@@ -24,7 +24,10 @@ export function LikeList() {
       {items.map((item) => (
         <Link
           key={item.episode.id}
-          href={Pages.episode.path(item.episode.channel.id, item.episode.id)}
+          href={Pages.episode.path({
+            channelSlug: item.episode.channel.id,
+            episodeId: item.episode.id,
+          })}
         >
           <Artwork
             src={item.episode.channel.artwork?.url}

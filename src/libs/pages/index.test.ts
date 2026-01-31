@@ -49,7 +49,9 @@ describe('Pages', () => {
 
   describe('channel', () => {
     it('チャンネル詳細ページのパスを返す', () => {
-      expect(Pages.channel.path('my-channel')).toBe('/channel/my-channel');
+      expect(Pages.channel.path({ channelSlug: 'my-channel' })).toBe(
+        '/channel/my-channel',
+      );
     });
 
     it('タイトルを返す', () => {
@@ -59,9 +61,9 @@ describe('Pages', () => {
 
   describe('episode', () => {
     it('エピソード詳細ページのパスを返す', () => {
-      expect(Pages.episode.path('ch-456', 'ep-123')).toBe(
-        '/channel/ch-456/episodes/ep-123',
-      );
+      expect(
+        Pages.episode.path({ channelSlug: 'ch-456', episodeId: 'ep-123' }),
+      ).toBe('/channel/ch-456/episodes/ep-123');
     });
 
     it('タイトルを返す', () => {
@@ -129,7 +131,7 @@ describe('Pages', () => {
     });
 
     it('再生リスト詳細ページのパスを返す', () => {
-      expect(Pages.library.playListDetail.path('pl-123')).toBe(
+      expect(Pages.library.playListDetail.path({ playlistId: 'pl-123' })).toBe(
         '/library/playlist/pl-123',
       );
     });

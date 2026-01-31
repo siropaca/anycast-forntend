@@ -4,6 +4,7 @@ import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
 import { Pages } from '@/libs/pages';
+import type { PlaylistDetailParams } from '@/libs/pages/mainPages';
 
 export const metadata: Metadata = {
   title: Pages.library.playListDetail.title,
@@ -23,7 +24,7 @@ const mockPlaylistEpisodes = [
 ];
 
 interface Props {
-  params: Promise<{ playlistId: string }>;
+  params: Promise<PlaylistDetailParams>;
 }
 
 export default async function PlaylistDetailPage({ params }: Props) {

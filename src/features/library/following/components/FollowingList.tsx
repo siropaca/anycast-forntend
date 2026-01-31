@@ -24,7 +24,7 @@ export function FollowingList() {
       {items.map((item) => (
         <Link
           key={item.user.id}
-          href={Pages.user.path(item.user.username)}
+          href={Pages.user.path({ username: item.user.username })}
         >
           <Artwork
             src={item.user.avatar?.url}

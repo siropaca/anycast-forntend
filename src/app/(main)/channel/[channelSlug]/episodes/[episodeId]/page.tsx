@@ -3,9 +3,10 @@ import type { Metadata } from 'next';
 import { getChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import type { EpisodeParams } from '@/libs/pages/mainPages';
 
 interface Props {
-  params: Promise<{ channelSlug: string; episodeId: string }>;
+  params: Promise<EpisodeParams>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
