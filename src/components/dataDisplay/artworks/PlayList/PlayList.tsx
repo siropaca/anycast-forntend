@@ -6,12 +6,13 @@ import { cn } from '@/utils/cn';
 interface Props {
   src?: string;
   size?: number;
+  priority?: boolean;
   title: string;
   episodeCount?: number;
   className?: string;
 }
 
-export function PlayList({ src, size, title, episodeCount, className }: Props) {
+export function PlayList({ src, size, priority, title, episodeCount, className }: Props) {
   return (
     <div
       className={cn(
@@ -23,6 +24,7 @@ export function PlayList({ src, size, title, episodeCount, className }: Props) {
         <ArtworkImage
           src={src}
           size={size}
+          priority={priority}
           className={!size ? 'w-full' : undefined}
         />
 

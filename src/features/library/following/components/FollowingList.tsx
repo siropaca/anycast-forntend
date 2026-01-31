@@ -21,7 +21,7 @@ export function FollowingList() {
   // 通常表示
   return (
     <ArtworkGrid>
-      {items.map((item) => (
+      {items.map((item, index) => (
         <Link
           key={item.user.id}
           href={Pages.user.path({ username: item.user.username })}
@@ -31,6 +31,7 @@ export function FollowingList() {
             title={item.user.displayName}
             subtext={`@${item.user.username}`}
             rounded
+            priority={index < 6}
           />
         </Link>
       ))}

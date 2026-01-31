@@ -34,12 +34,13 @@ export default function EpisodesPage() {
       <SectionTitle title={Pages.episodes.title} />
 
       <ArtworkGrid>
-        {mockEpisodes.map((episode) => (
+        {mockEpisodes.map((episode, index) => (
           <Artwork
             key={episode.id}
             src={`https://picsum.photos/seed/episode-${episode.id}/400/400`}
             title={episode.title}
             subtext={episode.channel}
+            priority={index < 6}
           />
         ))}
       </ArtworkGrid>

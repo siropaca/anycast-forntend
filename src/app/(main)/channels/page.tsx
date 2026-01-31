@@ -34,12 +34,13 @@ export default function ChannelsPage() {
       <SectionTitle title={Pages.channels.title} />
 
       <ArtworkGrid>
-        {mockChannels.map((channel) => (
+        {mockChannels.map((channel, index) => (
           <Artwork
             key={channel.id}
             src={`https://picsum.photos/seed/channel-${channel.id}/400/400`}
             title={channel.title}
             subtext={channel.category}
+            priority={index < 6}
           />
         ))}
       </ArtworkGrid>

@@ -5,6 +5,7 @@ interface Props {
   src?: string;
   alt?: string;
   size?: number;
+  priority?: boolean;
   rounded?: boolean;
   title: string;
   subtext?: string;
@@ -18,6 +19,7 @@ export function Artwork({
   src,
   alt,
   size,
+  priority,
   rounded,
   title,
   subtext,
@@ -31,7 +33,7 @@ export function Artwork({
         className,
       )}
     >
-      <ArtworkImage src={src} alt={alt} size={size} rounded={rounded} />
+      <ArtworkImage src={src} alt={alt} size={size} priority={priority} rounded={rounded} />
 
       <div className="mt-2" style={size ? { width: size } : undefined}>
         <p className="truncate text-sm">{title}</p>

@@ -35,12 +35,13 @@ export default async function PlaylistDetailPage({ params }: Props) {
       <SectionTitle title={`再生リスト #${playlistId}`} />
 
       <ArtworkGrid>
-        {mockPlaylistEpisodes.map((episode) => (
+        {mockPlaylistEpisodes.map((episode, index) => (
           <Artwork
             key={episode.id}
             src={`https://picsum.photos/seed/pl-${playlistId}-${episode.id}/400/400`}
             title={episode.title}
             subtext={episode.channel}
+            priority={index < 6}
           />
         ))}
       </ArtworkGrid>

@@ -11,6 +11,7 @@ interface Props {
   alt?: string;
   fallback?: string;
   size?: Size;
+  priority?: boolean;
   className?: string;
 }
 
@@ -20,11 +21,18 @@ const sizeClasses: Record<Size, string> = {
   lg: 'size-[var(--size-lg)] text-base',
 };
 
+const sizePx: Record<Size, string> = {
+  sm: '30px',
+  md: '36px',
+  lg: '42px',
+};
+
 export function Avatar({
   src,
   alt = '',
   fallback,
   size = 'md',
+  priority,
   className,
 }: Props) {
   const [hasError, setHasError] = useState(false);
@@ -51,6 +59,8 @@ export function Avatar({
           src={src}
           alt={alt}
           fill
+          priority={priority}
+          sizes={sizePx[size]}
           onError={handleError}
           className="object-cover"
         />

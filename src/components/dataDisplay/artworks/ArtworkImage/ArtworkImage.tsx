@@ -8,6 +8,8 @@ interface Props {
   src?: string;
   alt?: string;
   size?: number;
+  sizes?: string;
+  priority?: boolean;
   rounded?: boolean;
   className?: string;
 }
@@ -16,6 +18,8 @@ export function ArtworkImage({
   src,
   alt = '',
   size,
+  sizes,
+  priority,
   rounded,
   className,
 }: Props) {
@@ -46,6 +50,13 @@ export function ArtworkImage({
           src={src}
           alt={alt}
           fill
+          priority={priority}
+          sizes={
+            sizes ??
+            (size
+              ? `${size}px`
+              : '(min-width: 1280px) 17vw, (min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw')
+          }
           onError={handleError}
           className="object-cover"
         />

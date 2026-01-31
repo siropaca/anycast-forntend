@@ -27,7 +27,7 @@ export default function LibraryPlaylistPage() {
       <SectionTitle title={Pages.library.playList.title} />
 
       <ArtworkGrid>
-        {playlists.map((playlist) => (
+        {playlists.map((playlist, index) => (
           <Link
             key={playlist.id}
             href={Pages.library.playListDetail.path({
@@ -38,6 +38,7 @@ export default function LibraryPlaylistPage() {
               src={`https://picsum.photos/seed/playlist-${playlist.id}/400/400`}
               title={playlist.title}
               episodeCount={playlist.episodeCount}
+              priority={index < 6}
             />
           </Link>
         ))}

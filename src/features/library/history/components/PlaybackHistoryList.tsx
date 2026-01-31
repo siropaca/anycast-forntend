@@ -19,7 +19,7 @@ export function PlaybackHistoryList() {
   // 通常表示
   return (
     <ArtworkGrid>
-      {items.map((item) => (
+      {items.map((item, index) => (
         <Link
           key={item.episode.id}
           href={Pages.episode.path({
@@ -31,6 +31,7 @@ export function PlaybackHistoryList() {
             src={item.episode.channel.artwork?.url}
             title={item.episode.title}
             subtext={item.episode.channel.name}
+            priority={index < 6}
           />
         </Link>
       ))}
