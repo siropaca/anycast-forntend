@@ -1,38 +1,47 @@
 'use client';
 
+import Link from 'next/link';
+
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
+import { ContentSectionEmpty } from '@/components/surface/ContentSection/ContentSectionEmpty';
+import { FavoriteUsersSkeleton } from '@/features/home/components/FavoriteUsersSkeleton';
 import { ARTWORK_SIZE } from '@/features/home/constants/layout';
+import { useFavoriteUsers } from '@/features/home/hooks/useFavoriteUsers';
 import { Pages } from '@/libs/pages';
 
-// TODO: モック実装
-const mockFavoriteUsers = [
-  { id: 1, title: 'さくら', subtext: '@sakura' },
-  { id: 2, title: '知世', subtext: '@tomoyo' },
-  { id: 3, title: '小狼', subtext: '@syaoran' },
-  { id: 4, title: 'エリオル', subtext: '@eriol' },
-  { id: 5, title: '雪兎', subtext: '@yukito' },
-  { id: 6, title: '桃矢', subtext: '@touya' },
-  { id: 7, title: '苺鈴', subtext: '@meiling' },
-  { id: 8, title: '奈久留', subtext: '@nakuru' },
-];
-
 export function FavoriteUsers() {
+  const { items } = useFavoriteUsers();
+
+  // エンプティ
+  if (items.length === 0) {
+    return (
+      <ContentSectionEmpty message="お気に入りのユーザーはいません">
+        <FavoriteUsersSkeleton />
+      </ContentSectionEmpty>
+    );
+  }
+
+  // 通常表示
   return (
     <ContentSection
       title="お気に入りのユーザー"
       moreHref={Pages.library.following.path()}
     >
-      {mockFavoriteUsers.map((user, index) => (
-        <Artwork
-          key={user.id}
-          src={`https://picsum.photos/seed/user-${user.id}/400/400`}
-          title={user.title}
-          subtext={user.subtext}
-          size={ARTWORK_SIZE}
-          rounded
-          priority={index < 8}
-        />
+      {items.map((item, index) => (
+        <Link
+          key={item.user.id}
+          href={Pages.user.path({ username: item.user.username })}
+        >
+          <Artwork
+            src={item.user.avatar?.url}
+            title={item.user.displayName}
+            subtext={`@${item.user.username}`}
+            size={ARTWORK_SIZE}
+            rounded
+            priority={index < 8}
+          />
+        </Link>
       ))}
     </ContentSection>
   );

@@ -9,7 +9,7 @@ export function FavoriteUsersSkeleton() {
     <ContentSection title="お気に入りのユーザー">
       {Array.from({ length: SKELETON_COUNT }, (_, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton list
-        <ArtworkSkeleton key={i} size={ARTWORK_SIZE} />
+        <ArtworkSkeleton key={i} size={ARTWORK_SIZE} rounded />
       ))}
     </ContentSection>
   );
