@@ -86,6 +86,11 @@ export const AllVariants: Story = {
           <ArtworkImageSkeleton size={128} />
           <ArtworkImageSkeleton size={192} />
         </Stack>
+        <Stack>
+          <ArtworkImageSkeleton size={64} rounded />
+          <ArtworkImageSkeleton size={128} rounded />
+          <ArtworkImageSkeleton size={192} rounded />
+        </Stack>
       </Section>
     </Stack>
   ),
@@ -93,10 +98,17 @@ export const AllVariants: Story = {
 
 export const Skeleton: Story = {
   render: () => (
-    <Stack>
-      <ArtworkImageSkeleton size={64} />
-      <ArtworkImageSkeleton size={128} />
-      <ArtworkImageSkeleton size={192} />
+    <Stack direction="column" gap={24}>
+      <Stack>
+        <ArtworkImageSkeleton size={64} />
+        <ArtworkImageSkeleton size={128} />
+        <ArtworkImageSkeleton size={192} />
+      </Stack>
+      <Stack>
+        <ArtworkImageSkeleton size={64} rounded />
+        <ArtworkImageSkeleton size={128} rounded />
+        <ArtworkImageSkeleton size={192} rounded />
+      </Stack>
     </Stack>
   ),
 };

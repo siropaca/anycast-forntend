@@ -147,6 +147,11 @@ export const AllVariants: Story = {
           <ArtworkSkeleton size={128} hasSubtext={false} />
           <ArtworkSkeleton size={128} hasSubtext2 />
         </Stack>
+        <Stack align="start">
+          <ArtworkSkeleton size={128} rounded />
+          <ArtworkSkeleton size={128} rounded hasSubtext={false} />
+          <ArtworkSkeleton size={128} rounded hasSubtext2 />
+        </Stack>
       </Section>
     </Stack>
   ),
@@ -155,10 +160,17 @@ export const AllVariants: Story = {
 export const Skeleton: Story = {
   args: { title: '' },
   render: () => (
-    <Stack align="start">
-      <ArtworkSkeleton size={120} />
-      <ArtworkSkeleton size={170} />
-      <ArtworkSkeleton size={220} />
+    <Stack direction="column" gap={24} align="start">
+      <Stack align="start">
+        <ArtworkSkeleton size={120} />
+        <ArtworkSkeleton size={170} />
+        <ArtworkSkeleton size={220} />
+      </Stack>
+      <Stack align="start">
+        <ArtworkSkeleton size={120} rounded />
+        <ArtworkSkeleton size={170} rounded />
+        <ArtworkSkeleton size={220} rounded />
+      </Stack>
     </Stack>
   ),
 };
