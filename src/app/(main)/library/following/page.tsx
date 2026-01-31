@@ -6,14 +6,14 @@ import { FollowingListSkeleton } from '@/features/library/following/components/F
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: Pages.library.following.title,
+  title: Pages.library.following.pageTitle,
   robots: { index: false },
 };
 
 export default function LibraryFollowingPage() {
   return (
     <div>
-      <SectionTitle title={Pages.library.following.title} />
+      <SectionTitle title={Pages.library.following.pageTitle} />
 
       <Suspense fallback={<FollowingListSkeleton />}>
         <FollowingList />

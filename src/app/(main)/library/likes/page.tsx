@@ -6,14 +6,14 @@ import { LikeListSkeleton } from '@/features/library/likes/components/LikeListSk
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: Pages.library.likes.title,
+  title: Pages.library.likes.pageTitle,
   robots: { index: false },
 };
 
 export default function LibraryLikesPage() {
   return (
     <div>
-      <SectionTitle title={Pages.library.likes.title} />
+      <SectionTitle title={Pages.library.likes.pageTitle} />
 
       <Suspense fallback={<LikeListSkeleton />}>
         <LikeList />

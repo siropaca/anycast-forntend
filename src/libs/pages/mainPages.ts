@@ -70,6 +70,7 @@ export const mainPages = {
     following: {
       path: () => '/library/following',
       title: 'フォロー中',
+      pageTitle: 'フォロー中のユーザー',
     },
     /** 再生リスト */
     playList: {
@@ -85,6 +86,7 @@ export const mainPages = {
     likes: {
       path: () => '/library/likes',
       title: '高評価',
+      pageTitle: '高評価したエピソード',
     },
     /** 履歴 */
     history: {

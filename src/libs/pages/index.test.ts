@@ -116,6 +116,10 @@ describe('Pages', () => {
       expect(Pages.library.following.title).toBe('フォロー中');
     });
 
+    it('フォロー中のページタイトルを返す', () => {
+      expect(Pages.library.following.pageTitle).toBe('フォロー中のユーザー');
+    });
+
     it('再生リストページのパスを返す', () => {
       expect(Pages.library.playList.path()).toBe('/library/playlist');
     });
@@ -140,6 +144,10 @@ describe('Pages', () => {
 
     it('高評価のタイトルを返す', () => {
       expect(Pages.library.likes.title).toBe('高評価');
+    });
+
+    it('高評価のページタイトルを返す', () => {
+      expect(Pages.library.likes.pageTitle).toBe('高評価したエピソード');
     });
   });
 

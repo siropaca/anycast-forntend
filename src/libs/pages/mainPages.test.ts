@@ -109,6 +109,10 @@ describe('mainPages', () => {
       expect(mainPages.library.following.title).toBe('フォロー中');
     });
 
+    it('following の pageTitle が設定されている', () => {
+      expect(mainPages.library.following.pageTitle).toBe('フォロー中のユーザー');
+    });
+
     it('playList の path が /library/playlist を返す', () => {
       expect(mainPages.library.playList.path()).toBe('/library/playlist');
     });
@@ -133,6 +137,10 @@ describe('mainPages', () => {
 
     it('likes の title が設定されている', () => {
       expect(mainPages.library.likes.title).toBe('高評価');
+    });
+
+    it('likes の pageTitle が設定されている', () => {
+      expect(mainPages.library.likes.pageTitle).toBe('高評価したエピソード');
     });
 
     it('history の path が /library/history を返す', () => {
