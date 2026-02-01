@@ -31,10 +31,12 @@ export default async function HomePage() {
         <RecommendedChannels />
       </Suspense>
 
-      {/* お気に入りのユーザー */}
-      <Suspense fallback={<FavoriteUsersSkeleton />}>
-        <FavoriteUsers />
-      </Suspense>
+      {/* お気に入りのユーザー（ログイン時のみ） */}
+      {isLoggedIn && (
+        <Suspense fallback={<FavoriteUsersSkeleton />}>
+          <FavoriteUsers />
+        </Suspense>
+      )}
 
       {/* 最近聴いたコンテンツ（ログイン時のみ） */}
       {isLoggedIn && (

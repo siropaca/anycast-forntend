@@ -7,6 +7,7 @@ import {
 } from '@/components/navigation/SideMenu/helper';
 import { SideMenu } from '@/components/navigation/SideMenu/SideMenu';
 import {
+  LIBRARY_SECTION,
   MAIN_MENU_SECTIONS,
   MY_PAGE_SECTION,
 } from '@/features/app/constants/mainMenu';
@@ -20,7 +21,7 @@ export function MainLayoutSideMenu({ isLoggedIn, username }: Props) {
   const pathname = usePathname();
 
   const sections = isLoggedIn
-    ? [...MAIN_MENU_SECTIONS, MY_PAGE_SECTION]
+    ? [...MAIN_MENU_SECTIONS, LIBRARY_SECTION, MY_PAGE_SECTION]
     : MAIN_MENU_SECTIONS;
 
   const sectionsWithProfile = username
