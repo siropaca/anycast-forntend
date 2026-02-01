@@ -40,6 +40,9 @@ export const WithAction: Story = {
 };
 
 export const AllVariants: Story = {
+  args: {
+    title: 'セクションタイトル',
+  },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="h2 (default)">
