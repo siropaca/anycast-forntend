@@ -38,6 +38,11 @@ export type ExploreSearchParams = {
   q?: string;
 };
 
+/** カテゴリ別ページのパラメータ */
+export interface ExploreCategoryParams {
+  category: string;
+}
+
 export const mainPages = {
   /** ホーム */
   home: {
@@ -84,6 +89,11 @@ export const mainPages = {
   explore: {
     path: (params?: ExploreSearchParams) => `/explore${buildQuery(params)}`,
     title: '探索',
+  },
+  /** カテゴリ別 */
+  exploreCategory: {
+    path: (params: ExploreCategoryParams) => `/explore/${params.category}`,
+    title: 'カテゴリ別', // カテゴリ名で置換
   },
   /** ライブラリ */
   library: {

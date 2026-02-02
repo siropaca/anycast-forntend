@@ -102,6 +102,18 @@ describe('mainPages', () => {
     });
   });
 
+  describe('exploreCategory', () => {
+    it('path が /explore/:category を返す', () => {
+      expect(mainPages.exploreCategory.path({ category: 'technology' })).toBe(
+        '/explore/technology',
+      );
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.exploreCategory.title).toBe('カテゴリ別');
+    });
+  });
+
   describe('terms', () => {
     it('path が /terms を返す', () => {
       expect(mainPages.terms.path()).toBe('/terms');

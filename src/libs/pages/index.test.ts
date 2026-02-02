@@ -109,6 +109,18 @@ describe('Pages', () => {
     });
   });
 
+  describe('exploreCategory', () => {
+    it('カテゴリ別ページのパスを返す', () => {
+      expect(Pages.exploreCategory.path({ category: 'technology' })).toBe(
+        '/explore/technology',
+      );
+    });
+
+    it('タイトルを返す', () => {
+      expect(Pages.exploreCategory.title).toBe('カテゴリ別');
+    });
+  });
+
   describe('library', () => {
     it('フォロー中ページのパスを返す', () => {
       expect(Pages.library.following.path()).toBe('/library/following');

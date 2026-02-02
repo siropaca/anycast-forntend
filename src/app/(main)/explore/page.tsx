@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Pages } from '@/libs/pages';
 import type { ExploreSearchParams } from '@/libs/pages/mainPages';
 
@@ -15,7 +16,8 @@ export default async function ExplorePage({ searchParams }: Props) {
 
   return (
     <div>
-      <div>Explore</div>
+      <SectionTitle title={Pages.explore.title} />
+
       <div>検索クエリ: {q}</div>
     </div>
   );
