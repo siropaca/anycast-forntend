@@ -31,7 +31,7 @@ export function LayoutBody({ sideMenu, children }: Props) {
           >
             <main>{children}</main>
 
-            <div className="text-center pb-6 pt-10 space-y-4 mt-6">
+            <div className="text-center pb-4 pt-8 space-y-4 mt-6">
               <FooterLinks />
               <Copyright />
             </div>
