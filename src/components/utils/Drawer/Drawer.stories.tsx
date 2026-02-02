@@ -20,7 +20,7 @@ export const Default: Story = {
         左から開く
       </Drawer.Trigger>
 
-      <Drawer.Content side="left">
+      <Drawer.Content side="left" className="w-sidebar">
         <Drawer.Header>
           <Drawer.Close className="p-2 -ml-2">
             <XIcon size={24} weight="bold" aria-label="閉じる" />
@@ -45,7 +45,7 @@ export const Right: Story = {
         右から開く
       </Drawer.Trigger>
 
-      <Drawer.Content side="right">
+      <Drawer.Content side="right" className="w-sidebar">
         <Drawer.Header>
           <span className="text-xl font-semibold text-primary">Drawer</span>
           <div className="ml-auto">

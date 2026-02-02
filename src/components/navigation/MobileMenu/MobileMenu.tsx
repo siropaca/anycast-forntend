@@ -18,7 +18,7 @@ export function MobileMenu({ children }: Props) {
         <ListIcon size={24} weight="bold" aria-label="メニューを開く" />
       </Drawer.Trigger>
 
-      <Drawer.Content side="left">
+      <Drawer.Content side="left" className="w-sidebar">
         <Drawer.Header>
           <Drawer.Close className="p-2 -ml-2">
             <XIcon size={24} weight="bold" aria-label="メニューを閉じる" />

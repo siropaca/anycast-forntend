@@ -25,7 +25,7 @@ export function DrawerContent({ side = 'left', className, children }: Props) {
 
       <Dialog.Popup
         className={cn(
-          'fixed inset-y-0 z-50 w-sidebar bg-bg-main flex flex-col',
+          'fixed inset-y-0 z-50 bg-bg-main flex flex-col',
           'transition-transform duration-200',
           positionClasses[side],
           className,
