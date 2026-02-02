@@ -17,7 +17,7 @@ export function Textarea({
   const currentLength = typeof value === 'string' ? value.length : 0;
 
   return (
-    <div className="relative inline-block">
+    <div className={cn('relative', className)}>
       {/* インプット */}
       <textarea
         className={cn(
@@ -27,7 +27,6 @@ export function Textarea({
           'disabled:cursor-not-allowed disabled:opacity-50',
           error ? 'border-border-danger' : 'border-border',
           showCounter && 'pb-8',
-          className,
         )}
         value={value}
         maxLength={maxLength}
