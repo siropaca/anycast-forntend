@@ -12,7 +12,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
   return (
     <div>
-      <div>{episode.title}</div>
+      <pre>{JSON.stringify(episode, null, 2)}</pre>
     </div>
   );
 }

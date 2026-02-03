@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-
+import { Suspense } from 'react';
+import { ChannelDetail } from '@/features/channels/components/ChannelDetail';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
@@ -21,12 +22,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ChannelPage({ params }: Props) {
   const { channelId } = await params;
-  const response = await getChannelsChannelId(channelId);
-  const channel = unwrapResponse<ResponseChannelResponse>(response);
 
   return (
-    <div>
-      <div>{channel.name}</div>
-    </div>
+    <Suspense fallback={<p>読み込み中...</p>}>
+      <ChannelDetail channelId={channelId} />
+    </Suspense>
   );
 }
