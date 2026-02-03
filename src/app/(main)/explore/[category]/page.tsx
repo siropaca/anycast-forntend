@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
-import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { Suspense } from 'react';
+import { CategoryContentSkeleton } from '@/features/explore/components/CategoryContentSkeleton';
+import { ExploreCategoryContent } from '@/features/explore/components/ExploreCategoryContent';
 import { Pages } from '@/libs/pages';
 import type { ExploreCategoryParams } from '@/libs/pages/mainPages';
 
@@ -15,8 +17,8 @@ export default async function ExploreCategoryPage({ params }: Props) {
   const { category } = await params;
 
   return (
-    <div>
-      <SectionTitle title={category} />
-    </div>
+    <Suspense fallback={<CategoryContentSkeleton />}>
+      <ExploreCategoryContent categorySlug={category} />
+    </Suspense>
   );
 }
