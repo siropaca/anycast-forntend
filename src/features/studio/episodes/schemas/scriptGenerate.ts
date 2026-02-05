@@ -6,6 +6,11 @@ import { VALIDATION_MESSAGES } from '@/constants/messages';
  */
 export const EPISODE_DURATION_OPTIONS = [5, 10, 15] as const;
 
+/**
+ * エピソードの長さのデフォルト値（分）
+ */
+export const DEFAULT_DURATION_MINUTES = 10;
+
 export const scriptGenerateFormSchema = z.object({
   prompt: z
     .string()

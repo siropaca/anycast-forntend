@@ -1,9 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGenerateScriptForm } from '@/features/studio/episodes/hooks/useGenerateScriptForm';
+import { useGenerateScriptAsync } from '@/features/studio/episodes/hooks/useGenerateScriptAsync';
 import {
+  DEFAULT_DURATION_MINUTES,
   EPISODE_DURATION_OPTIONS,
   type ScriptGenerateFormInput,
   scriptGenerateFormSchema,
@@ -16,28 +18,42 @@ interface Props {
 
 export function ScriptGenerateForm({ channelId, episodeId }: Props) {
   const {
-    generateScript,
-    cancelScript,
     isGenerating,
     isCancelable,
     isCanceling,
     status,
     progress,
     error,
+    restoredPrompt,
+    restoredDurationMinutes,
+    generateScript,
+    cancelScript,
     reset,
-  } = useGenerateScriptForm(channelId, episodeId);
+  } = useGenerateScriptAsync(channelId, episodeId);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset: resetForm,
+    formState: { errors, isDirty },
   } = useForm<ScriptGenerateFormInput>({
     resolver: zodResolver(scriptGenerateFormSchema),
     defaultValues: {
-      prompt: '',
-      durationMinutes: 10,
+      prompt: restoredPrompt ?? '',
+      durationMinutes: restoredDurationMinutes ?? DEFAULT_DURATION_MINUTES,
     },
   });
+
+  // 非同期取得した最新完了ジョブのプロンプトをフォームに反映
+  useEffect(() => {
+    if (isDirty || isGenerating) return;
+    if (restoredPrompt == null && restoredDurationMinutes == null) return;
+
+    resetForm({
+      prompt: restoredPrompt ?? '',
+      durationMinutes: restoredDurationMinutes ?? DEFAULT_DURATION_MINUTES,
+    });
+  }, [restoredPrompt, restoredDurationMinutes, isDirty, isGenerating, resetForm]);
 
   function onSubmit(data: ScriptGenerateFormInput) {
     generateScript({

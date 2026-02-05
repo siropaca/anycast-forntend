@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef } from 'react';
+import { Suspense, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
 import { BgmSelector } from '@/features/studio/episodes/components/BgmSelector';
@@ -114,7 +114,9 @@ export function ScriptLineList({
 
   return (
     <>
-      <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />
+      <Suspense fallback={<p>読み込み中...</p>}>
+        <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />
+      </Suspense>
 
       <hr className="my-4" />
 

@@ -3,16 +3,22 @@ import { StatusCodes } from 'http-status-codes';
 import { useEffect, useRef, useState } from 'react';
 
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
-import { getMeScriptJobs } from '@/libs/api/generated/me/me';
-import type { RequestGenerateScriptAsyncRequest } from '@/libs/api/generated/schemas';
+import { useGetMeScriptJobsSuspense } from '@/libs/api/generated/me/me';
+import type {
+  RequestGenerateScriptAsyncRequest,
+  ResponseScriptJobResponse,
+} from '@/libs/api/generated/schemas';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerateAsync,
 } from '@/libs/api/generated/script/script';
 import {
+  getGetChannelsChannelIdEpisodesEpisodeIdScriptJobsLatestQueryKey,
   getScriptJobsJobId,
+  useGetChannelsChannelIdEpisodesEpisodeIdScriptJobsLatest,
   usePostScriptJobsJobIdCancel,
 } from '@/libs/api/generated/script-jobs/script-jobs';
+import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { useJobWebSocket } from '@/libs/websocket/useJobWebSocket';
 import type { JobStatus } from '@/types/job';
 import { trimFullWidth } from '@/utils/trim';
@@ -22,10 +28,12 @@ interface ScriptJobState {
   status: JobStatus;
   progress: number;
   errorMessage: string | null;
+  prompt: string | null;
+  durationMinutes: number | null;
 }
 
 /**
- * 台本生成ミューテーションを提供する（非同期版）
+ * 台本生成ミューテーションを提供する
  *
  * @param channelId - チャンネル ID
  * @param episodeId - エピソード ID
@@ -34,14 +42,66 @@ interface ScriptJobState {
 export function useGenerateScriptAsync(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
 
+  // Suspense でジョブデータを取得
+  const { data: pendingResponse } = useGetMeScriptJobsSuspense({
+    status: 'pending',
+  });
+  const { data: processingResponse } = useGetMeScriptJobsSuspense({
+    status: 'processing',
+  });
+
+  const pendingJobs = unwrapResponse<ResponseScriptJobResponse[]>(
+    pendingResponse,
+    [],
+  );
+  const processingJobs = unwrapResponse<ResponseScriptJobResponse[]>(
+    processingResponse,
+    [],
+  );
+  const runningJob =
+    [...pendingJobs, ...processingJobs].find(
+      (job) => job.episodeId === episodeId,
+    ) ?? null;
+
+  // 最新完了ジョブを取得（実行中ジョブがない場合のプロンプト復元用）
+  const { data: latestJobResponse } =
+    useGetChannelsChannelIdEpisodesEpisodeIdScriptJobsLatest(
+      channelId,
+      episodeId,
+      {
+        query: {
+          enabled: !runningJob,
+        },
+      },
+    );
+  const latestCompletedJob =
+    latestJobResponse?.status === StatusCodes.OK
+      ? latestJobResponse.data.data
+      : null;
+
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const jobIdRef = useRef<string | null>(null);
 
-  const [jobState, setJobState] = useState<ScriptJobState>({
-    jobId: null,
-    status: 'idle',
-    progress: 0,
-    errorMessage: null,
+  const [jobState, setJobState] = useState<ScriptJobState>(() => {
+    if (runningJob) {
+      return {
+        jobId: runningJob.id,
+        status: runningJob.status as JobStatus,
+        progress: runningJob.progress,
+        errorMessage: null,
+        prompt: runningJob.prompt ?? null,
+        durationMinutes: runningJob.durationMinutes ?? null,
+      };
+    }
+
+    return {
+      jobId: null,
+      status: 'idle',
+      progress: 0,
+      errorMessage: null,
+      prompt: null,
+      durationMinutes: null,
+    };
   });
 
   // jobId を ref で同期
@@ -68,6 +128,14 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
         channelId,
         episodeId,
       ),
+    });
+
+    queryClient.invalidateQueries({
+      queryKey:
+        getGetChannelsChannelIdEpisodesEpisodeIdScriptJobsLatestQueryKey(
+          channelId,
+          episodeId,
+        ),
     });
   }
 
@@ -201,50 +269,13 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     };
   }, []);
 
-  // マウント時に処理中のジョブを確認して復帰
+  // マウント時に実行中ジョブの監視を開始
   // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
   useEffect(() => {
-    async function restoreRunningJob() {
-      try {
-        // pending と processing のジョブを取得
-        const [pendingResponse, processingResponse] = await Promise.all([
-          getMeScriptJobs({ status: 'pending' }),
-          getMeScriptJobs({ status: 'processing' }),
-        ]);
-
-        const allJobs = [
-          ...(pendingResponse.status === StatusCodes.OK
-            ? pendingResponse.data.data
-            : []),
-          ...(processingResponse.status === StatusCodes.OK
-            ? processingResponse.data.data
-            : []),
-        ];
-
-        // 対象エピソードのジョブを探す
-        const targetJob = allJobs.find((job) => job.episodeId === episodeId);
-
-        if (targetJob) {
-          // 状態を復帰
-          setJobState({
-            jobId: targetJob.id,
-            status: targetJob.status as JobStatus,
-            progress: targetJob.progress,
-            errorMessage: null,
-          });
-
-          // WebSocket で購読開始
-          subscribe(targetJob.id);
-
-          // ポーリングも開始
-          startPolling(targetJob.id);
-        }
-      } catch {
-        // 復帰失敗は無視
-      }
+    if (runningJob) {
+      subscribe(runningJob.id);
+      startPolling(runningJob.id);
     }
-
-    restoreRunningJob();
   }, [episodeId]);
 
   const mutation =
@@ -264,6 +295,8 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       status: 'pending',
       progress: 0,
       errorMessage: null,
+      prompt: null,
+      durationMinutes: null,
     });
 
     mutation.mutate(
@@ -332,6 +365,8 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       status: 'idle',
       progress: 0,
       errorMessage: null,
+      prompt: null,
+      durationMinutes: null,
     });
   }
 
@@ -391,6 +426,10 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     status: jobState.status,
     progress: jobState.progress,
     error: jobState.errorMessage,
+    restoredPrompt:
+      jobState.prompt ?? latestCompletedJob?.prompt ?? null,
+    restoredDurationMinutes:
+      jobState.durationMinutes ?? latestCompletedJob?.durationMinutes ?? null,
 
     generateScript,
     cancelScript,

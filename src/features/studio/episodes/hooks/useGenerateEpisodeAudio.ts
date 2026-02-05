@@ -25,7 +25,7 @@ interface AudioJobState {
 }
 
 /**
- * エピソード音声生成ミューテーションを提供する（非同期版）
+ * エピソード音声生成ミューテーションを提供する
  *
  * @param channelId - チャンネル ID
  * @param episodeId - エピソード ID

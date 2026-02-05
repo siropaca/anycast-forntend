@@ -12,7 +12,6 @@ function createEpisode(
     id: 'episode-1',
     title: 'テストエピソード',
     description: 'テスト説明',
-    userPrompt: 'テストプロンプト',
     voiceStyle: 'normal',
     audioOutdated: false,
     playCount: 0,
