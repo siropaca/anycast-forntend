@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ToastProvider } from '@/components/feedback/Toast/ToastProvider';
+import { Button } from '@/components/inputs/buttons/Button/Button';
 import { useToast } from '@/hooks/useToast';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
@@ -77,7 +77,7 @@ export const Success: Story = {
   ),
 };
 
-export const Error: Story = {
+export const ErrorToast: Story = {
   render: () => (
     <Section title="Error">
       <ErrorExample />
