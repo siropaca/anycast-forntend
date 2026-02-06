@@ -13,6 +13,7 @@ interface Props {
   priority?: boolean;
   rounded?: boolean;
   isPlaying?: boolean;
+  fallbackIcon?: React.ReactNode;
   className?: string;
 }
 
@@ -24,6 +25,7 @@ export function ArtworkImage({
   priority,
   rounded,
   isPlaying,
+  fallbackIcon,
   className,
 }: Props) {
   const [hasError, setHasError] = useState(false);
@@ -48,6 +50,11 @@ export function ArtworkImage({
         className,
       )}
     >
+      {showFallback && fallbackIcon && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          {fallbackIcon}
+        </div>
+      )}
       {!showFallback && (
         <Image
           src={src}

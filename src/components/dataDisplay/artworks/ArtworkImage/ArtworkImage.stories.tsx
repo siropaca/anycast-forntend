@@ -1,3 +1,4 @@
+import { MusicNoteIcon, PlaylistIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { ArtworkImageSkeleton } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImageSkeleton';
@@ -46,6 +47,25 @@ export const NoImage: Story = {
   ),
 };
 
+export const FallbackIcon: Story = {
+  render: () => (
+    <Stack>
+      <ArtworkImage
+        size={64}
+        fallbackIcon={<PlaylistIcon size={24} className="text-white" />}
+      />
+      <ArtworkImage
+        size={128}
+        fallbackIcon={<PlaylistIcon size={48} className="text-white" />}
+      />
+      <ArtworkImage
+        size={192}
+        fallbackIcon={<MusicNoteIcon size={64} className="text-white" />}
+      />
+    </Stack>
+  ),
+};
+
 export const Rounded: Story = {
   render: () => (
     <Stack>
@@ -80,6 +100,22 @@ export const AllVariants: Story = {
           <ArtworkImage size={64} />
           <ArtworkImage size={128} />
           <ArtworkImage size={192} />
+        </Stack>
+      </Section>
+      <Section title="Fallback Icon">
+        <Stack>
+          <ArtworkImage
+            size={64}
+            fallbackIcon={<PlaylistIcon size={24} className="text-white" />}
+          />
+          <ArtworkImage
+            size={128}
+            fallbackIcon={<PlaylistIcon size={48} className="text-white" />}
+          />
+          <ArtworkImage
+            size={192}
+            fallbackIcon={<PlaylistIcon size={64} className="text-white" />}
+          />
         </Stack>
       </Section>
       <Section title="Now Playing">

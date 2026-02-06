@@ -1,5 +1,6 @@
 'use client';
 
+import { PlaylistIcon } from '@phosphor-icons/react';
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { cn } from '@/utils/cn';
 
@@ -32,6 +33,7 @@ export function PlayList({
           src={src}
           size={size}
           priority={priority}
+          fallbackIcon={<PlaylistIcon size={48} className="text-white" />}
           className={!size ? 'w-full' : undefined}
         />
 
