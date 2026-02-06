@@ -23,6 +23,10 @@ export const Playground: Story = {
 };
 
 export const Default: Story = {
+  args: {
+    label: 'ツールチップのテキスト',
+    children: <button type="button">ホバーしてください</button>,
+  },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Basic">
