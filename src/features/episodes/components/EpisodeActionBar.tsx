@@ -55,7 +55,7 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-6">
       <IconButton
         icon={
           playing ? (
@@ -82,6 +82,7 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
               />
             }
             aria-label="高評価"
+            size="lg"
             variant={currentReaction === 'like' ? 'solid' : 'outline'}
             color="secondary"
             disabled={isPending}
@@ -95,6 +96,7 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
               />
             }
             aria-label="低評価"
+            size="lg"
             variant={currentReaction === 'bad' ? 'solid' : 'outline'}
             color="secondary"
             disabled={isPending}
@@ -106,6 +108,7 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
       <IconButton
         icon={<ListPlusIcon size={26} />}
         aria-label="再生リストに追加"
+        size="lg"
         variant="text"
         color="secondary"
       />

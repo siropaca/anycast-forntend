@@ -11,17 +11,24 @@ import { formatDate } from '@/utils/date';
 
 interface Props {
   episodes: ResponseEpisodeResponse[];
+  currentEpisodeId: string;
   channelId: string;
 }
 
-export function ChannelEpisodeList({ episodes, channelId }: Props) {
-  if (episodes.length === 0) {
+export function ChannelEpisodeList({
+  episodes,
+  currentEpisodeId,
+  channelId,
+}: Props) {
+  const otherEpisodes = episodes.filter((ep) => ep.id !== currentEpisodeId);
+
+  if (otherEpisodes.length === 0) {
     return null;
   }
 
   return (
     <ContentSection title="同じチャンネルのエピソード">
-      {episodes.map((ep) => (
+      {otherEpisodes.map((ep) => (
         <Link
           key={ep.id}
           href={Pages.episode.path({
