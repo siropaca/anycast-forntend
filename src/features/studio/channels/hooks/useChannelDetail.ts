@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 
+import { useToast } from '@/hooks/useToast';
 import {
   useDeleteChannelsChannelId,
   usePostChannelsChannelIdPublish,
@@ -15,10 +16,6 @@ import {
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
-interface DeleteOptions {
-  onSuccess?: () => void;
-}
-
 /**
  * チャンネル詳細に必要なデータと操作を提供する
  *
@@ -27,6 +24,7 @@ interface DeleteOptions {
  */
 export function useChannelDetail(channelId: string) {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const { data: response } = useGetMeChannelsChannelIdSuspense(channelId);
   const deleteMutation = useDeleteChannelsChannelId();
   const publishMutation = usePostChannelsChannelIdPublish();
@@ -45,87 +43,112 @@ export function useChannelDetail(channelId: string) {
   /**
    * チャンネルを削除する
    *
-   * @param options - オプション（成功時コールバック）
+   * @returns 削除が成功したかどうか
    */
-  function deleteChannel(options?: DeleteOptions) {
+  async function deleteChannel(): Promise<boolean> {
     setError(undefined);
 
-    deleteMutation.mutate(
-      {
-        channelId,
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.NO_CONTENT) {
-            setError(
-              response.data.error?.message ?? 'チャンネルの削除に失敗しました',
-            );
-            return;
-          }
+    try {
+      const response = await deleteMutation.mutateAsync({ channelId });
 
-          queryClient.invalidateQueries({
-            queryKey: getGetMeChannelsQueryKey(),
-          });
-          options?.onSuccess?.();
-        },
-      },
-    );
+      if (response.status !== StatusCodes.NO_CONTENT) {
+        const message =
+          response.data.error?.message ?? 'チャンネルの削除に失敗しました';
+        setError(message);
+        toast.error({ title: message });
+        return false;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsQueryKey(),
+      });
+      toast.success({ title: 'チャンネルを削除しました' });
+      return true;
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : 'チャンネルの削除に失敗しました';
+      setError(message);
+      toast.error({ title: message });
+      return false;
+    }
   }
 
   /**
    * チャンネルを公開する
+   *
+   * @returns 公開が成功したかどうか
    */
-  function publishChannel() {
+  async function publishChannel(): Promise<boolean> {
     setError(undefined);
 
-    publishMutation.mutate(
-      {
+    try {
+      const response = await publishMutation.mutateAsync({
         channelId,
         data: {},
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(
-              response.data.error?.message ?? 'チャンネルの公開に失敗しました',
-            );
-            return;
-          }
+      });
 
-          queryClient.invalidateQueries({
-            queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
-          });
-        },
-      },
-    );
+      if (response.status !== StatusCodes.OK) {
+        const message =
+          response.data.error?.message ?? 'チャンネルの公開に失敗しました';
+        setError(message);
+        toast.error({ title: message });
+        return false;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+      });
+      toast.success({ title: 'チャンネルを公開しました' });
+      return true;
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : 'チャンネルの公開に失敗しました';
+      setError(message);
+      toast.error({ title: message });
+      return false;
+    }
   }
 
   /**
    * チャンネルを非公開にする
+   *
+   * @returns 非公開が成功したかどうか
    */
-  function unpublishChannel() {
+  async function unpublishChannel(): Promise<boolean> {
     setError(undefined);
 
-    unpublishMutation.mutate(
-      {
-        channelId,
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(
-              response.data.error?.message ??
-                'チャンネルの非公開に失敗しました',
-            );
-            return;
-          }
+    try {
+      const response = await unpublishMutation.mutateAsync({ channelId });
 
-          queryClient.invalidateQueries({
-            queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
-          });
-        },
-      },
-    );
+      if (response.status !== StatusCodes.OK) {
+        const message =
+          response.data.error?.message ?? 'チャンネルの非公開に失敗しました';
+        setError(message);
+        toast.error({ title: message });
+        return false;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+      });
+      toast.success({ title: 'チャンネルを非公開にしました' });
+      return true;
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'チャンネルの非公開に失敗しました';
+      setError(message);
+      toast.error({ title: message });
+      return false;
+    }
+  }
+
+  /**
+   * エラー状態をクリアする
+   */
+  function clearError() {
+    setError(undefined);
   }
 
   return {
@@ -140,5 +163,6 @@ export function useChannelDetail(channelId: string) {
     deleteChannel,
     publishChannel,
     unpublishChannel,
+    clearError,
   };
 }

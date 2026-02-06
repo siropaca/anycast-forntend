@@ -3,7 +3,11 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
+
+import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
+import { useChannelDeleteDialog } from '@/features/studio/channels/hooks/useChannelDeleteDialog';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
+import { useChannelPublishDialog } from '@/features/studio/channels/hooks/useChannelPublishDialog';
 import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { Pages } from '@/libs/pages';
 
@@ -24,18 +28,33 @@ export function ChannelDetail({ channelId }: Props) {
     deleteChannel,
     publishChannel,
     unpublishChannel,
+    clearError,
   } = useChannelDetail(channelId);
+
+  const deleteDialog = useChannelDeleteDialog({
+    deleteChannel,
+    clearError,
+    isDeleting,
+    error,
+  });
+
+  const publishDialog = useChannelPublishDialog({
+    publishChannel,
+    unpublishChannel,
+    clearError,
+    isMutating: isPublishing || isUnpublishing,
+    error,
+  });
 
   function handleEditClick() {
     router.push(Pages.studio.editChannel.path({ id: channelId }));
   }
 
-  function handleDeleteClick() {
-    deleteChannel({
-      onSuccess: () => {
-        router.push(Pages.studio.channels.path());
-      },
-    });
+  async function handleDeleteConfirm() {
+    const success = await deleteDialog.confirm();
+    if (success) {
+      router.push(Pages.studio.channels.path());
+    }
   }
 
   return (
@@ -55,8 +74,6 @@ export function ChannelDetail({ channelId }: Props) {
         />
       )}
 
-      {error && <p>{error}</p>}
-
       <hr className="my-4" />
 
       <button
@@ -72,7 +89,7 @@ export function ChannelDetail({ channelId }: Props) {
         type="button"
         className="border"
         disabled={isMutating}
-        onClick={handleDeleteClick}
+        onClick={deleteDialog.open}
       >
         {isDeleting ? '削除中...' : 'チャンネルを削除'}
       </button>
@@ -82,7 +99,7 @@ export function ChannelDetail({ channelId }: Props) {
           type="button"
           className="border"
           disabled={isMutating}
-          onClick={unpublishChannel}
+          onClick={() => publishDialog.open('unpublish')}
         >
           {isUnpublishing ? '非公開にしています...' : '非公開にする'}
         </button>
@@ -91,7 +108,7 @@ export function ChannelDetail({ channelId }: Props) {
           type="button"
           className="border"
           disabled={isMutating}
-          onClick={publishChannel}
+          onClick={() => publishDialog.open('publish')}
         >
           {isPublishing ? '公開しています...' : 'チャンネルを公開'}
         </button>
@@ -113,6 +130,48 @@ export function ChannelDetail({ channelId }: Props) {
       <Suspense fallback={<p>読み込み中...</p>}>
         <EpisodeList channelId={channelId} />
       </Suspense>
+
+      <ConfirmDialog
+        trigger={<span className="hidden" />}
+        open={deleteDialog.isOpen}
+        title="チャンネルを削除"
+        description={
+          <>
+            「{channel.name}」を削除しますか？
+            <br />
+            この操作は取り消せません。
+          </>
+        }
+        error={deleteDialog.error}
+        confirmLabel="削除"
+        confirmColor="danger"
+        onOpenChange={(open) => !open && deleteDialog.close()}
+        onConfirm={handleDeleteConfirm}
+      />
+
+      <ConfirmDialog
+        trigger={<span className="hidden" />}
+        open={publishDialog.isOpen}
+        title={
+          publishDialog.action === 'publish'
+            ? 'チャンネルを公開'
+            : 'チャンネルを非公開にする'
+        }
+        description={
+          publishDialog.action === 'publish'
+            ? `「${channel.name}」を公開しますか？`
+            : `「${channel.name}」を非公開にしますか？`
+        }
+        error={publishDialog.error}
+        confirmLabel={
+          publishDialog.action === 'publish' ? '公開' : '非公開にする'
+        }
+        confirmColor={
+          publishDialog.action === 'publish' ? 'primary' : 'danger'
+        }
+        onOpenChange={(open) => !open && publishDialog.close()}
+        onConfirm={publishDialog.confirm}
+      />
     </div>
   );
 }
