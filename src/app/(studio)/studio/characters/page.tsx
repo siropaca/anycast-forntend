@@ -1,9 +1,6 @@
-import { PlusIcon } from '@phosphor-icons/react/ssr';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { Button } from '@/components/inputs/buttons/Button/Button';
-import { CharacterList } from '@/features/studio/characters/components/CharacterList';
+import { CharacterListPage } from '@/features/studio/characters/components/CharacterListPage';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -13,16 +10,8 @@ export const metadata: Metadata = {
 
 export default function StudioCharactersPage() {
   return (
-    <div className="space-y-6">
-      <SectionTitle
-        title={Pages.studio.characters.title}
-        description="エピソードで使用しているキャラクターの管理ができます"
-        action={<Button leftIcon={<PlusIcon size={18} />}>新規追加</Button>}
-      />
-
-      <Suspense fallback={<p>読み込み中...</p>}>
-        <CharacterList />
-      </Suspense>
-    </div>
+    <Suspense fallback={<p>読み込み中...</p>}>
+      <CharacterListPage />
+    </Suspense>
   );
 }
