@@ -7,7 +7,7 @@ import {
   ThumbsDownIcon,
   ThumbsUpIcon,
 } from '@phosphor-icons/react';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { AddToPlaylistModal } from '@/features/episodes/components/AddToPlaylistModal';
@@ -91,6 +91,7 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
             disabled={isPending}
             onClick={handleGoodClick}
           />
+
           <IconButton
             icon={
               <ThumbsDownIcon
@@ -118,14 +119,13 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
             color="secondary"
             onClick={() => setIsPlaylistModalOpen(true)}
           />
-          <Suspense>
-            <AddToPlaylistModal
-              episodeId={episode.id}
-              currentPlaylistIds={episode.playlistIds ?? []}
-              open={isPlaylistModalOpen}
-              onOpenChange={setIsPlaylistModalOpen}
-            />
-          </Suspense>
+
+          <AddToPlaylistModal
+            episodeId={episode.id}
+            currentPlaylistIds={episode.playlistIds ?? []}
+            open={isPlaylistModalOpen}
+            onOpenChange={setIsPlaylistModalOpen}
+          />
         </>
       )}
     </div>

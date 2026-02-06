@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { Suspense, useState } from 'react';
 
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { AddToPlaylistModal } from '@/features/episodes/components/AddToPlaylistModal';
 import { ChannelEpisodeListItem } from '@/features/episodes/components/ChannelEpisodeListItem';
 import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
+import { usePlaylistTarget } from '@/features/episodes/hooks/usePlaylistTarget';
 import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import { Pages } from '@/libs/pages';
@@ -25,11 +25,10 @@ export function ChannelEpisodeList({
   channelName,
 }: Props) {
   const otherEpisodes = episodes.filter((ep) => ep.id !== currentEpisodeId);
+
   const nowPlayingEpisodeId = useNowPlayingEpisodeId();
   const { playEpisode, pauseEpisode } = useEpisodePlayer(channelName);
-  const [playlistTargetEpisodeId, setPlaylistTargetEpisodeId] = useState<
-    string | null
-  >(null);
+  const playlistTarget = usePlaylistTarget(otherEpisodes);
 
   if (otherEpisodes.length === 0) {
     return null;
@@ -59,24 +58,19 @@ export function ChannelEpisodeList({
             isPlaying={ep.id === nowPlayingEpisodeId}
             onPlay={() => playEpisode(ep)}
             onPause={pauseEpisode}
-            onAddToPlaylist={() => setPlaylistTargetEpisodeId(ep.id)}
+            onAddToPlaylist={() => playlistTarget.open(ep.id)}
           />
         ))}
       </div>
 
-      <Suspense>
-        <AddToPlaylistModal
-          episodeId={playlistTargetEpisodeId ?? ''}
-          currentPlaylistIds={
-            otherEpisodes.find((ep) => ep.id === playlistTargetEpisodeId)
-              ?.playlistIds ?? []
-          }
-          open={playlistTargetEpisodeId !== null}
-          onOpenChange={(open) => {
-            if (!open) setPlaylistTargetEpisodeId(null);
-          }}
-        />
-      </Suspense>
+      <AddToPlaylistModal
+        open={playlistTarget.isOpen}
+        episodeId={playlistTarget.episodeId}
+        currentPlaylistIds={playlistTarget.currentPlaylistIds}
+        onOpenChange={(open) => {
+          if (!open) playlistTarget.close();
+        }}
+      />
     </section>
   );
 }
