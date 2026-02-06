@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { Drawer } from '@/components/utils/Drawer/Drawer';
 import { useSubmitFeedback } from '@/features/app/hooks/useSubmitFeedback';
@@ -198,7 +199,7 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
             {/* フッター */}
             <div className="shrink-0 border-t border-border p-4">
               {error && (
-                <p className="mb-4 text-sm text-text-danger">{error}</p>
+                <HelperText error className="mb-4">{error}</HelperText>
               )}
 
               <Button

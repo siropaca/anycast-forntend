@@ -1,6 +1,7 @@
 'use client';
 
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
 import type { useBgmEditModal } from '@/features/studio/bgm/hooks/useBgmEditModal';
@@ -47,7 +48,7 @@ export function BgmEditModal({ editModal }: BgmEditModalProps) {
         </div>
 
         {editModal.error && (
-          <p className="text-sm text-text-danger">{editModal.error}</p>
+          <HelperText error>{editModal.error}</HelperText>
         )}
       </div>
     </FormModal>

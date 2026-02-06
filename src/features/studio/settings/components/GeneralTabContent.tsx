@@ -1,5 +1,6 @@
 import type { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import type { StudioSettingsFormInput } from '@/features/studio/settings/schemas/studioSettings';
 
@@ -35,10 +36,10 @@ export function GeneralTabContent({
         {...registration}
       />
       {errors.userPrompt && (
-        <p className="text-sm text-text-danger">{errors.userPrompt.message}</p>
+        <HelperText error>{errors.userPrompt.message}</HelperText>
       )}
       {serverError && (
-        <p className="text-sm text-text-danger">{serverError}</p>
+        <HelperText error>{serverError}</HelperText>
       )}
     </div>
   );

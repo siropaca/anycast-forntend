@@ -7,6 +7,7 @@ import { useRef, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
@@ -222,7 +223,7 @@ export function ChannelForm({
             {...register('name')}
           />
           {errors.name && (
-            <p className="text-sm text-text-danger">{errors.name.message}</p>
+            <HelperText error>{errors.name.message}</HelperText>
           )}
         </div>
 
@@ -237,9 +238,7 @@ export function ChannelForm({
             {...register('description')}
           />
           {errors.description && (
-            <p className="text-sm text-text-danger">
-              {errors.description.message}
-            </p>
+            <HelperText error>{errors.description.message}</HelperText>
           )}
         </div>
 
@@ -275,7 +274,7 @@ export function ChannelForm({
             </Button>
           </div>
           {artworkUploadError && (
-            <p className="text-sm text-text-danger">{artworkUploadError}</p>
+            <HelperText error>{artworkUploadError}</HelperText>
           )}
         </div>
 
@@ -298,9 +297,7 @@ export function ChannelForm({
             )}
           />
           {errors.categoryId && (
-            <p className="text-sm text-text-danger">
-              {errors.categoryId.message}
-            </p>
+            <HelperText error>{errors.categoryId.message}</HelperText>
           )}
         </div>
       </div>
@@ -358,10 +355,10 @@ export function ChannelForm({
             </Button>
           </div>
           {bgmUploadError && (
-            <p className="text-sm text-text-danger">{bgmUploadError}</p>
+            <HelperText error>{bgmUploadError}</HelperText>
           )}
           {bgmDeleteError && (
-            <p className="text-sm text-text-danger">{bgmDeleteError}</p>
+            <HelperText error>{bgmDeleteError}</HelperText>
           )}
         </div>
       </div>
@@ -384,9 +381,7 @@ export function ChannelForm({
             {...register('userPrompt')}
           />
           {errors.userPrompt && (
-            <p className="text-sm text-text-danger">
-              {errors.userPrompt.message}
-            </p>
+            <HelperText error>{errors.userPrompt.message}</HelperText>
           )}
         </div>
       </div>
@@ -438,9 +433,9 @@ export function ChannelForm({
                   )}
                 />
                 {errors.characters?.[index]?.voiceId && (
-                  <p className="text-sm text-text-danger">
+                  <HelperText error>
                     {errors.characters[index].voiceId?.message}
-                  </p>
+                  </HelperText>
                 )}
               </div>
 
@@ -455,9 +450,9 @@ export function ChannelForm({
                   {...register(`characters.${index}.name`)}
                 />
                 {errors.characters?.[index]?.name && (
-                  <p className="text-sm text-text-danger">
+                  <HelperText error>
                     {errors.characters[index].name?.message}
-                  </p>
+                  </HelperText>
                 )}
               </div>
 
@@ -489,9 +484,7 @@ export function ChannelForm({
           )}
 
           {errors.characters?.root && (
-            <p className="text-sm text-text-danger">
-              {errors.characters.root.message}
-            </p>
+            <HelperText error>{errors.characters.root.message}</HelperText>
           )}
         </div>
       )}
@@ -499,7 +492,7 @@ export function ChannelForm({
       {/* 送信 */}
       <div className="space-y-4">
         {submitError && (
-          <p className="text-sm text-text-danger">{submitError}</p>
+          <HelperText error>{submitError}</HelperText>
         )}
         <Button type="submit" loading={isSubmitting}>
           {isEditMode ? 'チャンネルを更新' : 'チャンネルを作成'}

@@ -3,6 +3,7 @@
 import { MusicNoteIcon, PlusIcon } from '@phosphor-icons/react';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
 import { useBgmUploadModal } from '@/features/studio/bgm/hooks/useBgmUploadModal';
@@ -104,7 +105,7 @@ export function BgmUploadModal() {
         </div>
 
         {uploadError && (
-          <p className="text-sm text-text-danger">{uploadError}</p>
+          <HelperText error>{uploadError}</HelperText>
         )}
       </div>
     </FormModal>

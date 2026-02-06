@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import type { ButtonColor } from '@/components/inputs/buttons/buttonVariants';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Dialog } from '@/components/utils/Dialog/Dialog';
 
 type Size = 'sm' | 'md' | 'lg';
@@ -43,7 +44,7 @@ export function ConfirmDialog({
         <Dialog.Title>{title}</Dialog.Title>
         {description && <Dialog.Description>{description}</Dialog.Description>}
 
-        {error && <p className="mt-2 text-sm text-text-danger">{error}</p>}
+        {error && <HelperText error className="mt-2">{error}</HelperText>}
 
         <Dialog.Footer>
           <Dialog.Close>

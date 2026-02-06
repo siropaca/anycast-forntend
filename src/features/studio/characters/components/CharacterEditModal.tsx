@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
@@ -198,7 +199,7 @@ export function CharacterEditModal({
             </div>
           </div>
           {artworkUploadError && (
-            <p className="text-sm text-text-danger">{artworkUploadError}</p>
+            <HelperText error>{artworkUploadError}</HelperText>
           )}
         </div>
 
@@ -216,7 +217,7 @@ export function CharacterEditModal({
             {...register('name')}
           />
           {errors.name && (
-            <p className="text-sm text-text-danger">{errors.name.message}</p>
+            <HelperText error>{errors.name.message}</HelperText>
           )}
         </div>
 
@@ -240,9 +241,7 @@ export function CharacterEditModal({
             )}
           />
           {errors.voiceId && (
-            <p className="text-sm text-text-danger">
-              {errors.voiceId.message}
-            </p>
+            <HelperText error>{errors.voiceId.message}</HelperText>
           )}
         </div>
 
@@ -261,14 +260,12 @@ export function CharacterEditModal({
             {...register('persona')}
           />
           {errors.persona && (
-            <p className="text-sm text-text-danger">
-              {errors.persona.message}
-            </p>
+            <HelperText error>{errors.persona.message}</HelperText>
           )}
         </div>
 
         {updateError && (
-          <p className="text-sm text-text-danger">{updateError}</p>
+          <HelperText error>{updateError}</HelperText>
         )}
       </div>
     </FormModal>
