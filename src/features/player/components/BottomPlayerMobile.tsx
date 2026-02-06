@@ -1,10 +1,12 @@
 import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
 import { TrackInfo } from '@/features/player/components/TrackInfo';
+import type { Track } from '@/stores/playerStore';
 
 interface Props {
   title: string;
   subtitle?: string;
   artworkUrl?: string;
+  trackType?: Track['type'];
   isPlaying: boolean;
   currentTimeMs: number;
   durationMs: number;
@@ -16,6 +18,7 @@ export function BottomPlayerMobile({
   title,
   subtitle,
   artworkUrl,
+  trackType,
   isPlaying,
   currentTimeMs,
   durationMs,
@@ -35,6 +38,7 @@ export function BottomPlayerMobile({
           title={title}
           subtitle={subtitle}
           artworkUrl={artworkUrl}
+          trackType={trackType}
           artworkSize={40}
           className="flex-1 min-w-0"
         />

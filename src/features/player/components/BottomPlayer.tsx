@@ -37,6 +37,7 @@ export function BottomPlayer() {
         title={currentTrack?.title ?? ''}
         subtitle={currentTrack?.subtitle}
         artworkUrl={currentTrack?.artworkUrl}
+        trackType={currentTrack?.type}
         isPlaying={isPlaying}
         currentTimeMs={currentTimeMs}
         durationMs={durationMs}
@@ -56,6 +57,7 @@ export function BottomPlayer() {
         title={currentTrack?.title ?? ''}
         subtitle={currentTrack?.subtitle}
         artworkUrl={currentTrack?.artworkUrl}
+        trackType={currentTrack?.type}
         isPlaying={isPlaying}
         currentTimeMs={currentTimeMs}
         durationMs={durationMs}

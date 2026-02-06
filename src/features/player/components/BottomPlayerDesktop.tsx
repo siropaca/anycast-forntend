@@ -1,11 +1,13 @@
 import { PlaybackControls } from '@/features/player/components/PlaybackControls';
 import { TrackInfo } from '@/features/player/components/TrackInfo';
 import { VolumeControl } from '@/features/player/components/VolumeControl';
+import type { Track } from '@/stores/playerStore';
 
 interface Props {
   title: string;
   subtitle?: string;
   artworkUrl?: string;
+  trackType?: Track['type'];
   isPlaying: boolean;
   currentTimeMs: number;
   durationMs: number;
@@ -26,6 +28,7 @@ export function BottomPlayerDesktop({
   title,
   subtitle,
   artworkUrl,
+  trackType,
   isPlaying,
   currentTimeMs,
   durationMs,
@@ -43,7 +46,7 @@ export function BottomPlayerDesktop({
   return (
     <div className="hidden md:flex items-center h-bottom-player px-6 bg-bg-main">
       <div className="flex-1 min-w-0">
-        <TrackInfo title={title} subtitle={subtitle} artworkUrl={artworkUrl} />
+        <TrackInfo title={title} subtitle={subtitle} artworkUrl={artworkUrl} trackType={trackType} />
       </div>
 
       <div className="flex-1 flex justify-center">
