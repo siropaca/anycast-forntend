@@ -9,6 +9,10 @@ import {
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 import { Pages } from '@/libs/pages';
 
+interface CreateStudioMenuSectionsOptions {
+  onSettingsClick: () => void;
+}
+
 interface StudioMenuSections {
   sections: MenuSection[];
   bottomSections: MenuSection[];
@@ -17,9 +21,12 @@ interface StudioMenuSections {
 /**
  * スタジオ用のメニューセクションを生成する
  *
+ * @param options - 設定ボタンのクリックハンドラーなどのオプション
  * @returns メニューセクション（上部と下部固定）
  */
-export function createStudioMenuSections(): StudioMenuSections {
+export function createStudioMenuSections(
+  options: CreateStudioMenuSectionsOptions,
+): StudioMenuSections {
   return {
     sections: [
       {
@@ -58,9 +65,9 @@ export function createStudioMenuSections(): StudioMenuSections {
       {
         items: [
           {
-            label: Pages.studio.settings.title,
-            href: Pages.studio.settings.path(),
+            label: '設定',
             icon: GearIcon,
+            onClick: options.onSettingsClick,
           },
         ],
       },

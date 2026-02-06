@@ -89,9 +89,4 @@ export const studioPages = {
     path: () => '/studio/voices',
     title: 'ボイス',
   },
-  /** 設定 */
-  settings: {
-    path: () => '/studio/settings',
-    title: '設定',
-  },
 } as const;

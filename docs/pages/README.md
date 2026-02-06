@@ -66,7 +66,6 @@ Anycast のページ構成と URL 設計を定義する。
 | キャラクター一覧 | `/studio/characters` | 自分のキャラクター一覧 | ✅ | | |
 | BGM 一覧 | `/studio/bgm` | BGM 一覧・管理 | ✅ | | |
 | ボイス一覧 | `/studio/voices` | ボイス一覧 | ✅ | | |
-| 設定 | `/studio/settings` | Studio 設定 | ✅ | | |
 
 ### 設定（認証必須）
 

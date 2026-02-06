@@ -132,13 +132,4 @@ describe('studioPages', () => {
     });
   });
 
-  describe('settings', () => {
-    it('path が /studio/settings を返す', () => {
-      expect(studioPages.settings.path()).toBe('/studio/settings');
-    });
-
-    it('title が設定されている', () => {
-      expect(studioPages.settings.title).toBe('設定');
-    });
-  });
 });
