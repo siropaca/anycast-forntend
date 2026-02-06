@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import type { ReactNode } from 'react';
 
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { AddToPlaylistModal } from '@/features/episodes/components/AddToPlaylistModal';
@@ -8,63 +8,74 @@ import { ChannelEpisodeListItem } from '@/features/episodes/components/ChannelEp
 import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
 import { usePlaylistTarget } from '@/features/episodes/hooks/usePlaylistTarget';
 import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
+import { toTrackFromEpisode } from '@/features/player/utils/trackConverter';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
-import { Pages } from '@/libs/pages';
 
 interface Props {
   episodes: ResponseEpisodeResponse[];
-  currentEpisodeId: string;
   channelId: string;
   channelName: string;
+  title: string;
+  action?: ReactNode;
+  excludeEpisodeId?: string;
+  emptyMessage?: string;
+  showChannelName?: boolean;
 }
 
 export function ChannelEpisodeList({
   episodes,
-  currentEpisodeId,
   channelId,
   channelName,
+  title,
+  action,
+  excludeEpisodeId,
+  emptyMessage,
+  showChannelName = true,
 }: Props) {
-  const otherEpisodes = episodes.filter((ep) => ep.id !== currentEpisodeId);
+  const displayEpisodes = excludeEpisodeId
+    ? episodes.filter((ep) => ep.id !== excludeEpisodeId)
+    : episodes;
 
   const nowPlayingEpisodeId = useNowPlayingEpisodeId();
   const { playEpisode, pauseEpisode } = useEpisodePlayer(channelName);
-  const playlistTarget = usePlaylistTarget(otherEpisodes);
+  const playlistTarget = usePlaylistTarget(displayEpisodes);
 
-  if (otherEpisodes.length === 0) {
-    return null;
+  const queue = displayEpisodes
+    .filter((ep) => ep.fullAudio != null)
+    .map((ep) => toTrackFromEpisode(ep, channelName));
+
+  if (displayEpisodes.length === 0) {
+    if (!emptyMessage) return null;
+
+    return (
+      <section>
+        <SectionTitle title={title} />
+        <p className="py-8 text-center text-sm text-text-subtle">
+          {emptyMessage}
+        </p>
+      </section>
+    );
   }
 
   return (
     <section>
-      <SectionTitle
-        title="こちらのエピソードもおすすめ"
-        action={
-          <Link
-            href={Pages.channel.path({ channelId })}
-            className="text-sm text-text-subtle hover:underline"
-          >
-            もっと見る
-          </Link>
-        }
-      />
+      <SectionTitle title={title} action={action} />
 
       <div>
-        {/* エピソードリスト */}
-        {otherEpisodes.map((ep) => (
+        {displayEpisodes.map((ep) => (
           <ChannelEpisodeListItem
             key={ep.id}
             episode={ep}
             channelId={channelId}
-            channelName={channelName}
+            channelName={showChannelName ? channelName : undefined}
             isPlaying={ep.id === nowPlayingEpisodeId}
-            onPlay={() => playEpisode(ep)}
+            onPlay={() => playEpisode(ep, queue)}
             onPause={pauseEpisode}
             onAddToPlaylist={() => playlistTarget.open(ep.id)}
           />
         ))}
       </div>
 
-      {/* 再生リストモーダル */}
       <AddToPlaylistModal
         open={playlistTarget.isOpen}
         episodeId={playlistTarget.episodeId}

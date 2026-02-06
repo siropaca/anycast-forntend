@@ -12,7 +12,7 @@ import { formatDateJP, formatDuration } from '@/utils/date';
 interface Props {
   episode: ResponseEpisodeResponse;
   channelId: string;
-  channelName: string;
+  channelName?: string;
   isPlaying: boolean;
 
   onPlay: () => void;
@@ -63,15 +63,18 @@ export function ChannelEpisodeListItem({
             {episode.title}
           </Link>
 
-          <br />
-
           {/* チャンネル名 */}
-          <Link
-            href={Pages.channel.path({ channelId })}
-            className="mb-2 inline-block hover:underline text-sm text-text-subtle"
-          >
-            {channelName}
-          </Link>
+          {channelName && (
+            <>
+              <br />
+              <Link
+                href={Pages.channel.path({ channelId })}
+                className="mb-2 inline-block hover:underline text-sm text-text-subtle"
+              >
+                {channelName}
+              </Link>
+            </>
+          )}
 
           {/* 説明 */}
           {episode.description && (

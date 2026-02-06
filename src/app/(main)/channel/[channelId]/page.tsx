@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+
 import { ChannelDetail } from '@/features/channels/components/ChannelDetail';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';

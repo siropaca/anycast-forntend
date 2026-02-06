@@ -2,6 +2,7 @@
 
 import { toTrackFromEpisode } from '@/features/player/utils/trackConverter';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
+import type { Track } from '@/stores/playerStore';
 import { usePlayerStore } from '@/stores/playerStore';
 
 /** 再生完了とみなす残り時間のしきい値（ミリ秒） */
@@ -42,12 +43,13 @@ export function useEpisodePlayer(channelName: string) {
    * 完了済み、または終了間際（残り5秒以内）の場合は最初から再生する。
    *
    * @param episode - 再生するエピソード
+   * @param queue - 再生キュー（指定するとキュー全体がセットされる）
    */
-  function playEpisode(episode: ResponseEpisodeResponse) {
+  function playEpisode(episode: ResponseEpisodeResponse, queue?: Track[]) {
     if (currentTrack?.id === episode.id && currentTrack?.type === 'episode') {
       resume();
     } else {
-      play(toTrackFromEpisode(episode, channelName));
+      play(toTrackFromEpisode(episode, channelName), queue);
 
       const savedProgress = episode.playback;
       if (savedProgress && savedProgress.progressMs > 0) {

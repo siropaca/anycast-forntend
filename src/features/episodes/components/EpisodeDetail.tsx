@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import { getChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import type {
@@ -6,6 +8,7 @@ import type {
 } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { auth } from '@/libs/auth/auth';
+import { Pages } from '@/libs/pages';
 
 import { ChannelEpisodeList } from './ChannelEpisodeList';
 import { EpisodeActionBar } from './EpisodeActionBar';
@@ -48,9 +51,18 @@ export async function EpisodeDetail({ channelId, episodeId }: Props) {
       {/* こちらのエピソードもおすすめ */}
       <ChannelEpisodeList
         episodes={channel.episodes}
-        currentEpisodeId={episode.id}
         channelId={channelId}
         channelName={channel.name}
+        title="こちらのエピソードもおすすめ"
+        excludeEpisodeId={episode.id}
+        action={
+          <Link
+            href={Pages.channel.path({ channelId })}
+            className="text-sm text-text-subtle hover:underline"
+          >
+            もっと見る
+          </Link>
+        }
       />
     </div>
   );
