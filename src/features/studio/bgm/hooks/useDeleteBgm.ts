@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 
+import { useToast } from '@/hooks/useToast';
 import {
   getGetMeBgmsQueryKey,
   useDeleteMeBgmsBgmId,
@@ -14,6 +15,7 @@ import {
  */
 export function useDeleteBgm() {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const mutation = useDeleteMeBgmsBgmId();
 
   const [error, setError] = useState<string>();
@@ -38,11 +40,13 @@ export function useDeleteBgm() {
       queryClient.invalidateQueries({
         queryKey: getGetMeBgmsQueryKey(),
       });
+      toast.success({ title: 'BGMを削除しました' });
       return true;
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : 'BGMの削除に失敗しました';
       setError(message);
+      toast.error({ title: message });
       return false;
     }
   }

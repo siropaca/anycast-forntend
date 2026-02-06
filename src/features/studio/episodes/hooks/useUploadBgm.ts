@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
+import { useToast } from '@/hooks/useToast';
 import { usePostAudios } from '@/libs/api/generated/audios/audios';
 import {
   getGetMeBgmsQueryKey,
@@ -17,6 +18,7 @@ import { removeFileExtension, trimFullWidth } from '@/utils/trim';
  */
 export function useUploadBgm() {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const uploadMutation = usePostAudios();
   const createBgmMutation = usePostMeBgms();
 
@@ -40,6 +42,7 @@ export function useUploadBgm() {
         onSuccess: (uploadResponse) => {
           if (uploadResponse.status !== StatusCodes.CREATED) {
             setError(uploadResponse.data.error.message);
+            toast.error({ title: uploadResponse.data.error.message });
             return;
           }
 
@@ -53,12 +56,14 @@ export function useUploadBgm() {
               onSuccess: (bgmResponse) => {
                 if (bgmResponse.status !== StatusCodes.CREATED) {
                   setError(bgmResponse.data.error.message);
+                  toast.error({ title: bgmResponse.data.error.message });
                   return;
                 }
 
                 queryClient.invalidateQueries({
                   queryKey: getGetMeBgmsQueryKey(),
                 });
+                toast.success({ title: 'BGMを追加しました' });
               },
             },
           );

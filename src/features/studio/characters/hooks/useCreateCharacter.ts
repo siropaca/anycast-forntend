@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 
 import type { CharacterFormInput } from '@/features/studio/characters/schemas/character';
+import { useToast } from '@/hooks/useToast';
 import {
   getGetMeCharactersQueryKey,
   usePostMeCharacters,
@@ -22,6 +23,7 @@ interface CreateOptions {
  * @returns ボイス一覧、作成関数
  */
 export function useCreateCharacter() {
+  const toast = useToast();
   const queryClient = useQueryClient();
   const { data: voicesData } = useGetVoicesSuspense();
   const mutation = usePostMeCharacters();
@@ -52,7 +54,8 @@ export function useCreateCharacter() {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.CREATED) {
             setError(
-              response.data.error?.message ?? 'キャラクターの作成に失敗しました',
+              response.data.error?.message ??
+                'キャラクターの作成に失敗しました',
             );
             return;
           }
@@ -60,6 +63,7 @@ export function useCreateCharacter() {
           queryClient.invalidateQueries({
             queryKey: getGetMeCharactersQueryKey(),
           });
+          toast.success({ title: 'キャラクターを作成しました' });
           options?.onSuccess?.();
         },
         onError: (err: unknown) => {
@@ -68,6 +72,7 @@ export function useCreateCharacter() {
               ? err.message
               : 'キャラクターの作成に失敗しました';
           setError(message);
+          toast.error({ title: message });
         },
       },
     );

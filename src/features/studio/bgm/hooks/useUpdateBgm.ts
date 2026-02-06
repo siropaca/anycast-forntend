@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 
+import { useToast } from '@/hooks/useToast';
 import {
   getGetMeBgmsQueryKey,
   usePatchMeBgmsBgmId,
@@ -14,6 +15,7 @@ import {
  */
 export function useUpdateBgm() {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const mutation = usePatchMeBgmsBgmId();
 
   const [error, setError] = useState<string>();
@@ -42,11 +44,13 @@ export function useUpdateBgm() {
       queryClient.invalidateQueries({
         queryKey: getGetMeBgmsQueryKey(),
       });
+      toast.success({ title: 'BGMを更新しました' });
       return true;
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : 'BGMの更新に失敗しました';
       setError(message);
+      toast.error({ title: message });
       return false;
     }
   }
