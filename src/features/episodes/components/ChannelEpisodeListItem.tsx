@@ -58,7 +58,7 @@ export function ChannelEpisodeListItem({
           {/* タイトル */}
           <Link
             href={Pages.episode.path({ channelId, episodeId: episode.id })}
-            className="mb-2 inline-block hover:underline font-semibold leading-snug"
+            className="mb-1 inline-block hover:underline font-semibold leading-snug text-lg"
           >
             {episode.title}
           </Link>
