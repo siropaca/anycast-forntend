@@ -1,16 +1,11 @@
 'use client';
 
 import { PencilSimpleIcon } from '@phosphor-icons/react';
-import Link from 'next/link';
 
-import {
-  ARTWORK_FIXED_SIZE,
-  Artwork,
-} from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
-import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
+import { ChannelListItem } from '@/features/channels/components/ChannelListItem';
 import { useFollowUser } from '@/features/users/hooks/useFollowUser';
 import { useUser } from '@/features/users/hooks/useUser';
 import { Pages } from '@/libs/pages';
@@ -79,30 +74,20 @@ export function UserDetail({
       </div>
 
       {/* チャンネル一覧 */}
-      {user.channels.length > 0 ? (
-        <ContentSection title="チャンネル">
-          {user.channels.map((channel) => (
-            <Link
-              key={channel.id}
-              href={Pages.channel.path({ channelId: channel.id })}
-            >
-              <Artwork
-                src={channel.artwork?.url}
-                title={channel.name}
-                size={ARTWORK_FIXED_SIZE}
-                subtext={channel.category.name}
-              />
-            </Link>
-          ))}
-        </ContentSection>
-      ) : (
-        <section>
-          <SectionTitle title="チャンネル" />
-          <p className="mt-4 text-sm text-text-subtle">
+      <section>
+        <SectionTitle title="チャンネル" />
+        {user.channels.length > 0 ? (
+          <div>
+            {user.channels.map((channel) => (
+              <ChannelListItem key={channel.id} channel={channel} />
+            ))}
+          </div>
+        ) : (
+          <p className="py-8 text-center text-sm text-text-subtle">
             チャンネルはまだありません
           </p>
-        </section>
-      )}
+        )}
+      </section>
     </div>
   );
 }
