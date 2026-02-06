@@ -72,6 +72,12 @@
   --text-xl: 20px;
   --text-2xl: 24px;
 
+  /* Z-Index */
+  --z-backdrop: 40;
+  --z-modal: 50;
+  --z-tooltip: 60;
+  --z-popover: 100;
+
   /* Breakpoints */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

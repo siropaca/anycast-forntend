@@ -15,7 +15,7 @@ export function Tooltip({ label, children }: Props) {
         <BaseTooltip.Trigger render={children} />
 
         <BaseTooltip.Portal>
-          <BaseTooltip.Positioner sideOffset={6} className="z-60">
+          <BaseTooltip.Positioner sideOffset={6} className="z-(--z-tooltip)">
             <BaseTooltip.Popup className="max-w-xs rounded-md bg-bg-elevated px-3 py-1.5 text-xs text-text-main shadow-lg ring-1 ring-border">
               {label}
             </BaseTooltip.Popup>
