@@ -36,7 +36,7 @@ export function DrawerContent({
 
       <Dialog.Popup
         className={cn(
-          'fixed inset-y-0 z-(--z-modal) bg-bg-main flex flex-col',
+          'fixed inset-y-0 z-(--z-modal) bg-bg-main flex flex-col shadow-lg',
           'transition-transform duration-200',
           positionClasses[side],
           hidden && 'invisible',
