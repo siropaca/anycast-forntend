@@ -279,6 +279,10 @@ interface Props {
 - 依存パッケージを追加・削除した後は整合性を確認する
 - 新しいパッケージを追加する際は、そのパッケージが広く使われているか確認する
 
+### React Hook Form
+
+- `showCounter` 付きの Input / Textarea で RHF の `register` を使う場合、`value={watch('fieldName')}` を併せて渡す（`register` だけでは `value` が props に反映されず、カウンターが動作しない）
+
 ### アイコン
 
 - `@phosphor-icons/react` のアイコンは `Icon` サフィックス付きでインポートする（例: `PlusIcon`, `HeartIcon`）
