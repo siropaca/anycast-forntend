@@ -7,6 +7,7 @@ interface Props {
   size?: number;
   priority?: boolean;
   rounded?: boolean;
+  isPlaying?: boolean;
   title: string;
   subtext?: string;
   subtext2?: string;
@@ -21,6 +22,7 @@ export function Artwork({
   size,
   priority,
   rounded,
+  isPlaying,
   title,
   subtext,
   subtext2,
@@ -39,6 +41,7 @@ export function Artwork({
         size={size}
         priority={priority}
         rounded={rounded}
+        isPlaying={isPlaying}
       />
 
       <div

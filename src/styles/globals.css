@@ -94,6 +94,16 @@
   --breakpoint-2xl: 1536px;
 }
 
+@keyframes now-playing-bar {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
 body {
   background: var(--color-bg-main);
   color: var(--color-text-main);

@@ -80,6 +80,16 @@ export const Rounded: Story = {
   },
 };
 
+export const NowPlaying: Story = {
+  args: {
+    src: sampleImage,
+    size: 128,
+    title: 'Now Playing Episode',
+    subtext: 'Channel Name',
+    isPlaying: true,
+  },
+};
+
 export const AllVariants: Story = {
   args: { title: '' },
   render: () => (
@@ -113,6 +123,24 @@ export const AllVariants: Story = {
             subtext="170px"
           />
           <Artwork src={sampleImage} size={220} title="Large" subtext="220px" />
+        </Stack>
+      </Section>
+
+      <Section title="Now Playing">
+        <Stack align="start">
+          <Artwork
+            src={sampleImage}
+            size={128}
+            title="Playing"
+            subtext="Channel Name"
+            isPlaying
+          />
+          <Artwork
+            src={sampleImage}
+            size={128}
+            title="Not Playing"
+            subtext="Channel Name"
+          />
         </Stack>
       </Section>
 

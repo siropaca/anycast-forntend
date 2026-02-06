@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { cn } from '@/utils/cn';
+import { NowPlayingIndicator } from '@/components/dataDisplay/artworks/NowPlayingIndicator/NowPlayingIndicator';
 
 interface Props {
   src?: string;
@@ -11,6 +12,7 @@ interface Props {
   sizes?: string;
   priority?: boolean;
   rounded?: boolean;
+  isPlaying?: boolean;
   className?: string;
 }
 
@@ -21,6 +23,7 @@ export function ArtworkImage({
   sizes,
   priority,
   rounded,
+  isPlaying,
   className,
 }: Props) {
   const [hasError, setHasError] = useState(false);
@@ -61,6 +64,7 @@ export function ArtworkImage({
           className="object-cover"
         />
       )}
+      {isPlaying && <NowPlayingIndicator />}
     </div>
   );
 }

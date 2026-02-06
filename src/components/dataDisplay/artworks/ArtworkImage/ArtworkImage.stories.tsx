@@ -56,6 +56,15 @@ export const Rounded: Story = {
   ),
 };
 
+export const NowPlaying: Story = {
+  render: () => (
+    <Stack>
+      <ArtworkImage src={sampleImage} size={128} alt="Playing" isPlaying />
+      <ArtworkImage src={sampleImage} size={128} alt="Not playing" />
+    </Stack>
+  ),
+};
+
 export const AllVariants: Story = {
   render: () => (
     <Stack direction="column" gap={24}>
@@ -71,6 +80,13 @@ export const AllVariants: Story = {
           <ArtworkImage size={64} />
           <ArtworkImage size={128} />
           <ArtworkImage size={192} />
+        </Stack>
+      </Section>
+      <Section title="Now Playing">
+        <Stack>
+          <ArtworkImage src={sampleImage} size={64} isPlaying />
+          <ArtworkImage src={sampleImage} size={128} isPlaying />
+          <ArtworkImage src={sampleImage} size={192} isPlaying />
         </Stack>
       </Section>
       <Section title="Rounded">
