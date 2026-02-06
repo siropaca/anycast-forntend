@@ -513,6 +513,46 @@ src/
 - **メモリリーク防止**: `useAudioPlayer` のクリーンアップで、Audio イベントリスナーの解除と `audio.src` のクリアを行う
 - **SSR 対応**: `Audio` はブラウザ API のため、`useAudioPlayer` 内で `typeof window !== 'undefined'` のガードが必要
 
+## 再生履歴トラッキング
+
+### 概要
+
+エピソード再生中の進捗をサーバーに記録する機能。`usePlaybackTracking` フックが `BottomPlayer` 内で `useAudioPlayer` と並んで呼び出され、PlayerStore の状態変更を監視して API を呼び出す。
+
+### 対象トラック
+
+- `episode` タイプのみ対象
+- `voiceSample` / `bgm` タイプはトラッキングしない
+
+### トラッキングタイミング
+
+| タイミング | 送信内容 |
+|-----------|---------|
+| 再生開始時 | `progressMs: 現在位置`, `completed: false` |
+| 再生中 30 秒ごと | `progressMs: 現在位置`, `completed: false` |
+| 一時停止時 | `progressMs: 現在位置`, `completed: false` |
+| トラック変更時（前トラック分） | `progressMs: 最終位置`, `completed: 残り1秒以内なら true` |
+
+### API
+
+`PUT /episodes/{episodeId}/playback`
+
+```typescript
+interface RequestUpdatePlaybackRequest {
+  completed?: boolean;
+  progressMs?: number; // @minimum 0
+}
+```
+
+### エラーハンドリング
+
+API 呼び出しが失敗した場合は `console.warn` のみ出力し、再生体験を妨げない。
+
+### 実装ファイル
+
+- `src/features/player/hooks/usePlaybackTracking.ts` — トラッキングフック本体
+- `src/features/player/components/BottomPlayer.tsx` — フックの呼び出し元
+
 ### 将来の拡張候補
 
 | 機能 | 説明 |

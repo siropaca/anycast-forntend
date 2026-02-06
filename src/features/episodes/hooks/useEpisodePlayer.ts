@@ -16,6 +16,7 @@ export function useEpisodePlayer(channelName: string) {
   const play = usePlayerStore((s) => s.play);
   const pause = usePlayerStore((s) => s.pause);
   const resume = usePlayerStore((s) => s.resume);
+  const seek = usePlayerStore((s) => s.seek);
 
   /**
    * 指定したエピソードが再生中かどうかを判定する
@@ -34,6 +35,8 @@ export function useEpisodePlayer(channelName: string) {
   /**
    * エピソードを再生する
    *
+   * 未完了の再生履歴がある場合は保存された位置から再開する。
+   *
    * @param episode - 再生するエピソード
    */
   function playEpisode(episode: ResponseEpisodeResponse) {
@@ -41,6 +44,11 @@ export function useEpisodePlayer(channelName: string) {
       resume();
     } else {
       play(toTrackFromEpisode(episode, channelName));
+
+      const savedProgress = episode.playback;
+      if (savedProgress && !savedProgress.completed && savedProgress.progressMs > 0) {
+        seek(savedProgress.progressMs);
+      }
     }
   }
 
