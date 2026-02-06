@@ -35,7 +35,7 @@ export function PlaybackControls({
   onSeek,
 }: Props) {
   return (
-    <div className="flex flex-col items-center gap-2 w-full max-w-[600px]">
+    <div className="flex flex-col items-center gap-2.5 w-full max-w-[600px]">
       <div className="flex items-center gap-6">
         <button
           type="button"
@@ -60,7 +60,7 @@ export function PlaybackControls({
             )
           }
           aria-label={isPlaying ? '一時停止' : '再生'}
-          size="sm"
+          size="md"
           color="secondary"
           variant="solid"
           className="transition-transform hover:scale-105"

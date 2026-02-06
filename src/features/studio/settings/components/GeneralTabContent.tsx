@@ -22,7 +22,7 @@ export function GeneralTabContent({
         htmlFor="userPrompt"
         helpText="すべてのチャンネルとエピソードで適用されるプロンプトです。"
       >
-        共通プロンプト
+        共通の台本プロンプト
       </FormLabel>
       <Textarea
         id="userPrompt"

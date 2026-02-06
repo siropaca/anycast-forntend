@@ -2,8 +2,8 @@ import type { CSSProperties } from 'react';
 import { cn } from '@/utils/cn';
 
 interface Props {
-  className?: string;
   style?: CSSProperties;
+  className?: string;
 }
 
 export function Skeleton({ className, style }: Props) {
