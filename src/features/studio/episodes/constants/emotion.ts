@@ -1,3 +1,4 @@
+// Backend のプロンプトも同様に更新すること
 export const EMOTION_OPTIONS = [
   { value: '', label: '指定なし' },
   { value: '考えながら', label: '考えながら' },
