@@ -45,6 +45,7 @@ export const Sizes: Story = {
       <IconButton icon={<PlusIcon size={16} />} aria-label="追加" size="sm" />
       <IconButton icon={<PlusIcon size={20} />} aria-label="追加" size="md" />
       <IconButton icon={<PlusIcon size={24} />} aria-label="追加" size="lg" />
+      <IconButton icon={<PlusIcon size={28} />} aria-label="追加" size="xl" />
     </Stack>
   ),
 };
@@ -158,6 +159,13 @@ export const AllVariants: Story = {
             color="primary"
             variant="solid"
           />
+          <IconButton
+            icon={<PlusIcon size={28} />}
+            aria-label="追加"
+            size="xl"
+            color="primary"
+            variant="solid"
+          />
         </Stack>
       </Section>
 
@@ -181,6 +189,13 @@ export const AllVariants: Story = {
             icon={<PencilSimpleIcon size={24} />}
             aria-label="編集"
             size="lg"
+            color="primary"
+            variant="outline"
+          />
+          <IconButton
+            icon={<PencilSimpleIcon size={28} />}
+            aria-label="編集"
+            size="xl"
             color="primary"
             variant="outline"
           />
@@ -210,6 +225,13 @@ export const AllVariants: Story = {
             color="primary"
             variant="text"
           />
+          <IconButton
+            icon={<MagnifyingGlassIcon size={28} />}
+            aria-label="検索"
+            size="xl"
+            color="primary"
+            variant="text"
+          />
         </Stack>
       </Section>
 
@@ -233,6 +255,13 @@ export const AllVariants: Story = {
             icon={<HeartIcon size={24} />}
             aria-label="高評価"
             size="lg"
+            color="secondary"
+            variant="solid"
+          />
+          <IconButton
+            icon={<HeartIcon size={28} />}
+            aria-label="高評価"
+            size="xl"
             color="secondary"
             variant="solid"
           />
@@ -262,6 +291,13 @@ export const AllVariants: Story = {
             color="secondary"
             variant="outline"
           />
+          <IconButton
+            icon={<HeartIcon size={28} />}
+            aria-label="高評価"
+            size="xl"
+            color="secondary"
+            variant="outline"
+          />
         </Stack>
       </Section>
 
@@ -285,6 +321,13 @@ export const AllVariants: Story = {
             icon={<HeartIcon size={24} />}
             aria-label="高評価"
             size="lg"
+            color="secondary"
+            variant="text"
+          />
+          <IconButton
+            icon={<HeartIcon size={28} />}
+            aria-label="高評価"
+            size="xl"
             color="secondary"
             variant="text"
           />
@@ -314,6 +357,13 @@ export const AllVariants: Story = {
             color="danger"
             variant="solid"
           />
+          <IconButton
+            icon={<TrashIcon size={28} />}
+            aria-label="削除"
+            size="xl"
+            color="danger"
+            variant="solid"
+          />
         </Stack>
       </Section>
 
@@ -340,6 +390,13 @@ export const AllVariants: Story = {
             color="danger"
             variant="outline"
           />
+          <IconButton
+            icon={<TrashIcon size={28} />}
+            aria-label="削除"
+            size="xl"
+            color="danger"
+            variant="outline"
+          />
         </Stack>
       </Section>
 
@@ -363,6 +420,13 @@ export const AllVariants: Story = {
             icon={<XIcon size={24} />}
             aria-label="閉じる"
             size="lg"
+            color="danger"
+            variant="text"
+          />
+          <IconButton
+            icon={<XIcon size={28} />}
+            aria-label="閉じる"
+            size="xl"
             color="danger"
             variant="text"
           />
@@ -611,6 +675,7 @@ export const Skeleton: Story = {
       <IconButtonSkeleton size="sm" />
       <IconButtonSkeleton size="md" />
       <IconButtonSkeleton size="lg" />
+      <IconButtonSkeleton size="xl" />
     </Stack>
   ),
 };

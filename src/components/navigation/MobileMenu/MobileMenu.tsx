@@ -1,7 +1,7 @@
 'use client';
 
 import { ListIcon, XIcon } from '@phosphor-icons/react';
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import { Drawer } from '@/components/utils/Drawer/Drawer';
 
 interface Props {
@@ -10,11 +10,10 @@ interface Props {
 
 export function MobileMenu({ children }: Props) {
   const [open, setOpen] = useState(false);
-  const triggerId = useId();
 
   return (
     <Drawer.Root open={open} onOpenChange={setOpen}>
-      <Drawer.Trigger id={triggerId} className="md:hidden p-2 -ml-2">
+      <Drawer.Trigger className="md:hidden p-2 -ml-2">
         <ListIcon size={24} weight="bold" aria-label="メニューを開く" />
       </Drawer.Trigger>
 

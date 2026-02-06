@@ -1,4 +1,4 @@
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonColor = 'primary' | 'secondary' | 'danger' | 'inverse';
 export type ButtonVariant = 'solid' | 'outline' | 'text';
 

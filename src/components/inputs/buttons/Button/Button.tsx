@@ -43,12 +43,14 @@ const sizeClasses: Record<ButtonSize, string> = {
   sm: 'h-[var(--size-sm)] px-3 text-xs gap-1',
   md: 'h-[var(--size-md)] px-4 text-sm gap-1.5',
   lg: 'h-[var(--size-lg)] px-5 text-base gap-2',
+  xl: 'h-[var(--size-xl)] px-6 text-lg gap-2.5',
 };
 
 const spinnerSizeMap: Record<ButtonSize, number> = {
   sm: 14,
   md: 16,
   lg: 18,
+  xl: 22,
 };
 
 export function Button({

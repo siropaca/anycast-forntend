@@ -42,12 +42,14 @@ const sizeClasses: Record<ButtonSize, string> = {
   sm: 'size-[var(--size-sm)] text-xs',
   md: 'size-[var(--size-md)] text-sm',
   lg: 'size-[var(--size-lg)] text-base',
+  xl: 'size-[var(--size-xl)] text-lg',
 };
 
 const spinnerSizeMap: Record<ButtonSize, number> = {
   sm: 16,
   md: 20,
   lg: 24,
+  xl: 28,
 };
 
 export function IconButton({

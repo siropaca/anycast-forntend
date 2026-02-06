@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/feedback/Skeleton/Skeleton';
 import { cn } from '@/utils/cn';
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'sm' | 'md' | 'lg' | 'xl';
 
 interface Props {
   size?: Size;
@@ -12,6 +12,7 @@ const sizeClasses: Record<Size, string> = {
   sm: 'size-[var(--size-sm)]',
   md: 'size-[var(--size-md)]',
   lg: 'size-[var(--size-lg)]',
+  xl: 'size-[var(--size-xl)]',
 };
 
 export function IconButtonSkeleton({ size = 'md', className }: Props) {
