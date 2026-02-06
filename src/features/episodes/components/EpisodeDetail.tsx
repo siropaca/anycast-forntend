@@ -51,6 +51,7 @@ export async function EpisodeDetail({ channelId, episodeId }: Props) {
         episodes={channel.episodes}
         currentEpisodeId={episode.id}
         channelId={channelId}
+        channelName={channel.name}
       />
     </div>
   );

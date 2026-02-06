@@ -46,3 +46,34 @@ export function formatTime(ms: number): string {
 
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
+
+/**
+ * 日付を「M月D日」形式の文字列に変換する
+ *
+ * @param date - 変換対象の日付
+ * @returns 「M月D日」形式の文字列
+ *
+ * @example
+ * formatDateJP(new Date('2024-03-15')) // => '3月15日'
+ */
+export function formatDateJP(date: Date): string {
+  return `${date.getMonth() + 1}月${date.getDate()}日`;
+}
+
+/**
+ * ミリ秒を「X分Y秒」形式の文字列に変換する
+ *
+ * @param ms - ミリ秒
+ * @returns 「X分Y秒」形式の文字列
+ *
+ * @example
+ * formatDuration(83000) // => '1分23秒'
+ * formatDuration(5000) // => '0分5秒'
+ */
+export function formatDuration(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${minutes}分${seconds}秒`;
+}

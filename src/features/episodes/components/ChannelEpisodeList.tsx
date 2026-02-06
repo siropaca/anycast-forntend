@@ -1,58 +1,82 @@
 'use client';
 
 import Link from 'next/link';
+import { Suspense, useState } from 'react';
 
-import {
-  ARTWORK_FIXED_SIZE,
-  Artwork,
-} from '@/components/dataDisplay/artworks/Artwork/Artwork';
-import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { AddToPlaylistModal } from '@/features/episodes/components/AddToPlaylistModal';
+import { ChannelEpisodeListItem } from '@/features/episodes/components/ChannelEpisodeListItem';
+import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
 import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import { Pages } from '@/libs/pages';
-import { formatDate } from '@/utils/date';
 
 interface Props {
   episodes: ResponseEpisodeResponse[];
   currentEpisodeId: string;
   channelId: string;
+  channelName: string;
 }
 
 export function ChannelEpisodeList({
   episodes,
   currentEpisodeId,
   channelId,
+  channelName,
 }: Props) {
   const otherEpisodes = episodes.filter((ep) => ep.id !== currentEpisodeId);
   const nowPlayingEpisodeId = useNowPlayingEpisodeId();
+  const { playEpisode, pauseEpisode } = useEpisodePlayer(channelName);
+  const [playlistTargetEpisodeId, setPlaylistTargetEpisodeId] = useState<
+    string | null
+  >(null);
 
   if (otherEpisodes.length === 0) {
     return null;
   }
 
   return (
-    <ContentSection title="同じチャンネルのエピソード">
-      {otherEpisodes.map((ep) => (
-        <Link
-          key={ep.id}
-          href={Pages.episode.path({
-            channelId,
-            episodeId: ep.id,
-          })}
-        >
-          <Artwork
-            src={ep.artwork?.url}
-            title={ep.title}
-            size={ARTWORK_FIXED_SIZE}
-            subtext={
-              ep.publishedAt
-                ? formatDate(new Date(ep.publishedAt))
-                : undefined
-            }
+    <section>
+      <SectionTitle
+        title="こちらのエピソードもおすすめ"
+        action={
+          <Link
+            href={Pages.channel.path({ channelId })}
+            className="text-sm text-primary hover:underline"
+          >
+            すべて表示
+          </Link>
+        }
+      />
+
+      <div className="mt-2">
+        {otherEpisodes.map((ep) => (
+          <ChannelEpisodeListItem
+            key={ep.id}
+            episode={ep}
+            channelId={channelId}
+            channelName={channelName}
             isPlaying={ep.id === nowPlayingEpisodeId}
+            onPlay={() => playEpisode(ep)}
+            onPause={pauseEpisode}
+            onAddToPlaylist={() => setPlaylistTargetEpisodeId(ep.id)}
           />
-        </Link>
-      ))}
-    </ContentSection>
+        ))}
+      </div>
+
+      <Suspense>
+        <AddToPlaylistModal
+          episodeId={playlistTargetEpisodeId ?? ''}
+          currentPlaylistIds={
+            otherEpisodes.find((ep) => ep.id === playlistTargetEpisodeId)
+              ?.playlistIds ?? []
+          }
+          open={playlistTargetEpisodeId !== null}
+          onOpenChange={(open) => {
+            if (!open) setPlaylistTargetEpisodeId(null);
+          }}
+        />
+      </Suspense>
+    </section>
   );
 }

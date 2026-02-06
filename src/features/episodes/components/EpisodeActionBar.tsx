@@ -7,8 +7,10 @@ import {
   ThumbsDownIcon,
   ThumbsUpIcon,
 } from '@phosphor-icons/react';
+import { Suspense, useState } from 'react';
 
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
+import { AddToPlaylistModal } from '@/features/episodes/components/AddToPlaylistModal';
 import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
 import { useEpisodeReaction } from '@/features/episodes/hooks/useEpisodeReaction';
 import { useToast } from '@/hooks/useToast';
@@ -27,6 +29,7 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
     episode.id,
   );
   const toast = useToast();
+  const [isPlaylistModalOpen, setIsPlaylistModalOpen] = useState(false);
 
   const playing = isEpisodePlaying(episode);
 
@@ -105,13 +108,26 @@ export function EpisodeActionBar({ episode, channelName, isLoggedIn }: Props) {
         </>
       )}
 
-      <IconButton
-        icon={<ListPlusIcon size={26} />}
-        aria-label="再生リストに追加"
-        size="lg"
-        variant="text"
-        color="secondary"
-      />
+      {isLoggedIn && (
+        <>
+          <IconButton
+            icon={<ListPlusIcon size={26} />}
+            aria-label="再生リストに追加"
+            size="lg"
+            variant="text"
+            color="secondary"
+            onClick={() => setIsPlaylistModalOpen(true)}
+          />
+          <Suspense>
+            <AddToPlaylistModal
+              episodeId={episode.id}
+              currentPlaylistIds={episode.playlistIds ?? []}
+              open={isPlaylistModalOpen}
+              onOpenChange={setIsPlaylistModalOpen}
+            />
+          </Suspense>
+        </>
+      )}
     </div>
   );
 }
