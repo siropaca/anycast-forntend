@@ -4,6 +4,9 @@ import { toTrackFromEpisode } from '@/features/player/utils/trackConverter';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import { usePlayerStore } from '@/stores/playerStore';
 
+/** 再生完了とみなす残り時間のしきい値（ミリ秒） */
+const NEAR_END_THRESHOLD_MS = 5_000;
+
 /**
  * エピソードの再生を制御するフック
  *
@@ -36,6 +39,7 @@ export function useEpisodePlayer(channelName: string) {
    * エピソードを再生する
    *
    * 未完了の再生履歴がある場合は保存された位置から再開する。
+   * 完了済み、または終了間際（残り5秒以内）の場合は最初から再生する。
    *
    * @param episode - 再生するエピソード
    */
@@ -46,8 +50,13 @@ export function useEpisodePlayer(channelName: string) {
       play(toTrackFromEpisode(episode, channelName));
 
       const savedProgress = episode.playback;
-      if (savedProgress && !savedProgress.completed && savedProgress.progressMs > 0) {
-        seek(savedProgress.progressMs);
+      if (savedProgress && savedProgress.progressMs > 0) {
+        const durationMs = episode.fullAudio?.durationMs ?? 0;
+        const isNearEnd = durationMs > 0 && durationMs - savedProgress.progressMs < NEAR_END_THRESHOLD_MS;
+
+        if (!savedProgress.completed && !isNearEnd) {
+          seek(savedProgress.progressMs);
+        }
       }
     }
   }
