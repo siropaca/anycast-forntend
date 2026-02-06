@@ -16,6 +16,7 @@ import {
   type CharacterFormInput,
   characterFormSchema,
 } from '@/features/studio/characters/schemas/character';
+import { getGenderLabel } from '@/features/studio/voices/utils/voiceLabels';
 import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 import { confirmDiscard } from '@/utils/confirmDiscard';
 
@@ -54,7 +55,7 @@ export function CharacterCreateModal() {
   });
 
   const voiceOptions = voices.map((v) => ({
-    label: `${v.name} (${v.gender})`,
+    label: `${v.name} (${getGenderLabel(v.gender)})`,
     value: v.id,
   }));
 
