@@ -12,6 +12,7 @@ import {
   studioSettingsFormSchema,
 } from '@/features/studio/settings/schemas/studioSettings';
 import { useDiscardGuard } from '@/hooks/useDiscardGuard';
+import { useToast } from '@/hooks/useToast';
 
 interface Props {
   open: boolean;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export function StudioSettingsModal({ open, onOpenChange }: Props) {
+  const toast = useToast();
   const { currentUserPrompt, isLoading, isUpdating, error, updateUserPrompt } =
     useUpdateUserPrompt();
 
@@ -40,7 +42,10 @@ export function StudioSettingsModal({ open, onOpenChange }: Props) {
   function onSubmit() {
     handleSubmit((data) => {
       updateUserPrompt(data.userPrompt, {
-        onSuccess: () => onOpenChange(false),
+        onSuccess: () => {
+          onOpenChange(false);
+          toast.success({ title: '設定を保存しました' });
+        },
       });
     })();
   }
