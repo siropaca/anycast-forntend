@@ -43,6 +43,18 @@ export const Default: Story = {
           ユーザー名
         </FormLabel>
       </Section>
+
+      <Section title="With Help Text">
+        <FormLabel helpText="すべてのエピソード生成時に共通で適用されるプロンプトです">
+          共通のプロンプト
+        </FormLabel>
+      </Section>
+
+      <Section title="Required with Help Text">
+        <FormLabel required helpText="一意の識別名として使用されます">
+          チャンネルID
+        </FormLabel>
+      </Section>
     </Stack>
   ),
 };

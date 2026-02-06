@@ -55,7 +55,12 @@ export function StudioSettingsModal({ open, onOpenChange }: Props) {
             <p>読み込み中...</p>
           ) : (
             <div className="space-y-4">
-              <FormLabel htmlFor="userPrompt">共通のプロンプト</FormLabel>
+              <FormLabel
+                htmlFor="userPrompt"
+                helpText="すべてのチャンネルとエピソードで適用されるプロンプトです。"
+              >
+                共通のプロンプト
+              </FormLabel>
               <Textarea
                 id="userPrompt"
                 rows={8}
@@ -73,6 +78,7 @@ export function StudioSettingsModal({ open, onOpenChange }: Props) {
               キャンセル
             </Button>
           </Modal.Close>
+
           <Button disabled={!isDirty || isUpdating} onClick={onSubmit}>
             {isUpdating ? '処理中...' : '保存'}
           </Button>
