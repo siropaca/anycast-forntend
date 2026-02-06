@@ -1,6 +1,10 @@
+import { PlusIcon } from '@phosphor-icons/react/ssr';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { CharacterListPage } from '@/features/studio/characters/components/CharacterListPage';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { Button } from '@/components/inputs/buttons/Button/Button';
+import { CharacterCreateModal } from '@/features/studio/characters/components/CharacterCreateModal';
+import { CharacterList } from '@/features/studio/characters/components/CharacterList';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -10,8 +14,26 @@ export const metadata: Metadata = {
 
 export default function StudioCharactersPage() {
   return (
-    <Suspense fallback={<p>読み込み中...</p>}>
-      <CharacterListPage />
-    </Suspense>
+    <div className="space-y-6">
+      <SectionTitle
+        title={Pages.studio.characters.title}
+        description="エピソードで使用しているキャラクターの管理ができます"
+        action={
+          <Suspense
+            fallback={
+              <Button leftIcon={<PlusIcon size={18} />} disabled>
+                新規追加
+              </Button>
+            }
+          >
+            <CharacterCreateModal />
+          </Suspense>
+        }
+      />
+
+      <Suspense fallback={<p>読み込み中...</p>}>
+        <CharacterList />
+      </Suspense>
+    </div>
   );
 }

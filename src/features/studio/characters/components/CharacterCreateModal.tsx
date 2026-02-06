@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ImageIcon, PlusIcon } from '@phosphor-icons/react';
+import { PlusIcon, UserIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -116,19 +116,26 @@ export function CharacterCreateModal() {
         <div className="space-y-2">
           <FormLabel>アバター画像</FormLabel>
           <div className="flex items-center gap-4">
-            {avatarPreviewUrl ? (
-              <Image
-                src={avatarPreviewUrl}
-                alt="アバター"
-                width={80}
-                height={80}
-                className="size-20 rounded-full object-cover"
-              />
-            ) : (
-              <div className="flex size-20 items-center justify-center rounded-full bg-bg-hover text-text-placeholder">
-                <ImageIcon size={32} />
-              </div>
-            )}
+            <button
+              type="button"
+              className="shrink-0 cursor-pointer"
+              disabled={isArtworkUploading}
+              onClick={handleAvatarButtonClick}
+            >
+              {avatarPreviewUrl ? (
+                <Image
+                  src={avatarPreviewUrl}
+                  alt="アバター"
+                  width={80}
+                  height={80}
+                  className="size-20 rounded-full object-cover"
+                />
+              ) : (
+                <div className="flex size-20 items-center justify-center rounded-full bg-bg-hover text-text-placeholder transition-colors hover:bg-bg-hover-strong">
+                  <UserIcon size={32} />
+                </div>
+              )}
+            </button>
             <input
               ref={fileInputRef}
               type="file"
