@@ -41,9 +41,9 @@ export function ChannelEpisodeList({
         action={
           <Link
             href={Pages.channel.path({ channelId })}
-            className="text-sm text-primary hover:underline"
+            className="text-sm text-text-subtle hover:underline"
           >
-            すべて表示
+            もっと見る
           </Link>
         }
       />
