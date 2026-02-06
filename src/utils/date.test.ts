@@ -1,6 +1,16 @@
-import { formatTime } from '@/utils/date';
+import { formatTime, formatYearMonth } from '@/utils/date';
 
-describe('formatTime', () => {
+describe('date', () => {
+  describe('formatYearMonth()', () => {
+    it('日付を「YYYY年M月」形式に変換する', () => {
+      expect(formatYearMonth(new Date('2024-01-15'))).toBe('2024年1月');
+    });
+
+    it('12月を正しく変換する', () => {
+      expect(formatYearMonth(new Date('2023-12-31'))).toBe('2023年12月');
+    });
+  });
+
   describe('formatTime()', () => {
     it('0ミリ秒を 0:00 に変換する', () => {
       expect(formatTime(0)).toBe('0:00');

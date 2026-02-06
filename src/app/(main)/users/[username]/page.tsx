@@ -20,11 +20,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function UserPage({ params }: Props) {
   const { username } = await params;
   const { session } = await auth();
+  const isLoggedIn = !!session;
   const isOwnProfile = session?.user?.username === username;
 
   return (
     <Suspense fallback={<p>読み込み中...</p>}>
-      <UserDetail username={username} isOwnProfile={isOwnProfile} />
+      <UserDetail
+        username={username}
+        isOwnProfile={isOwnProfile}
+        isLoggedIn={isLoggedIn}
+      />
     </Suspense>
   );
 }

@@ -16,6 +16,19 @@ export function formatDate(date: Date): string {
 }
 
 /**
+ * 日付を「YYYY年M月」形式の文字列に変換する
+ *
+ * @param date - 変換対象の日付
+ * @returns 「YYYY年M月」形式の文字列
+ *
+ * @example
+ * formatYearMonth(new Date('2024-01-15')) // => '2024年1月'
+ */
+export function formatYearMonth(date: Date): string {
+  return `${date.getFullYear()}年${date.getMonth() + 1}月`;
+}
+
+/**
  * ミリ秒を m:ss 形式の文字列に変換する
  *
  * @param ms - ミリ秒
