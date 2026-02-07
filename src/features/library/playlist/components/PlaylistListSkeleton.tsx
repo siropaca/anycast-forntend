@@ -1,7 +1,7 @@
 import { ArtworkSkeleton } from '@/components/dataDisplay/artworks/Artwork/ArtworkSkeleton';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
 
-const SKELETON_COUNT = 12;
+const SKELETON_COUNT = 5;
 
 export function PlaylistListSkeleton() {
   return (
