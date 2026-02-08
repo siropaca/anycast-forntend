@@ -1,0 +1,94 @@
+'use client';
+
+import { ImageIcon } from '@phosphor-icons/react';
+import Image from 'next/image';
+import type { RefObject } from 'react';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { Button } from '@/components/inputs/buttons/Button/Button';
+import { HelperText } from '@/components/inputs/Input/HelperText';
+
+interface Props {
+  previewUrl: string | undefined;
+  fileInputRef: RefObject<HTMLInputElement | null>;
+  isUploading: boolean;
+  error: string | undefined;
+
+  onOpenFilePicker: () => void;
+  onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: () => void;
+}
+
+export function HeaderImageField({
+  previewUrl,
+  fileInputRef,
+  isUploading,
+  error,
+  onOpenFilePicker,
+  onFileChange,
+  onRemove,
+}: Props) {
+  return (
+    <div className="space-y-2">
+      <FormLabel>ヘッダー画像</FormLabel>
+      <div className="relative h-32 w-full overflow-hidden rounded-md border border-border">
+        {previewUrl ? (
+          <Image
+            src={previewUrl}
+            alt="ヘッダー"
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <button
+            type="button"
+            className="flex h-full w-full cursor-pointer items-center justify-center bg-bg-hover text-text-placeholder transition-colors hover:bg-bg-hover-strong"
+            disabled={isUploading}
+            onClick={onOpenFilePicker}
+          >
+            <ImageIcon size={32} />
+          </button>
+        )}
+        {previewUrl && (
+          <div className="absolute inset-0 flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              color="secondary"
+              disabled={isUploading}
+              className="bg-black/30"
+              onClick={onOpenFilePicker}
+            >
+              {isUploading ? 'アップロード中...' : '画像を変更'}
+            </Button>
+            <Button
+              variant="outline"
+              color="secondary"
+              disabled={isUploading}
+              className="bg-black/30"
+              onClick={onRemove}
+            >
+              削除
+            </Button>
+          </div>
+        )}
+      </div>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={onFileChange}
+      />
+      {!previewUrl && (
+        <Button
+          variant="outline"
+          color="secondary"
+          disabled={isUploading}
+          onClick={onOpenFilePicker}
+        >
+          {isUploading ? 'アップロード中...' : '画像を選択'}
+        </Button>
+      )}
+      {error && <HelperText error>{error}</HelperText>}
+    </div>
+  );
+}
