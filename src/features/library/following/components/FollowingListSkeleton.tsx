@@ -8,7 +8,7 @@ export function FollowingListSkeleton() {
     <ArtworkGrid>
       {Array.from({ length: SKELETON_COUNT }, (_, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton list
-        <ArtworkSkeleton key={i} />
+        <ArtworkSkeleton key={i} rounded />
       ))}
     </ArtworkGrid>
   );
