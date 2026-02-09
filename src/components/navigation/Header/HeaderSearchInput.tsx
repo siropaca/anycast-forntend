@@ -1,27 +1,47 @@
 'use client';
 
 import { MagnifyingGlassIcon } from '@phosphor-icons/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/inputs/Input/Input';
+import { useDebounce } from '@/hooks/useDebounce';
 import { Pages } from '@/libs/pages';
 
 export function HeaderSearchInput() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(searchParams.get('q') ?? '');
+  const debouncedValue = useDebounce(value, 300);
+  const hasInteracted = useRef(false);
+
+  useEffect(() => {
+    if (!pathname.startsWith('/explore')) {
+      setValue('');
+      hasInteracted.current = false;
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!hasInteracted.current) {
+      return;
+    }
+
+    router.push(Pages.explore.path({ q: debouncedValue || undefined }));
+  }, [debouncedValue, router]);
 
   function handleFocus() {
     router.push(Pages.explore.path({ q: value || undefined }));
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const newValue = e.target.value;
-    setValue(newValue);
-    router.push(Pages.explore.path({ q: newValue || undefined }));
+    hasInteracted.current = true;
+    setValue(e.target.value);
   }
 
   function handleClear() {
+    hasInteracted.current = true;
     setValue('');
     router.push(Pages.explore.path());
   }

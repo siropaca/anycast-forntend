@@ -6,15 +6,16 @@ import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle
 
 interface Props {
   title: string;
+  level?: 'h2' | 'h3';
   moreHref?: string;
   children: ReactNode;
 }
 
-export function ContentSection({ title, moreHref, children }: Props) {
+export function ContentSection({ title, level, moreHref, children }: Props) {
   return (
     <section>
       <div className="flex items-center justify-between">
-        <SectionTitle title={title} />
+        <SectionTitle title={title} level={level} />
 
         {moreHref && (
           <Link
