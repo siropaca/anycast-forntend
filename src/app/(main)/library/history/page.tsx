@@ -5,7 +5,7 @@ import { PlaybackHistoryListSkeleton } from '@/features/library/history/componen
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: Pages.library.history.title,
+  title: Pages.library.history.pageTitle,
   robots: { index: false },
 };
 

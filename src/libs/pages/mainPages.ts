@@ -124,6 +124,7 @@ export const mainPages = {
     history: {
       path: () => '/library/history',
       title: '履歴',
+      pageTitle: '再生履歴',
     },
   },
   /** 利用規約 */

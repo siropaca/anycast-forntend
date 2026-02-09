@@ -19,7 +19,7 @@ export function PlaybackHistoryList() {
   return (
     <div>
       <SectionTitle
-        title={Pages.library.history.title}
+        title={Pages.library.history.pageTitle}
         action={
           items.length > 0 ? (
             <PlaybackHistoryMenu onDelete={deleteDialog.open} />
