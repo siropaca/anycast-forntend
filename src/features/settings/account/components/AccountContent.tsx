@@ -1,4 +1,21 @@
-// TODO: 仮コンポーネント
+'use client';
+
+import { DeleteAccountSection } from '@/features/settings/account/components/DeleteAccountSection';
+import { PasswordSection } from '@/features/settings/account/components/PasswordSection';
+import { UsernameSection } from '@/features/settings/account/components/UsernameSection';
+
 export function AccountContent() {
-  return <div>Settings Account</div>;
+  return (
+    <div className="mx-auto max-w-xl space-y-8 py-8">
+      <UsernameSection />
+
+      <hr className="border-border" />
+
+      <PasswordSection />
+
+      <hr className="border-border" />
+
+      <DeleteAccountSection />
+    </div>
+  );
 }

@@ -1,3 +1,13 @@
+export const MESSAGES = {
+  account: {
+    usernameUpdateSuccess: 'ユーザー名を変更しました',
+    usernameUpdateError: 'ユーザー名の変更に失敗しました',
+    passwordChangeSuccess: 'パスワードを変更しました',
+    passwordChangeError: 'パスワードの変更に失敗しました',
+    deleteError: 'アカウントの削除に失敗しました',
+  },
+} as const;
+
 export const VALIDATION_MESSAGES = {
   required: (field: string) => `${field}を入力してください`,
   select: (field: string) => `${field}を選択してください`,
