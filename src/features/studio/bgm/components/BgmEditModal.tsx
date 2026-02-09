@@ -1,6 +1,6 @@
 'use client';
 
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
@@ -34,18 +34,17 @@ export function BgmEditModal({ editModal }: BgmEditModalProps) {
       onSubmit={editModal.submit}
     >
       <div className="space-y-6">
-        <div className="space-y-2">
-          <FormLabel htmlFor="bgm-edit-name" required>
-            BGM名
-          </FormLabel>
-          <Input
-            id="bgm-edit-name"
-            value={editModal.bgmName}
-            placeholder="BGM名を入力"
-            disabled={editModal.isUpdating}
-            onChange={(e) => editModal.setBgmName(e.target.value)}
-          />
-        </div>
+        <FormField label="BGM名" required>
+          {({ id }) => (
+            <Input
+              id={id}
+              value={editModal.bgmName}
+              placeholder="BGM名を入力"
+              disabled={editModal.isUpdating}
+              onChange={(e) => editModal.setBgmName(e.target.value)}
+            />
+          )}
+        </FormField>
 
         {editModal.error && <HelperText error>{editModal.error}</HelperText>}
       </div>

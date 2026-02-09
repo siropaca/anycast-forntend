@@ -8,6 +8,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
@@ -212,90 +213,84 @@ export function ChannelForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       {/* チャンネル基本情報 */}
       <div className="space-y-6">
-        <div className="space-y-2">
-          <FormLabel htmlFor="name" required>
-            チャンネル名
-          </FormLabel>
-          <Input
-            id="name"
-            maxLength={255}
-            error={!!errors.name}
-            {...register('name')}
-          />
-          {errors.name && <HelperText error>{errors.name.message}</HelperText>}
-        </div>
-
-        <div className="space-y-2">
-          <FormLabel htmlFor="description">説明</FormLabel>
-          <Textarea
-            id="description"
-            rows={4}
-            maxLength={2000}
-            showCounter
-            error={!!errors.description}
-            {...register('description')}
-          />
-          {errors.description && (
-            <HelperText error>{errors.description.message}</HelperText>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <FormLabel>アートワーク</FormLabel>
-          {artworkPreviewUrl && (
-            <Image
-              src={artworkPreviewUrl}
-              alt="アートワーク"
-              width={200}
-              height={200}
-              className="rounded-lg object-cover"
+        <FormField label="チャンネル名" required error={errors.name?.message}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              maxLength={255}
+              error={hasError}
+              {...register('name')}
             />
           )}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          <div>
-            <Button
-              type="button"
-              variant="outline"
-              color="secondary"
-              loading={isArtworkUploading}
-              onClick={handleArtworkButtonClick}
-            >
-              {artworkPreviewUrl ? 'アートワークを変更' : 'アートワークを登録'}
-            </Button>
-          </div>
-          {artworkUploadError && (
-            <HelperText error>{artworkUploadError}</HelperText>
-          )}
-        </div>
+        </FormField>
 
-        <div className="space-y-2">
-          <FormLabel htmlFor="categoryId" required>
-            カテゴリ
-          </FormLabel>
-          <Controller
-            name="categoryId"
-            control={control}
-            render={({ field }) => (
-              <Select
-                name="categoryId"
-                options={categoryOptions}
-                value={field.value || null}
-                onValueChange={(value) => field.onChange(value ?? '')}
-                placeholder="選択してください"
-                error={!!errors.categoryId}
-              />
-            )}
-          />
-          {errors.categoryId && (
-            <HelperText error>{errors.categoryId.message}</HelperText>
+        <FormField label="説明" error={errors.description?.message}>
+          {({ id, hasError }) => (
+            <Textarea
+              id={id}
+              rows={4}
+              maxLength={2000}
+              showCounter
+              error={hasError}
+              {...register('description')}
+            />
           )}
-        </div>
+        </FormField>
+
+        <FormField label="アートワーク" error={artworkUploadError}>
+          {() => (
+            <>
+              {artworkPreviewUrl && (
+                <Image
+                  src={artworkPreviewUrl}
+                  alt="アートワーク"
+                  width={200}
+                  height={200}
+                  className="rounded-lg object-cover"
+                />
+              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  color="secondary"
+                  loading={isArtworkUploading}
+                  onClick={handleArtworkButtonClick}
+                >
+                  {artworkPreviewUrl
+                    ? 'アートワークを変更'
+                    : 'アートワークを登録'}
+                </Button>
+              </div>
+            </>
+          )}
+        </FormField>
+
+        <FormField label="カテゴリ" required error={errors.categoryId?.message}>
+          {({ hasError }) => (
+            <Controller
+              name="categoryId"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  name="categoryId"
+                  options={categoryOptions}
+                  value={field.value || null}
+                  onValueChange={(value) => field.onChange(value ?? '')}
+                  placeholder="選択してください"
+                  error={hasError}
+                />
+              )}
+            />
+          )}
+        </FormField>
       </div>
 
       {/* デフォルトBGM */}
@@ -357,25 +352,22 @@ export function ChannelForm({
 
       {/* プロンプト */}
       <div className="space-y-6">
-        <div className="space-y-2">
-          <FormLabel
-            htmlFor="userPrompt"
-            helpText="エピソード生成時に台本プロンプトとして使用されます"
-          >
-            チャンネル共通の台本プロンプト
-          </FormLabel>
-          <Textarea
-            id="userPrompt"
-            rows={6}
-            maxLength={2000}
-            showCounter
-            error={!!errors.userPrompt}
-            {...register('userPrompt')}
-          />
-          {errors.userPrompt && (
-            <HelperText error>{errors.userPrompt.message}</HelperText>
+        <FormField
+          label="チャンネル共通の台本プロンプト"
+          helpText="エピソード生成時に台本プロンプトとして使用されます"
+          error={errors.userPrompt?.message}
+        >
+          {({ id, hasError }) => (
+            <Textarea
+              id={id}
+              rows={6}
+              maxLength={2000}
+              showCounter
+              error={hasError}
+              {...register('userPrompt')}
+            />
           )}
-        </div>
+        </FormField>
       </div>
 
       {/* キャラクター（新規作成時のみ） */}
@@ -404,62 +396,57 @@ export function ChannelForm({
                 )}
               </div>
 
-              <div className="space-y-2">
-                <FormLabel htmlFor={`characters.${index}.voiceId`} required>
-                  ボイス
-                </FormLabel>
-                <Controller
-                  name={`characters.${index}.voiceId`}
-                  control={control}
-                  render={({ field: selectField }) => (
-                    <Select
-                      name={`characters.${index}.voiceId`}
-                      options={voiceOptions}
-                      value={selectField.value || null}
-                      onValueChange={(value) =>
-                        selectField.onChange(value ?? '')
-                      }
-                      placeholder="選択してください"
-                      error={!!errors.characters?.[index]?.voiceId}
-                    />
-                  )}
-                />
-                {errors.characters?.[index]?.voiceId && (
-                  <HelperText error>
-                    {errors.characters[index].voiceId?.message}
-                  </HelperText>
+              <FormField
+                label="ボイス"
+                required
+                error={errors.characters?.[index]?.voiceId?.message}
+              >
+                {({ hasError }) => (
+                  <Controller
+                    name={`characters.${index}.voiceId`}
+                    control={control}
+                    render={({ field: selectField }) => (
+                      <Select
+                        name={`characters.${index}.voiceId`}
+                        options={voiceOptions}
+                        value={selectField.value || null}
+                        onValueChange={(value) =>
+                          selectField.onChange(value ?? '')
+                        }
+                        placeholder="選択してください"
+                        error={hasError}
+                      />
+                    )}
+                  />
                 )}
-              </div>
+              </FormField>
 
-              <div className="space-y-2">
-                <FormLabel htmlFor={`characters.${index}.name`} required>
-                  名前
-                </FormLabel>
-                <Input
-                  id={`characters.${index}.name`}
-                  maxLength={255}
-                  error={!!errors.characters?.[index]?.name}
-                  {...register(`characters.${index}.name`)}
-                />
-                {errors.characters?.[index]?.name && (
-                  <HelperText error>
-                    {errors.characters[index].name?.message}
-                  </HelperText>
+              <FormField
+                label="名前"
+                required
+                error={errors.characters?.[index]?.name?.message}
+              >
+                {({ id, hasError }) => (
+                  <Input
+                    id={id}
+                    maxLength={255}
+                    error={hasError}
+                    {...register(`characters.${index}.name`)}
+                  />
                 )}
-              </div>
+              </FormField>
 
-              <div className="space-y-2">
-                <FormLabel htmlFor={`characters.${index}.persona`}>
-                  ペルソナ
-                </FormLabel>
-                <Textarea
-                  id={`characters.${index}.persona`}
-                  rows={4}
-                  maxLength={2000}
-                  showCounter
-                  {...register(`characters.${index}.persona`)}
-                />
-              </div>
+              <FormField label="ペルソナ">
+                {({ id }) => (
+                  <Textarea
+                    id={id}
+                    rows={4}
+                    maxLength={2000}
+                    showCounter
+                    {...register(`characters.${index}.persona`)}
+                  />
+                )}
+              </FormField>
             </div>
           ))}
 

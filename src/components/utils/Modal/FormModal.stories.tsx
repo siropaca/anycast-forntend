@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
 
@@ -22,10 +22,9 @@ export const Default: Story = {
     title: '新規作成',
     children: (
       <div className="space-y-4">
-        <div className="space-y-2">
-          <FormLabel htmlFor="name">名前</FormLabel>
-          <Input id="name" placeholder="名前を入力" />
-        </div>
+        <FormField label="名前">
+          {({ id }) => <Input id={id} placeholder="名前を入力" />}
+        </FormField>
       </div>
     ),
     submitLabel: '作成',
@@ -38,14 +37,12 @@ export const WithMultipleFields: Story = {
     title: '情報を編集',
     children: (
       <div className="space-y-4">
-        <div className="space-y-2">
-          <FormLabel htmlFor="title">タイトル</FormLabel>
-          <Input id="title" placeholder="タイトルを入力" />
-        </div>
-        <div className="space-y-2">
-          <FormLabel htmlFor="description">説明</FormLabel>
-          <Input id="description" placeholder="説明を入力" />
-        </div>
+        <FormField label="タイトル">
+          {({ id }) => <Input id={id} placeholder="タイトルを入力" />}
+        </FormField>
+        <FormField label="説明">
+          {({ id }) => <Input id={id} placeholder="説明を入力" />}
+        </FormField>
       </div>
     ),
     submitLabel: '保存',
@@ -67,12 +64,9 @@ export const SubmitDisabled: Story = {
     trigger: <Button>開く</Button>,
     title: '新規作成',
     children: (
-      <div className="space-y-2">
-        <FormLabel htmlFor="required-field" required>
-          必須項目
-        </FormLabel>
-        <Input id="required-field" placeholder="入力してください" />
-      </div>
+      <FormField label="必須項目" required>
+        {({ id }) => <Input id={id} placeholder="入力してください" />}
+      </FormField>
     ),
     submitLabel: '作成',
     submitDisabled: true,

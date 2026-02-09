@@ -5,8 +5,8 @@ import { PlusIcon, UserIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
@@ -118,124 +118,114 @@ export function CharacterCreateModal() {
     >
       <div className="space-y-6">
         {/* アバター画像 */}
-        <div className="space-y-2">
-          <FormLabel>アバター画像</FormLabel>
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              className="shrink-0 cursor-pointer"
-              disabled={isArtworkUploading}
-              onClick={handleAvatarButtonClick}
-            >
-              {avatarPreviewUrl ? (
-                <Image
-                  src={avatarPreviewUrl}
-                  alt="アバター"
-                  width={80}
-                  height={80}
-                  className="size-20 rounded-full object-cover"
-                />
-              ) : (
-                <div className="flex size-20 items-center justify-center rounded-full bg-bg-hover text-text-placeholder transition-colors hover:bg-bg-hover-strong">
-                  <UserIcon size={32} />
-                </div>
-              )}
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                color="secondary"
+        <FormField label="アバター画像" error={artworkUploadError}>
+          {() => (
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                className="shrink-0 cursor-pointer"
                 disabled={isArtworkUploading}
                 onClick={handleAvatarButtonClick}
               >
-                {isArtworkUploading
-                  ? 'アップロード中...'
-                  : avatarPreviewUrl
-                    ? '画像を変更'
-                    : '画像を選択'}
-              </Button>
-              {avatarPreviewUrl && (
+                {avatarPreviewUrl ? (
+                  <Image
+                    src={avatarPreviewUrl}
+                    alt="アバター"
+                    width={80}
+                    height={80}
+                    className="size-20 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex size-20 items-center justify-center rounded-full bg-bg-hover text-text-placeholder transition-colors hover:bg-bg-hover-strong">
+                    <UserIcon size={32} />
+                  </div>
+                )}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <div className="flex gap-2">
                 <Button
                   variant="outline"
                   color="secondary"
                   disabled={isArtworkUploading}
-                  onClick={handleAvatarRemove}
+                  onClick={handleAvatarButtonClick}
                 >
-                  削除
+                  {isArtworkUploading
+                    ? 'アップロード中...'
+                    : avatarPreviewUrl
+                      ? '画像を変更'
+                      : '画像を選択'}
                 </Button>
-              )}
+                {avatarPreviewUrl && (
+                  <Button
+                    variant="outline"
+                    color="secondary"
+                    disabled={isArtworkUploading}
+                    onClick={handleAvatarRemove}
+                  >
+                    削除
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
-          {artworkUploadError && (
-            <HelperText error>{artworkUploadError}</HelperText>
           )}
-        </div>
+        </FormField>
 
         {/* 名前 */}
-        <div className="space-y-2">
-          <FormLabel htmlFor="character-name" required>
-            名前
-          </FormLabel>
-          <Input
-            id="character-name"
-            placeholder="キャラクター名を入力"
-            maxLength={255}
-            disabled={isCreating}
-            error={!!errors.name}
-            {...register('name')}
-          />
-          {errors.name && <HelperText error>{errors.name.message}</HelperText>}
-        </div>
+        <FormField label="名前" required error={errors.name?.message}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              placeholder="キャラクター名を入力"
+              maxLength={255}
+              disabled={isCreating}
+              error={hasError}
+              {...register('name')}
+            />
+          )}
+        </FormField>
 
         {/* ボイス */}
-        <div className="space-y-2">
-          <FormLabel htmlFor="character-voice" required>
-            ボイス
-          </FormLabel>
-          <Controller
-            name="voiceId"
-            control={control}
-            render={({ field }) => (
-              <Select
-                options={voiceOptions}
-                value={field.value || null}
-                onValueChange={(value) => field.onChange(value ?? '')}
-                placeholder="ボイスを選択"
-                error={!!errors.voiceId}
-                disabled={isCreating}
-              />
-            )}
-          />
-          {errors.voiceId && (
-            <HelperText error>{errors.voiceId.message}</HelperText>
+        <FormField label="ボイス" required error={errors.voiceId?.message}>
+          {({ hasError }) => (
+            <Controller
+              name="voiceId"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  options={voiceOptions}
+                  value={field.value || null}
+                  onValueChange={(value) => field.onChange(value ?? '')}
+                  placeholder="ボイスを選択"
+                  error={hasError}
+                  disabled={isCreating}
+                />
+              )}
+            />
           )}
-        </div>
+        </FormField>
 
         {/* ペルソナ */}
-        <div className="space-y-2">
-          <FormLabel htmlFor="character-persona">ペルソナ</FormLabel>
-          <Textarea
-            id="character-persona"
-            placeholder="キャラクターの性格や特徴を入力"
-            rows={6}
-            maxLength={2000}
-            showCounter
-            disabled={isCreating}
-            error={!!errors.persona}
-            value={watch('persona')}
-            {...register('persona')}
-          />
-          {errors.persona && (
-            <HelperText error>{errors.persona.message}</HelperText>
+        <FormField label="ペルソナ" error={errors.persona?.message}>
+          {({ id, hasError }) => (
+            <Textarea
+              id={id}
+              placeholder="キャラクターの性格や特徴を入力"
+              rows={6}
+              maxLength={2000}
+              showCounter
+              disabled={isCreating}
+              error={hasError}
+              value={watch('persona')}
+              {...register('persona')}
+            />
           )}
-        </div>
+        </FormField>
 
         {createError && <HelperText error>{createError}</HelperText>}
       </div>

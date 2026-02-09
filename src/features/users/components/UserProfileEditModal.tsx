@@ -1,6 +1,6 @@
 'use client';
 
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
@@ -92,39 +92,35 @@ export function UserProfileEditModal({ user, open, onOpenChange }: Props) {
         />
 
         {/* 表示名 */}
-        <div className="space-y-2">
-          <FormLabel htmlFor="profile-edit-displayName" required>
-            表示名
-          </FormLabel>
-          <Input
-            id="profile-edit-displayName"
-            placeholder="表示名を入力"
-            maxLength={20}
-            disabled={isUpdating}
-            error={!!errors.displayName}
-            {...register('displayName')}
-          />
-          {errors.displayName && (
-            <HelperText error>{errors.displayName.message}</HelperText>
+        <FormField label="表示名" required error={errors.displayName?.message}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              placeholder="表示名を入力"
+              maxLength={20}
+              disabled={isUpdating}
+              error={hasError}
+              {...register('displayName')}
+            />
           )}
-        </div>
+        </FormField>
 
         {/* 自己紹介 */}
-        <div className="space-y-2">
-          <FormLabel htmlFor="profile-edit-bio">自己紹介</FormLabel>
-          <Textarea
-            id="profile-edit-bio"
-            placeholder="自己紹介を入力"
-            rows={5}
-            maxLength={200}
-            showCounter
-            disabled={isUpdating}
-            error={!!errors.bio}
-            value={watch('bio')}
-            {...register('bio')}
-          />
-          {errors.bio && <HelperText error>{errors.bio.message}</HelperText>}
-        </div>
+        <FormField label="自己紹介" error={errors.bio?.message}>
+          {({ id, hasError }) => (
+            <Textarea
+              id={id}
+              placeholder="自己紹介を入力"
+              rows={5}
+              maxLength={200}
+              showCounter
+              disabled={isUpdating}
+              error={hasError}
+              value={watch('bio')}
+              {...register('bio')}
+            />
+          )}
+        </FormField>
 
         {updateError && <HelperText error>{updateError}</HelperText>}
       </div>

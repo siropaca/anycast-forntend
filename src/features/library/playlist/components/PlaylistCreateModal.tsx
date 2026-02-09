@@ -3,8 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
-import { HelperText } from '@/components/inputs/Input/HelperText';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
 import {
@@ -58,23 +57,20 @@ export function PlaylistCreateModal({ createModal }: Props) {
       onSubmit={handleSubmit((data) => createModal.submit(data.name))}
     >
       <div className="space-y-6">
-        <div className="space-y-2">
-          <FormLabel htmlFor="playlist-create-name" required>
-            再生リスト名
-          </FormLabel>
-          <Input
-            id="playlist-create-name"
-            placeholder="再生リスト名を入力"
-            maxLength={100}
-            showCounter
-            error={!!errors.name}
-            disabled={createModal.isCreating}
-            value={name}
-            {...register('name')}
-          />
-
-          {error && <HelperText error>{error}</HelperText>}
-        </div>
+        <FormField label="再生リスト名" required error={error}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              placeholder="再生リスト名を入力"
+              maxLength={100}
+              showCounter
+              error={hasError}
+              disabled={createModal.isCreating}
+              value={name}
+              {...register('name')}
+            />
+          )}
+        </FormField>
       </div>
     </FormModal>
   );

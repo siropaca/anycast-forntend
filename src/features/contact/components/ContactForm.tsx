@@ -5,9 +5,9 @@ import { CheckCircleIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Checkbox } from '@/components/inputs/Checkbox/Checkbox';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
@@ -65,46 +65,42 @@ export function ContactForm() {
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
       {/* カテゴリ */}
-      <div className="space-y-2">
-        <FormLabel htmlFor="contact-category" required>
-          カテゴリ
-        </FormLabel>
-        <Controller
-          name="category"
-          control={control}
-          render={({ field }) => (
-            <Select
-              options={[...CONTACT_CATEGORY_OPTIONS]}
-              value={field.value ?? null}
-              onValueChange={(value) => field.onChange(value)}
-              placeholder="選択してください"
-              size="lg"
-              error={!!errors.category}
-              className="w-full"
-            />
-          )}
-        />
-        {errors.category && (
-          <HelperText error>{errors.category.message}</HelperText>
+      <FormField label="カテゴリ" required error={errors.category?.message}>
+        {({ hasError }) => (
+          <Controller
+            name="category"
+            control={control}
+            render={({ field }) => (
+              <Select
+                options={[...CONTACT_CATEGORY_OPTIONS]}
+                value={field.value ?? null}
+                onValueChange={(value) => field.onChange(value)}
+                placeholder="選択してください"
+                size="lg"
+                error={hasError}
+                className="w-full"
+              />
+            )}
+          />
         )}
-      </div>
+      </FormField>
 
       {/* お問い合わせ内容 */}
-      <div className="space-y-2">
-        <FormLabel htmlFor="contact-content" required>
-          お問い合わせ内容
-        </FormLabel>
-        <Textarea
-          id="contact-content"
-          rows={12}
-          placeholder="お問い合わせ内容を詳しくお聞かせください"
-          error={!!errors.content}
-          {...register('content')}
-        />
-        {errors.content && (
-          <HelperText error>{errors.content.message}</HelperText>
+      <FormField
+        label="お問い合わせ内容"
+        required
+        error={errors.content?.message}
+      >
+        {({ id, hasError }) => (
+          <Textarea
+            id={id}
+            rows={12}
+            placeholder="お問い合わせ内容を詳しくお聞かせください"
+            error={hasError}
+            {...register('content')}
+          />
         )}
-      </div>
+      </FormField>
 
       {/* 注意文 */}
       <p className="text-xs leading-relaxed text-text-subtle">

@@ -1,8 +1,8 @@
 'use client';
 
 import { MusicNoteIcon, PlusIcon } from '@phosphor-icons/react';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormModal } from '@/components/utils/Modal/FormModal';
@@ -57,52 +57,48 @@ export function BgmUploadModal() {
     >
       <div className="space-y-6">
         {/* ファイル */}
-        <div className="space-y-2">
-          <FormLabel htmlFor="bgm-file" required>
-            ファイル
-          </FormLabel>
-          <input
-            id="bgm-file"
-            ref={fileInputRef}
-            type="file"
-            accept="audio/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              color="secondary"
-              leftIcon={<MusicNoteIcon size={16} />}
-              disabled={isUploading}
-              onClick={openFilePicker}
-            >
-              ファイルを選択
-            </Button>
-            {selectedFile && (
-              <span className="text-sm text-text-subtle">
-                {selectedFile.name}
-              </span>
-            )}
-          </div>
-        </div>
+        <FormField label="ファイル" required>
+          {() => (
+            <>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="audio/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  color="secondary"
+                  leftIcon={<MusicNoteIcon size={16} />}
+                  disabled={isUploading}
+                  onClick={openFilePicker}
+                >
+                  ファイルを選択
+                </Button>
+                {selectedFile && (
+                  <span className="text-sm text-text-subtle">
+                    {selectedFile.name}
+                  </span>
+                )}
+              </div>
+            </>
+          )}
+        </FormField>
 
         {/* BGM名 */}
-        <div className="space-y-2">
-          <FormLabel
-            htmlFor="bgm-name"
-            description="省略時はファイル名になります"
-          >
-            BGM名
-          </FormLabel>
-          <Input
-            id="bgm-name"
-            value={bgmName}
-            placeholder="BGM名を入力"
-            disabled={isUploading}
-            onChange={(e) => setBgmName(e.target.value)}
-          />
-        </div>
+        <FormField label="BGM名" description="省略時はファイル名になります">
+          {({ id }) => (
+            <Input
+              id={id}
+              value={bgmName}
+              placeholder="BGM名を入力"
+              disabled={isUploading}
+              onChange={(e) => setBgmName(e.target.value)}
+            />
+          )}
+        </FormField>
 
         {uploadError && <HelperText error>{uploadError}</HelperText>}
       </div>
