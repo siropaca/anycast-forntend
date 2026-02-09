@@ -1,15 +1,28 @@
 'use client';
 
-import Image from 'next/image';
+import {
+  MusicNoteIcon,
+  PencilSimpleIcon,
+  UserIcon,
+} from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 
+import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
+import { ChannelDetailMenu } from '@/features/studio/channels/components/ChannelDetailMenu';
+import { StatusTag } from '@/features/studio/channels/components/StatusTag';
 import { useChannelDeleteDialog } from '@/features/studio/channels/hooks/useChannelDeleteDialog';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
 import { useChannelPublishDialog } from '@/features/studio/channels/hooks/useChannelPublishDialog';
 import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
+import { VoiceSampleButton } from '@/features/studio/voices/components/VoiceSampleButton';
+import { useVoiceList } from '@/features/studio/voices/hooks/useVoiceList';
 import { Pages } from '@/libs/pages';
+
+const ARTWORK_SIZE = 170;
 
 interface Props {
   channelId: string;
@@ -17,6 +30,7 @@ interface Props {
 
 export function ChannelDetail({ channelId }: Props) {
   const router = useRouter();
+  const { voices } = useVoiceList();
   const {
     channel,
     isPublished,
@@ -46,10 +60,6 @@ export function ChannelDetail({ channelId }: Props) {
     error,
   });
 
-  function handleEditClick() {
-    router.push(Pages.studio.editChannel.path({ id: channelId }));
-  }
-
   async function handleDeleteConfirm() {
     const success = await deleteDialog.confirm();
     if (success) {
@@ -58,79 +68,110 @@ export function ChannelDetail({ channelId }: Props) {
   }
 
   return (
-    <div>
-      <h1>{Pages.studio.channel.title}</h1>
-      <p>チャンネル名: {channel.name}</p>
-      {channel.description && <p>説明: {channel.description}</p>}
-      <p>公開日時: {channel.publishedAt ?? '非公開'}</p>
+    <div className="space-y-8">
+      {/* ヘッダー */}
+      <SectionTitle
+        title={channel.name}
+        action={
+          <div className="flex items-center gap-3">
+            <StatusTag isPublished={isPublished} />
+            <Button
+              size="sm"
+              variant="outline"
+              color="secondary"
+              leftIcon={<PencilSimpleIcon size={16} />}
+              href={Pages.studio.editChannel.path({ id: channelId })}
+            >
+              編集
+            </Button>
+            <ChannelDetailMenu
+              isPublished={isPublished}
+              disabled={isMutating}
+              onPublish={() => publishDialog.open('publish')}
+              onUnpublish={() => publishDialog.open('unpublish')}
+              onDelete={deleteDialog.open}
+            />
+          </div>
+        }
+      />
 
-      {channel.artwork && (
-        <Image
-          src={channel.artwork.url}
-          alt=""
-          width={200}
-          height={200}
-          className="size-[200px]"
+      {/* チャンネル情報 */}
+      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+        <ArtworkImage
+          src={channel.artwork?.url}
+          alt={channel.name}
+          size={ARTWORK_SIZE}
+          priority
         />
+
+        <div className="flex flex-1 flex-col gap-3">
+          <p className="text-sm text-text-subtle">{channel.category.name}</p>
+
+          {channel.description && (
+            <p className="whitespace-pre-wrap">{channel.description}</p>
+          )}
+        </div>
+      </div>
+
+      {/* キャラクター */}
+      <div className="space-y-3">
+        <SectionTitle title="キャラクター" level="h3" />
+        <ul className="flex flex-wrap gap-6">
+          {channel.characters.map((character) => {
+            const voice = voices.find((v) => v.id === character.voice.id);
+            return (
+              <li key={character.id} className="flex items-center gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-bg-elevated text-text-placeholder">
+                  <UserIcon size={20} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">{character.name}</p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-xs text-text-subtle">
+                      {character.voice.name}
+                    </p>
+                    {voice && <VoiceSampleButton voice={voice} />}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      {/* デフォルトBGM */}
+      {channel.defaultBgm && (
+        <div className="space-y-3">
+          <SectionTitle title="デフォルトBGM" level="h3" />
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-bg-elevated text-text-placeholder">
+              <MusicNoteIcon size={20} />
+            </div>
+            <p className="text-sm">{channel.defaultBgm.name}</p>
+          </div>
+        </div>
       )}
 
-      <hr className="my-4" />
-
-      <button
-        type="button"
-        className="border"
-        disabled={isMutating}
-        onClick={handleEditClick}
-      >
-        チャンネルを編集
-      </button>
-
-      <button
-        type="button"
-        className="border"
-        disabled={isMutating}
-        onClick={deleteDialog.open}
-      >
-        {isDeleting ? '削除中...' : 'チャンネルを削除'}
-      </button>
-
-      {isPublished ? (
-        <button
-          type="button"
-          className="border"
-          disabled={isMutating}
-          onClick={() => publishDialog.open('unpublish')}
-        >
-          {isUnpublishing ? '非公開にしています...' : '非公開にする'}
-        </button>
-      ) : (
-        <button
-          type="button"
-          className="border"
-          disabled={isMutating}
-          onClick={() => publishDialog.open('publish')}
-        >
-          {isPublishing ? '公開しています...' : 'チャンネルを公開'}
-        </button>
+      {/* 台本プロンプト */}
+      {channel.userPrompt && (
+        <div className="space-y-3">
+          <SectionTitle title="台本プロンプト" level="h3" />
+          <p className="whitespace-pre-wrap text-sm text-text-subtle">
+            {channel.userPrompt}
+          </p>
+        </div>
       )}
 
-      <hr className="my-4" />
+      {/* エピソード一覧 */}
+      <div className="space-y-4">
+        <Suspense
+          fallback={<p className="text-sm text-text-subtle">読み込み中...</p>}
+        >
+          <EpisodeList channelId={channelId} />
+        </Suspense>
+      </div>
 
-      <ul>
-        {channel.characters.map((character) => (
-          <li key={character.id}>
-            {character.name} ({character.voice.name})
-          </li>
-        ))}
-      </ul>
-
-      <hr className="my-4" />
-
-      <h2>エピソード一覧</h2>
-      <Suspense fallback={<p>読み込み中...</p>}>
-        <EpisodeList channelId={channelId} />
-      </Suspense>
-
+      {/* 削除ダイアログ */}
       <ConfirmDialog
         trigger={<span className="hidden" />}
         open={deleteDialog.isOpen}
@@ -149,6 +190,7 @@ export function ChannelDetail({ channelId }: Props) {
         onConfirm={handleDeleteConfirm}
       />
 
+      {/* 公開/非公開ダイアログ */}
       <ConfirmDialog
         trigger={<span className="hidden" />}
         open={publishDialog.isOpen}
