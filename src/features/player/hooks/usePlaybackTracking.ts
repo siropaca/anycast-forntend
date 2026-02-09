@@ -1,9 +1,11 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 import {
   postEpisodesEpisodeIdPlay,
   putEpisodesEpisodeIdPlayback,
 } from '@/libs/api/generated/episodes/episodes';
+import { getGetMePlaybackHistoryQueryKey } from '@/libs/api/generated/me/me';
 import { usePlayerStore } from '@/stores/playerStore';
 
 const INTERVAL_MS = 30_000;
@@ -19,6 +21,7 @@ const COMPLETED_THRESHOLD_MS = 1_000;
  * 再生開始・30秒ごと・一時停止・トラック変更時に API を呼ぶ。
  */
 export function usePlaybackTracking() {
+  const queryClient = useQueryClient();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const playCountTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const playCountSentRef = useRef<string | null>(null);
@@ -123,6 +126,13 @@ export function usePlaybackTracking() {
         sendProgress(currentTrack.id, state.currentTimeMs, false);
         startInterval();
 
+        // 新しいエピソードの再生開始時に履歴キャッシュを無効化
+        if (trackChanged) {
+          queryClient.invalidateQueries({
+            queryKey: getGetMePlaybackHistoryQueryKey(),
+          });
+        }
+
         // 新しいエピソードの再生開始時のみ再生回数タイマーを開始
         if (trackChanged && playCountSentRef.current !== currentTrack.id) {
           startPlayCountTimer(currentTrack.id);
@@ -145,5 +155,5 @@ export function usePlaybackTracking() {
       stopInterval();
       cancelPlayCountTimer();
     };
-  }, []);
+  }, [queryClient]);
 }
