@@ -70,6 +70,7 @@ function add(a: number, b: number): number {
 - `src/components/` 配下のコンポーネントはできるだけ Presentational Component にする
 - `src/components/` のサブディレクトリはカテゴリ別に分類する（`dataDisplay`, `inputs`, `navigation`, `surface`, `feedback`, `utils`）
 - ローディング状態には `XxxSkeleton` コンポーネントを作成する（例: `AvatarSkeleton`, `ButtonSkeleton`）
+- Skeleton コンポーネントは実際のレイアウトにできるだけ近づける（ラベル、ボタンなど構成要素を省略しない）
 - `className` の結合や条件式を使う場合は `cn()` を使用する（`src/utils/cn.ts`）
 - コンポーネントでカラートークン（`red-500`、`gray-400` など）を直接使用しない。必ず `global.css` にセマンティックトークンとして定義してから使用する
 - Props の定義順序: 必須プロパティ → オプショナルプロパティ → 空行 → 関数
@@ -212,24 +213,6 @@ export function useMyList() {
     setCurrentPage,
   };
 }
-```
-
-### メッセージ管理
-
-- ユーザー向けのエラーメッセージやシステムメッセージは `src/constants/messages.ts` の `MESSAGES` で一元管理する
-- 将来の多言語化対応を見据え、コンポーネントやフック内にハードコードしない
-- ドメインごとにグループ化して管理する（例: `MESSAGES.channel.createError`）
-- Zod スキーマのバリデーションメッセージも `MESSAGES.validation` を使用する
-
-```typescript
-import { MESSAGES } from '@/constants/messages';
-
-// APIエラーメッセージ
-setError(MESSAGES.channel.createError);
-
-// バリデーションメッセージ
-z.string().min(1, MESSAGES.validation.required('タイトル'));
-z.string().max(255, MESSAGES.validation.maxLength('タイトル', 255));
 ```
 
 ### ページパスの管理

@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
 import { useDeleteMe } from '@/libs/api/generated/me/me';
 
 /**
@@ -31,7 +30,7 @@ export function useDeleteAccount() {
       },
       onError: (err: unknown) => {
         const message =
-          err instanceof Error ? err.message : MESSAGES.account.deleteError;
+          err instanceof Error ? err.message : 'アカウントの削除に失敗しました';
         setError(message);
       },
     });

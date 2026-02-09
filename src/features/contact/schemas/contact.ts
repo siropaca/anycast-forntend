@@ -16,7 +16,7 @@ const categoryValues = CONTACT_CATEGORY_OPTIONS.map(
 
 export const contactSchema = z.object({
   category: z.enum(categoryValues, {
-    required_error: VALIDATION_MESSAGES.select('カテゴリ'),
+    error: VALIDATION_MESSAGES.select('カテゴリ'),
   }),
   content: z
     .string()

@@ -71,6 +71,12 @@ export const WithHelpText: Story = {
 };
 
 export const AllVariants: Story = {
+  args: {
+    label: '',
+    children: ({ id, hasError }) => (
+      <Input id={id} placeholder="" error={hasError} />
+    ),
+  },
   render: () => (
     <Stack direction="column" align="stretch" gap={24}>
       <FormField label="デフォルト">

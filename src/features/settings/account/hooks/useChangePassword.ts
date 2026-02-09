@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
 import { useToast } from '@/hooks/useToast';
 import { usePutAuthPassword } from '@/libs/api/generated/auth/auth';
 import { useGetMe } from '@/libs/api/generated/me/me';
@@ -45,14 +44,14 @@ export function useChangePassword() {
             return;
           }
 
-          toast.success({ title: MESSAGES.account.passwordChangeSuccess });
+          toast.success({ title: 'パスワードを変更しました' });
           onSuccess?.();
         },
         onError: (err: unknown) => {
           const message =
             err instanceof Error
               ? err.message
-              : MESSAGES.account.passwordChangeError;
+              : 'パスワードの変更に失敗しました';
           setError(message);
         },
       },

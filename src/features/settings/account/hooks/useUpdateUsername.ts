@@ -2,7 +2,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
 import { useToast } from '@/hooks/useToast';
 import {
   getGetMeQueryKey,
@@ -57,13 +56,13 @@ export function useUpdateUsername() {
 
           // サーバーコンポーネントを再レンダリングして新しいクッキーを反映
           router.refresh();
-          toast.success({ title: MESSAGES.account.usernameUpdateSuccess });
+          toast.success({ title: 'ユーザー名を変更しました' });
         },
         onError: (err: unknown) => {
           const message =
             err instanceof Error
               ? err.message
-              : MESSAGES.account.usernameUpdateError;
+              : 'ユーザー名の変更に失敗しました';
           setError(message);
         },
       },
