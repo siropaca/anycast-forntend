@@ -42,7 +42,7 @@ export function CreatePlaylistForm({
       <div className="flex items-start gap-3">
         <Input
           size="sm"
-          placeholder="プレイリスト名"
+          placeholder="再生リスト名"
           maxLength={100}
           autoFocus
           showCounter

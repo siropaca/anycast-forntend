@@ -9,7 +9,7 @@ import {
 } from '@/libs/api/generated/me/me';
 
 /**
- * プレイリスト削除ミューテーションを提供する
+ * 再生リスト削除ミューテーションを提供する
  *
  * @returns 削除関数、削除中フラグ、エラー
  */
@@ -21,9 +21,9 @@ export function useDeletePlaylist() {
   const [error, setError] = useState<string>();
 
   /**
-   * プレイリストを削除する
+   * 再生リストを削除する
    *
-   * @param playlistId - 削除するプレイリストのID
+   * @param playlistId - 削除する再生リストのID
    * @returns 削除が成功したかどうか
    */
   async function deletePlaylist(playlistId: string): Promise<boolean> {

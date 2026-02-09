@@ -8,9 +8,9 @@ interface Params {
 }
 
 /**
- * プレイリスト編集モーダルの状態を管理するフック
+ * 再生リスト編集モーダルの状態を管理するフック
  *
- * @param params - プレイリストIDと現在の名前
+ * @param params - 再生リストIDと現在の名前
  * @returns モーダルの状態と操作関数
  */
 export function usePlaylistEditModal({ playlistId, currentName }: Params) {
@@ -39,7 +39,7 @@ export function usePlaylistEditModal({ playlistId, currentName }: Params) {
   }
 
   /**
-   * プレイリスト名の更新を送信する
+   * 再生リスト名の更新を送信する
    */
   async function submit() {
     const success = await updatePlaylist(playlistId, name);

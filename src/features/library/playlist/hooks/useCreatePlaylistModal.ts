@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCreatePlaylist } from '@/features/library/playlist/hooks/useCreatePlaylist';
 
 /**
- * プレイリスト新規作成モーダルの状態を管理するフック
+ * 再生リスト新規作成モーダルの状態を管理するフック
  *
  * @returns モーダルの状態と操作関数
  */
@@ -26,9 +26,9 @@ export function useCreatePlaylistModal() {
   }
 
   /**
-   * プレイリストを作成し、成功時にモーダルを閉じる
+   * 再生リストを作成し、成功時にモーダルを閉じる
    *
-   * @param name - プレイリスト名
+   * @param name - 再生リスト名
    */
   async function submit(name: string) {
     const playlist = await createPlaylist(name);

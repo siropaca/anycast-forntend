@@ -16,9 +16,9 @@ interface UseAddToPlaylistFormParams {
 }
 
 /**
- * プレイリスト追加モーダルのフォーム状態を管理する
+ * 再生リスト追加モーダルのフォーム状態を管理する
  *
- * @param params - エピソードID、現在のプレイリストID、モーダル開閉状態、閉じるコールバック
+ * @param params - エピソードID、現在の再生リストID、モーダル開閉状態、閉じるコールバック
  * @returns フォームの状態とハンドラー
  */
 export function useAddToPlaylistForm({
@@ -44,14 +44,19 @@ export function useAddToPlaylistForm({
   const prevOpenRef = useRef(open);
   const savedIdsRef = useRef<string[] | null>(null);
 
+  const defaultPlaylistId = playlists.find((p) => p.isDefault)?.id;
+
   useEffect(() => {
     if (open && !prevOpenRef.current) {
-      setSelectedIds(new Set(savedIdsRef.current ?? currentPlaylistIds));
+      const ids = savedIdsRef.current ?? currentPlaylistIds;
+      const initialIds =
+        ids.length === 0 && defaultPlaylistId ? [defaultPlaylistId] : ids;
+      setSelectedIds(new Set(initialIds));
       setIsCreatingNew(false);
       clearError();
     }
     prevOpenRef.current = open;
-  }, [open, currentPlaylistIds, clearError]);
+  }, [open, currentPlaylistIds, defaultPlaylistId, clearError]);
 
   function handleCheckboxChange(playlistId: string, checked: boolean) {
     setSelectedIds((prev) => {
@@ -66,9 +71,9 @@ export function useAddToPlaylistForm({
   }
 
   /**
-   * 新しいプレイリストを作成し、選択状態に追加する
+   * 新しい再生リストを作成し、選択状態に追加する
    *
-   * @param name - プレイリスト名
+   * @param name - 再生リスト名
    */
   async function handleCreatePlaylist(name: string) {
     const playlist = await createPlaylist(name);

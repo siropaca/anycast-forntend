@@ -5,10 +5,10 @@ import type { ResponsePlaylistDetailResponse } from '@/libs/api/generated/schema
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 /**
- * プレイリスト詳細を取得する
+ * 再生リスト詳細を取得する
  *
- * @param playlistId - プレイリスト ID
- * @returns プレイリスト詳細
+ * @param playlistId - 再生リスト ID
+ * @returns 再生リスト詳細
  */
 export function usePlaylistDetail(playlistId: string) {
   const { data } = useGetMePlaylistsPlaylistIdSuspense(playlistId);

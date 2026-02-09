@@ -11,7 +11,7 @@ import type { ResponsePlaylistResponse } from '@/libs/api/generated/schemas/resp
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 /**
- * プレイリスト作成ミューテーションを提供する
+ * 再生リスト作成ミューテーションを提供する
  *
  * @returns 作成関数、作成中フラグ、エラー
  */
@@ -23,10 +23,10 @@ export function useCreatePlaylist() {
   const [error, setError] = useState<string>();
 
   /**
-   * 新しいプレイリストを作成する
+   * 新しい再生リストを作成する
    *
-   * @param name - プレイリスト名
-   * @returns 作成されたプレイリスト、失敗時は null
+   * @param name - 再生リスト名
+   * @returns 作成された再生リスト、失敗時は null
    */
   async function createPlaylist(
     name: string,

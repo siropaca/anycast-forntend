@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useDeletePlaylist } from '@/features/library/playlist/hooks/useDeletePlaylist';
 
 /**
- * プレイリスト削除ダイアログの状態を管理するフック
+ * 再生リスト削除ダイアログの状態を管理するフック
  *
- * @param playlistId - プレイリスト ID
+ * @param playlistId - 再生リスト ID
  * @returns ダイアログの状態と操作関数
  */
 export function usePlaylistDeleteDialog(playlistId: string) {

@@ -100,7 +100,7 @@ export function ChannelEpisodeListItem({
           <div className="flex items-center gap-3">
             <IconButton
               icon={<ListPlusIcon size={24} />}
-              aria-label="プレイリストに追加"
+              aria-label="再生リストに追加"
               variant="text"
               color="secondary"
               onClick={onAddToPlaylist}

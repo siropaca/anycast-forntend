@@ -1,7 +1,8 @@
 'use client';
 
-import { PlusIcon, SpinnerGapIcon } from '@phosphor-icons/react';
+import { PlusIcon } from '@phosphor-icons/react';
 
+import { Spinner } from '@/components/feedback/Spinner/Spinner';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Checkbox } from '@/components/inputs/Checkbox/Checkbox';
 import { Modal } from '@/components/utils/Modal/Modal';
@@ -44,17 +45,14 @@ export function AddToPlaylistModal({
     <Modal.Root open={open} onOpenChange={onOpenChange}>
       <Modal.Content size="sm">
         <Modal.Header>
-          <Modal.Title>プレイリストに追加</Modal.Title>
+          <Modal.Title>再生リストに追加</Modal.Title>
           <Modal.Close />
         </Modal.Header>
 
         <Modal.Body className="space-y-6">
           {isLoading ? (
             <div className="flex justify-center py-4">
-              <SpinnerGapIcon
-                size={24}
-                className="animate-spin text-text-subtle"
-              />
+              <Spinner />
             </div>
           ) : (
             <div className="flex flex-col gap-4">
@@ -78,14 +76,14 @@ export function AddToPlaylistModal({
               onSubmit={handleCreatePlaylist}
             />
           ) : (
-            // プレイリスト作成ボタン
+            // 再生リスト作成ボタン
             <button
               type="button"
               className="flex cursor-pointer items-center gap-1.5 text-sm text-primary transition-colors hover:text-primary-hover"
               onClick={() => setIsCreatingNew(true)}
             >
               <PlusIcon size={16} />
-              新しいプレイリストを作成
+              新しい再生リストを作成
             </button>
           )}
         </Modal.Body>

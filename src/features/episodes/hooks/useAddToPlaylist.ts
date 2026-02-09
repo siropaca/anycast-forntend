@@ -14,7 +14,7 @@ import type { ResponsePlaylistResponse } from '@/libs/api/generated/schemas/resp
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 /**
- * プレイリストへのエピソード登録更新・新規プレイリスト作成を管理する
+ * 再生リストへのエピソード登録更新・新規再生リスト作成を管理する
  *
  * @returns updatePlaylists, createPlaylist, isPending, error, clearError
  */
@@ -31,10 +31,10 @@ export function useAddToPlaylist() {
   const [error, setError] = useState<string>();
 
   /**
-   * エピソードの所属プレイリストを更新する
+   * エピソードの所属再生リストを更新する
    *
    * @param episodeId - 対象エピソードの ID
-   * @param playlistIds - 登録先プレイリスト ID の配列
+   * @param playlistIds - 登録先再生リスト ID の配列
    */
   async function updatePlaylists(
     episodeId: string,
@@ -64,21 +64,21 @@ export function useAddToPlaylist() {
         }),
       ]);
 
-      toast.success({ title: 'プレイリストを更新しました' });
+      toast.success({ title: '再生リストを更新しました' });
       return true;
     } catch (err: unknown) {
       const message =
-        err instanceof Error ? err.message : 'プレイリストの更新に失敗しました';
+        err instanceof Error ? err.message : '再生リストの更新に失敗しました';
       setError(message);
       return false;
     }
   }
 
   /**
-   * 新しいプレイリストを作成する
+   * 新しい再生リストを作成する
    *
-   * @param name - プレイリスト名
-   * @returns 作成されたプレイリスト
+   * @param name - 再生リスト名
+   * @returns 作成された再生リスト
    */
   async function createPlaylist(
     name: string,
@@ -104,7 +104,7 @@ export function useAddToPlaylist() {
       return playlist;
     } catch (err: unknown) {
       const message =
-        err instanceof Error ? err.message : 'プレイリストの作成に失敗しました';
+        err instanceof Error ? err.message : '再生リストの作成に失敗しました';
       setError(message);
       return null;
     }

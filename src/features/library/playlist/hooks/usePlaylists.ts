@@ -7,9 +7,9 @@ import { unwrapPaginatedResponse } from '@/libs/api/unwrapResponse';
 const DEFAULT_LIMIT = 100;
 
 /**
- * プレイリスト一覧を取得する
+ * 再生リスト一覧を取得する
  *
- * @returns プレイリスト一覧
+ * @returns 再生リスト一覧
  */
 export function usePlaylists() {
   const { data } = useGetMePlaylistsSuspense({

@@ -10,7 +10,7 @@ import {
 } from '@/libs/api/generated/me/me';
 
 /**
- * プレイリスト更新ミューテーションを提供する
+ * 再生リスト更新ミューテーションを提供する
  *
  * @returns 更新関数、更新中フラグ、エラー
  */
@@ -22,10 +22,10 @@ export function useUpdatePlaylist() {
   const [error, setError] = useState<string>();
 
   /**
-   * プレイリスト名を更新する
+   * 再生リスト名を更新する
    *
-   * @param playlistId - 更新するプレイリストのID
-   * @param name - 新しいプレイリスト名
+   * @param playlistId - 更新する再生リストのID
+   * @param name - 新しい再生リスト名
    * @returns 更新が成功したかどうか
    */
   async function updatePlaylist(

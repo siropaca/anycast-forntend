@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 
 /**
- * プレイリスト追加モーダルの対象エピソード選択を管理する
+ * 再生リスト追加モーダルの対象エピソード選択を管理する
  *
  * @param episodes - エピソード一覧
  * @returns モーダル制御に必要な状態とハンドラー

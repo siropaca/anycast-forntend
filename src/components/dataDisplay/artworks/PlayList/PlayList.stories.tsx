@@ -23,7 +23,7 @@ export const Playground: Story = {
   args: {
     src: sampleImage,
     size: 170,
-    title: 'お気に入りプレイリスト',
+    title: 'お気に入り再生リスト',
     episodeCount: 12,
   },
 };
@@ -31,7 +31,7 @@ export const Playground: Story = {
 export const NoImage: Story = {
   args: {
     size: 170,
-    title: '空のプレイリスト',
+    title: '空の再生リスト',
     episodeCount: 0,
   },
 };
@@ -48,7 +48,7 @@ export const LongText: Story = {
   args: {
     src: sampleImage,
     size: 170,
-    title: 'これはとても長いプレイリスト名で切り詰められるはずです',
+    title: 'これはとても長い再生リスト名で切り詰められるはずです',
     episodeCount: 128,
   },
 };
@@ -73,7 +73,7 @@ export const AllVariants: Story = {
           <PlayList
             src={sampleImage}
             size={128}
-            title="プレイリスト"
+            title="再生リスト"
             episodeCount={12}
           />
           <PlayList size={128} title="No Image" episodeCount={3} />

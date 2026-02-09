@@ -112,7 +112,7 @@ export const mainPages = {
     playListDetail: {
       path: (params: PlaylistDetailParams) =>
         `/library/playlist/${params.playlistId}`,
-      title: '再生リスト詳細', // プレイリスト名で置換
+      title: '再生リスト詳細', // 再生リスト名で置換
     },
     /** 高評価 */
     likes: {
