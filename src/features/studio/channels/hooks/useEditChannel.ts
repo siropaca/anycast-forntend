@@ -8,10 +8,7 @@ import {
   useGetChannelsChannelIdSuspense,
   usePatchChannelsChannelId,
 } from '@/libs/api/generated/channels/channels';
-import {
-  getGetMeBgmsQueryKey,
-  getGetMeChannelsChannelIdQueryKey,
-} from '@/libs/api/generated/me/me';
+import { getGetMeChannelsChannelIdQueryKey } from '@/libs/api/generated/me/me';
 import type {
   ResponseCategoryResponse,
   ResponseChannelResponse,
@@ -50,15 +47,8 @@ export function useEditChannel(channelId: string) {
   const defaultValues: ChannelFormInput = {
     name: channel.name,
     description: channel.description,
-    userPrompt: channel.userPrompt,
     categoryId: channel.category.id,
     artworkImageId: channel.artwork?.id,
-    defaultBgmId: channel.defaultBgm?.isSystem
-      ? undefined
-      : channel.defaultBgm?.id,
-    defaultSystemBgmId: channel.defaultBgm?.isSystem
-      ? channel.defaultBgm?.id
-      : undefined,
     characters: channel.characters.map((c) => ({
       name: c.name,
       voiceId: c.voice.id,
@@ -81,11 +71,8 @@ export function useEditChannel(channelId: string) {
         data: {
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
-          userPrompt: trimFullWidth(data.userPrompt),
           categoryId: data.categoryId,
           artworkImageId: data.artworkImageId,
-          defaultBgmId: data.defaultBgmId,
-          defaultSystemBgmId: data.defaultSystemBgmId,
         },
       },
       {
@@ -99,9 +86,6 @@ export function useEditChannel(channelId: string) {
 
           queryClient.invalidateQueries({
             queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
-          });
-          queryClient.invalidateQueries({
-            queryKey: getGetMeBgmsQueryKey(),
           });
           options?.onSuccess?.();
         },
@@ -120,7 +104,6 @@ export function useEditChannel(channelId: string) {
     channel,
     defaultValues,
     defaultArtworkUrl: channel.artwork?.url,
-    defaultBgm: channel.defaultBgm,
     categories,
     voices,
     isUpdating: mutation.isPending,

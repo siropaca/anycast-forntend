@@ -6,13 +6,15 @@ import {
   UserIcon,
 } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
+import { ChannelDefaultBgmModal } from '@/features/studio/channels/components/ChannelDefaultBgmModal';
 import { ChannelDetailMenu } from '@/features/studio/channels/components/ChannelDetailMenu';
+import { ChannelPromptModal } from '@/features/studio/channels/components/ChannelPromptModal';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
 import { useChannelDeleteDialog } from '@/features/studio/channels/hooks/useChannelDeleteDialog';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
@@ -44,6 +46,9 @@ export function ChannelDetail({ channelId }: Props) {
     unpublishChannel,
     clearError,
   } = useChannelDetail(channelId);
+
+  const [promptModalOpen, setPromptModalOpen] = useState(false);
+  const [bgmModalOpen, setBgmModalOpen] = useState(false);
 
   const deleteDialog = useChannelDeleteDialog({
     deleteChannel,
@@ -140,27 +145,59 @@ export function ChannelDetail({ channelId }: Props) {
       </div>
 
       {/* デフォルトBGM */}
-      {channel.defaultBgm && (
-        <div className="space-y-3">
-          <SectionTitle title="デフォルトBGM" level="h3" />
+      <div className="space-y-3">
+        <SectionTitle
+          title="デフォルトBGM"
+          level="h3"
+          action={
+            <Button
+              size="sm"
+              variant="outline"
+              color="secondary"
+              leftIcon={<PencilSimpleIcon size={16} />}
+              onClick={() => setBgmModalOpen(true)}
+            >
+              編集
+            </Button>
+          }
+        />
+        {channel.defaultBgm ? (
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-bg-elevated text-text-placeholder">
               <MusicNoteIcon size={20} />
             </div>
             <p className="text-sm">{channel.defaultBgm.name}</p>
           </div>
-        </div>
-      )}
+        ) : (
+          <p className="text-sm text-text-placeholder">未設定</p>
+        )}
+      </div>
 
       {/* 台本プロンプト */}
-      {channel.userPrompt && (
-        <div className="space-y-3">
-          <SectionTitle title="台本プロンプト" level="h3" />
+      <div className="space-y-3">
+        <SectionTitle
+          title="台本プロンプト"
+          level="h3"
+          action={
+            <Button
+              size="sm"
+              variant="outline"
+              color="secondary"
+              leftIcon={<PencilSimpleIcon size={16} />}
+              onClick={() => setPromptModalOpen(true)}
+            >
+              編集
+            </Button>
+          }
+        />
+        {channel.userPrompt ? (
           <p className="whitespace-pre-wrap text-sm text-text-subtle">
             {channel.userPrompt}
           </p>
-        </div>
-      )}
+        ) : (
+          <p className="text-sm text-text-placeholder">未設定</p>
+        )}
+      </div>
 
       {/* エピソード一覧 */}
       <div className="space-y-4">
@@ -170,6 +207,26 @@ export function ChannelDetail({ channelId }: Props) {
           <EpisodeList channelId={channelId} />
         </Suspense>
       </div>
+
+      {/* デフォルトBGM編集モーダル */}
+      {bgmModalOpen && (
+        <ChannelDefaultBgmModal
+          channelId={channelId}
+          currentDefaultBgm={channel.defaultBgm}
+          open={bgmModalOpen}
+          onOpenChange={setBgmModalOpen}
+        />
+      )}
+
+      {/* 台本プロンプト編集モーダル */}
+      {promptModalOpen && (
+        <ChannelPromptModal
+          channelId={channelId}
+          currentUserPrompt={channel.userPrompt}
+          open={promptModalOpen}
+          onOpenChange={setPromptModalOpen}
+        />
+      )}
 
       {/* 削除ダイアログ */}
       <ConfirmDialog

@@ -18,13 +18,8 @@ export const channelFormSchema = z.object({
   description: z
     .string()
     .max(2000, VALIDATION_MESSAGES.maxLength('説明', 2000)),
-  userPrompt: z
-    .string()
-    .max(2000, VALIDATION_MESSAGES.maxLength('プロンプト', 2000)),
   categoryId: z.string().min(1, VALIDATION_MESSAGES.select('カテゴリ')),
   artworkImageId: z.string().optional(),
-  defaultBgmId: z.string().optional(),
-  defaultSystemBgmId: z.string().optional(),
   characters: z
     .array(characterSchema)
     .min(1, VALIDATION_MESSAGES.minCount('キャラクター', 1))

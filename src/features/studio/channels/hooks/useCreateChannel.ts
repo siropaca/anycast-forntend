@@ -48,7 +48,6 @@ export function useCreateChannel() {
         data: {
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
-          userPrompt: trimFullWidth(data.userPrompt),
           categoryId: data.categoryId,
           artworkImageId: data.artworkImageId,
           characters: {

@@ -18,7 +18,6 @@ export function EditChannel({ channelId }: Props) {
     channel,
     defaultValues,
     defaultArtworkUrl,
-    defaultBgm,
     categories,
     voices,
     isUpdating,
@@ -42,12 +41,10 @@ export function EditChannel({ channelId }: Props) {
     <div>
       <ChannelForm
         mode="edit"
-        channelId={channelId}
         defaultValues={defaultValues}
         categories={categories}
         voices={voices}
         defaultArtworkUrl={defaultArtworkUrl}
-        defaultBgm={defaultBgm}
         isSubmitting={isUpdating}
         submitError={error}
         onSubmit={handleSubmit}
