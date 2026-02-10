@@ -6,7 +6,7 @@ import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 
 interface Props {
   children: ReactNode;
-  trigger: ReactElement;
+  trigger: ReactElement<{ disabled?: boolean }>;
   disabled?: boolean;
   disabledReason?: string;
 }
