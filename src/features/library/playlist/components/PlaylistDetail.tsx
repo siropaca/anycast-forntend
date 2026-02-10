@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
+import { PlaylistDeleteDialog } from '@/features/library/playlist/components/PlaylistDeleteDialog';
 import { PlaylistDetailMenu } from '@/features/library/playlist/components/PlaylistDetailMenu';
 import { PlaylistEditModal } from '@/features/library/playlist/components/PlaylistEditModal';
 import { usePlaylistDeleteDialog } from '@/features/library/playlist/hooks/usePlaylistDeleteDialog';
@@ -76,21 +76,11 @@ export function PlaylistDetail({ playlistId }: Props) {
         </ArtworkGrid>
       )}
 
-      <ConfirmDialog
-        trigger={<span className="hidden" />}
+      <PlaylistDeleteDialog
+        playlistName={playlist.name}
         open={deleteDialog.isOpen}
-        title="再生リストを削除"
-        description={
-          <>
-            「{playlist.name}」を削除しますか？
-            <br />
-            この操作は取り消せません。
-          </>
-        }
         error={deleteDialog.error}
-        confirmLabel="削除"
-        confirmColor="danger"
-        onOpenChange={(open) => !open && deleteDialog.close()}
+        onClose={deleteDialog.close}
         onConfirm={handleDeleteConfirm}
       />
 

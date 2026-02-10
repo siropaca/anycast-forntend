@@ -6,8 +6,8 @@ import { Avatar } from '@/components/dataDisplay/Avatar/Avatar';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { Pagination } from '@/components/navigation/Pagination/Pagination';
-import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
+import { CharacterDeleteDialog } from '@/features/studio/characters/components/CharacterDeleteDialog';
 import { CharacterEditModal } from '@/features/studio/characters/components/CharacterEditModal';
 import { CharacterUsageDialog } from '@/features/studio/characters/components/CharacterUsageDialog';
 import { useCharacterDeleteDialog } from '@/features/studio/characters/hooks/useCharacterDeleteDialog';
@@ -147,21 +147,11 @@ export function CharacterList() {
         onPageChange={handlePageChange}
       />
 
-      <ConfirmDialog
-        trigger={<span className="hidden" />}
+      <CharacterDeleteDialog
+        characterName={deleteDialog.deleteTarget?.name}
         open={deleteDialog.isOpen}
-        title="キャラクターを削除"
-        description={
-          <>
-            「{deleteDialog.deleteTarget?.name}」を削除しますか？
-            <br />
-            この操作は取り消せません。
-          </>
-        }
         error={deleteDialog.error}
-        confirmLabel="削除"
-        confirmColor="danger"
-        onOpenChange={(open) => !open && deleteDialog.close()}
+        onClose={deleteDialog.close}
         onConfirm={deleteDialog.confirm}
       />
 

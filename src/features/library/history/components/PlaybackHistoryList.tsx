@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
+import { PlaybackHistoryDeleteDialog } from '@/features/library/history/components/PlaybackHistoryDeleteDialog';
 import { PlaybackHistoryMenu } from '@/features/library/history/components/PlaybackHistoryMenu';
 import { usePlaybackHistory } from '@/features/library/history/hooks/usePlaybackHistory';
 import { usePlaybackHistoryDeleteDialog } from '@/features/library/history/hooks/usePlaybackHistoryDeleteDialog';
@@ -53,21 +53,10 @@ export function PlaybackHistoryList() {
         </ArtworkGrid>
       )}
 
-      <ConfirmDialog
-        trigger={<span className="hidden" />}
+      <PlaybackHistoryDeleteDialog
         open={deleteDialog.isOpen}
-        title="再生履歴を削除"
-        description={
-          <>
-            すべての再生履歴を削除しますか？
-            <br />
-            この操作は取り消せません。
-          </>
-        }
         error={deleteDialog.error}
-        confirmLabel="削除"
-        confirmColor="danger"
-        onOpenChange={(open) => !open && deleteDialog.close()}
+        onClose={deleteDialog.close}
         onConfirm={deleteDialog.confirm}
       />
     </div>
