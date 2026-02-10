@@ -1,5 +1,6 @@
 import { getProviderLabel } from '@/features/studio/voices/utils/voiceLabels';
 import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas/responseBgmWithEpisodesResponse';
+import type { ResponseChannelDefaultBgmResponse } from '@/libs/api/generated/schemas/responseChannelDefaultBgmResponse';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import type { ResponseVoiceResponse } from '@/libs/api/generated/schemas/responseVoiceResponse';
 import type { Track } from '@/stores/playerStore';
@@ -68,6 +69,30 @@ export function toTrackFromVoice(voice: ResponseVoiceResponse): Track {
  * // => { id: '...', type: 'bgm', title: '...', ... }
  */
 export function toTrackFromBgm(bgm: ResponseBgmWithEpisodesResponse): Track {
+  return {
+    id: bgm.id,
+    type: 'bgm',
+    title: bgm.name,
+    subtitle: undefined,
+    artworkUrl: undefined,
+    audioUrl: bgm.audio.url,
+    durationMs: bgm.audio.durationMs,
+  };
+}
+
+/**
+ * チャンネルデフォルト BGM レスポンスを Track に変換する
+ *
+ * @param bgm - チャンネルデフォルト BGM レスポンス
+ * @returns Track オブジェクト
+ *
+ * @example
+ * toTrackFromDefaultBgm(defaultBgm)
+ * // => { id: '...', type: 'bgm', title: '...', ... }
+ */
+export function toTrackFromDefaultBgm(
+  bgm: ResponseChannelDefaultBgmResponse,
+): Track {
   return {
     id: bgm.id,
     type: 'bgm',
