@@ -2,7 +2,7 @@
 
 import { ListIcon, XIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
-import { HeaderLogo } from '@/components/navigation/Header/HeaderLogo';
+import { TextLogo } from '@/components/dataDisplay/TextLogo/TextLogo';
 import { Drawer } from '@/components/utils/Drawer/Drawer';
 
 interface Props {
@@ -23,7 +23,7 @@ export function MobileMenu({ children }: Props) {
           <Drawer.Close className="p-2 -ml-2">
             <XIcon size={24} weight="bold" aria-label="メニューを閉じる" />
           </Drawer.Close>
-          <HeaderLogo />
+          <TextLogo />
         </Drawer.Header>
 
         <Drawer.Body>{children}</Drawer.Body>

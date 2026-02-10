@@ -1,8 +1,8 @@
 import { PlusIcon } from '@phosphor-icons/react/ssr';
 import Link from 'next/link';
+import { TextLogo } from '@/components/dataDisplay/TextLogo/TextLogo';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { HeaderAvatarMenu } from '@/components/navigation/Header/HeaderAvatarMenu';
-import { HeaderLogo } from '@/components/navigation/Header/HeaderLogo';
 import { HeaderSearchInput } from '@/components/navigation/Header/HeaderSearchInput';
 import { MobileMenu } from '@/components/navigation/MobileMenu/MobileMenu';
 import { HeaderNotificationButton } from '@/features/notification/components/HeaderNotificationButton';
@@ -20,7 +20,7 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
         {sideMenu && <MobileMenu>{sideMenu}</MobileMenu>}
 
         <Link href={Pages.home.path()} aria-label="Anycast ホーム">
-          <HeaderLogo className="md:ml-2" />
+          <TextLogo className="h-5 w-auto md:ml-1" />
         </Link>
       </div>
 
