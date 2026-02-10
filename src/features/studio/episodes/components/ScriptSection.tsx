@@ -3,7 +3,7 @@
 import { DownloadSimpleIcon, UploadSimpleIcon } from '@phosphor-icons/react';
 import { useRef } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
+import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
@@ -41,25 +41,28 @@ export function ScriptSection({ channelId, episodeId, episodeName }: Props) {
         title="台本"
         level="h3"
         action={
-          <div className="flex items-center gap-1">
-            <IconButton
-              icon={<UploadSimpleIcon size={18} />}
-              aria-label="台本をインポート"
+          <div className="flex items-center gap-2">
+            <Button
+              leftIcon={<UploadSimpleIcon size={14} />}
+              variant="outline"
               color="secondary"
-              variant="text"
               size="sm"
               disabled={isImporting}
               onClick={handleImportClick}
-            />
-            <IconButton
-              icon={<DownloadSimpleIcon size={18} />}
-              aria-label="台本をエクスポート"
+            >
+              インポート
+            </Button>
+
+            <Button
+              leftIcon={<DownloadSimpleIcon size={14} />}
+              variant="outline"
               color="secondary"
-              variant="text"
               size="sm"
               disabled={isExporting}
               onClick={exportScript}
-            />
+            >
+              エクスポート
+            </Button>
           </div>
         }
       />

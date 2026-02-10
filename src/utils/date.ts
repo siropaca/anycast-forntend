@@ -61,6 +61,24 @@ export function formatDateJP(date: Date): string {
 }
 
 /**
+ * 日付を「M/D HH:mm」形式の文字列に変換する
+ *
+ * @param date - 変換対象の日付
+ * @returns 「M/D HH:mm」形式の文字列
+ *
+ * @example
+ * formatDateTime(new Date('2024-03-15T14:05:00')) // => '3/15 14:05'
+ */
+export function formatDateTime(date: Date): string {
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${month}/${day} ${hours}:${minutes}`;
+}
+
+/**
  * ミリ秒を「X分Y秒」形式の文字列に変換する
  *
  * @param ms - ミリ秒

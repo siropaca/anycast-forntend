@@ -31,6 +31,7 @@ export function ChannelPromptSection({ channelId, userPrompt }: Props) {
           </Button>
         }
       />
+
       {userPrompt ? (
         <p className="whitespace-pre-wrap text-sm text-text-subtle">
           {userPrompt}

@@ -272,9 +272,10 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
         episodeId,
         data: {
           ...data,
-          voiceStyle: data.voiceStyle
-            ? trimFullWidth(data.voiceStyle)
-            : undefined,
+          voiceStyle:
+            data.type !== 'remix' && data.voiceStyle
+              ? trimFullWidth(data.voiceStyle)
+              : undefined,
         },
       },
       {

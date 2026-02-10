@@ -17,6 +17,7 @@ import { EpisodeInfoSection } from '@/features/studio/episodes/components/Episod
 import { EpisodePublishDialog } from '@/features/studio/episodes/components/EpisodePublishDialog';
 import { GenerateAudioModal } from '@/features/studio/episodes/components/GenerateAudioModal';
 import { ScriptGenerateModal } from '@/features/studio/episodes/components/ScriptGenerateModal';
+import { ScriptPromptSection } from '@/features/studio/episodes/components/ScriptPromptSection';
 import { ScriptSection } from '@/features/studio/episodes/components/ScriptSection';
 import { useEpisodeDeleteDialog } from '@/features/studio/episodes/hooks/useEpisodeDeleteDialog';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
@@ -27,6 +28,8 @@ import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines'
 import type { GenerateAudioFormInput } from '@/features/studio/episodes/schemas/generateAudio';
 import type { ScriptGenerateFormInput } from '@/features/studio/episodes/schemas/scriptGenerate';
 import { Pages } from '@/libs/pages';
+
+type AudioModalMode = 'generate' | 'remix' | null;
 
 interface Props {
   channelId: string;
@@ -64,7 +67,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
   // モーダル
   const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
-  const [isAudioModalOpen, setIsAudioModalOpen] = useState(false);
+  const [audioModalMode, setAudioModalMode] = useState<AudioModalMode>(null);
 
   // ダイアログ
   const deleteDialog = useEpisodeDeleteDialog({
@@ -98,9 +101,20 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
   }
 
   function handleAudioSubmit(data: GenerateAudioFormInput) {
-    audioGeneration.generateAudio({ voiceStyle: data.voiceStyle });
-    setIsAudioModalOpen(false);
+    audioGeneration.generateAudio({
+      type: data.type,
+      voiceStyle: data.voiceStyle,
+      bgmId: data.bgmId,
+      systemBgmId: data.systemBgmId,
+      bgmVolumeDb: data.bgmVolumeDb,
+      fadeOutMs: data.fadeOutMs,
+      paddingStartMs: data.paddingStartMs,
+      paddingEndMs: data.paddingEndMs,
+    });
+    setAudioModalMode(null);
   }
+
+  const hasVoiceAudio = !!episode.voiceAudio;
 
   return (
     <div className="space-y-8">
@@ -136,6 +150,12 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       {/* エピソード情報 */}
       <EpisodeInfoSection episode={episode} />
 
+      {/* 台本プロンプト */}
+      <ScriptPromptSection prompt={scriptGeneration.restoredPrompt} />
+
+      {/* BGM */}
+      <BgmSection bgm={episode.bgm} />
+
       {/* 台本 */}
       <ScriptSection
         channelId={channelId}
@@ -143,17 +163,14 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         episodeName={episode.title}
       />
 
-      {/* BGM */}
-      <BgmSection
-        channelId={channelId}
-        episodeId={episodeId}
-        bgm={episode.bgm}
-      />
-
       {/* 固定ボトムバー */}
       <EpisodeBottomBar
         isPlaying={isEpisodePlaying(episode)}
         hasAudio={!!episode.fullAudio}
+        hasVoiceAudio={hasVoiceAudio}
+        audioOutdated={episode.audioOutdated}
+        audioDurationMs={episode.fullAudio?.durationMs}
+        audioGeneratedAt={episode.updatedAt}
         onPlay={() => playEpisode(episode)}
         onPause={pauseEpisode}
         scriptStatus={scriptGeneration.status}
@@ -169,7 +186,8 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         onScriptGenerate={() => setIsScriptModalOpen(true)}
         onScriptCancel={scriptGeneration.cancelScript}
         onScriptReset={scriptGeneration.reset}
-        onAudioGenerate={() => setIsAudioModalOpen(true)}
+        onAudioGenerate={() => setAudioModalMode('generate')}
+        onAudioRemix={() => setAudioModalMode('remix')}
         onAudioCancel={audioGeneration.cancelAudio}
         onAudioReset={audioGeneration.reset}
       />
@@ -184,10 +202,13 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       />
 
       <GenerateAudioModal
-        open={isAudioModalOpen}
+        open={audioModalMode !== null}
+        mode={audioModalMode ?? 'generate'}
         defaultVoiceStyle={episode.voiceStyle}
+        defaultBgm={episode.bgm}
         hasScriptLines={scriptLines.length > 0}
-        onClose={() => setIsAudioModalOpen(false)}
+        hasVoiceAudio={hasVoiceAudio}
+        onClose={() => setAudioModalMode(null)}
         onSubmit={handleAudioSubmit}
       />
 

@@ -1,22 +1,28 @@
 'use client';
 
-import {
-  MicrophoneIcon,
-  PauseIcon,
-  PlayIcon,
-  ScrollIcon,
-  XIcon,
-} from '@phosphor-icons/react';
-import { useEffect, useState } from 'react';
+import { Menu } from '@base-ui/react/menu';
+import { MusicNoteIcon, PauseIcon, PlayIcon } from '@phosphor-icons/react';
 import { createPortal } from 'react-dom';
+import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
-import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
+import { SplitButton } from '@/components/inputs/buttons/SplitButton/SplitButton';
+import { ProgressRow } from '@/features/studio/episodes/components/ProgressRow';
+import { useBottomBarPortal } from '@/features/studio/episodes/hooks/useBottomBarPortal';
+import {
+  getJobStatusLabel,
+  shouldShowJobProgress,
+} from '@/features/studio/episodes/utils/jobStatus';
 import type { JobStatus } from '@/types/job';
+import { formatDateTime, formatDuration } from '@/utils/date';
 
 interface Props {
   isPlaying: boolean;
   hasAudio: boolean;
+  hasVoiceAudio: boolean;
+  audioOutdated: boolean;
+  audioDurationMs?: number;
+  audioGeneratedAt?: string;
   onPlay: () => void;
   onPause: () => void;
 
@@ -35,41 +41,18 @@ interface Props {
   onScriptCancel: () => void;
   onScriptReset: () => void;
   onAudioGenerate: () => void;
+  onAudioRemix: () => void;
   onAudioCancel: () => void;
   onAudioReset: () => void;
-}
-
-/**
- * ジョブのステータスラベルを返す
- *
- * @param type - ジョブの種類
- * @param status - ジョブのステータス
- * @returns ステータスラベル
- */
-function getStatusLabel(type: 'script' | 'audio', status: JobStatus): string {
-  const prefix = type === 'script' ? '台本' : '音声';
-
-  switch (status) {
-    case 'pending':
-      return `${prefix}: キュー待機中...`;
-    case 'processing':
-      return `${prefix}: 生成中...`;
-    case 'canceling':
-      return `${prefix}: キャンセル中...`;
-    case 'completed':
-      return `${prefix}: 生成完了`;
-    case 'canceled':
-      return `${prefix}: キャンセル済み`;
-    case 'failed':
-      return `${prefix}: 生成失敗`;
-    default:
-      return '';
-  }
 }
 
 export function EpisodeBottomBar({
   isPlaying,
   hasAudio,
+  hasVoiceAudio,
+  audioOutdated,
+  audioDurationMs,
+  audioGeneratedAt,
   onPlay,
   onPause,
   scriptStatus,
@@ -86,41 +69,42 @@ export function EpisodeBottomBar({
   onScriptCancel,
   onScriptReset,
   onAudioGenerate,
+  onAudioRemix,
   onAudioCancel,
   onAudioReset,
 }: Props) {
-  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(
-    null,
+  const portalContainer = useBottomBarPortal();
+
+  const showScriptProgress = shouldShowJobProgress(
+    isScriptGenerating,
+    scriptStatus,
+  );
+  const showAudioProgress = shouldShowJobProgress(
+    isAudioGenerating,
+    audioStatus,
   );
 
-  useEffect(() => {
-    const viewport = document.getElementById(MAIN_SCROLL_VIEWPORT_ID);
-    setPortalContainer(viewport?.parentElement ?? null);
-
-    // Viewport にボトムバー分の padding-bottom を追加して
-    // フッター（利用規約等）がバーの裏に隠れるのを防ぐ
-    if (viewport) {
-      viewport.style.paddingBottom = '5rem';
-    }
-
-    return () => {
-      if (viewport) {
-        viewport.style.paddingBottom = '';
-      }
-    };
-  }, []);
-
-  const showScriptProgress =
-    isScriptGenerating ||
-    scriptStatus === 'completed' ||
-    scriptStatus === 'canceled' ||
-    scriptStatus === 'failed';
-
-  const showAudioProgress =
-    isAudioGenerating ||
-    audioStatus === 'completed' ||
-    audioStatus === 'canceled' ||
-    audioStatus === 'failed';
+  const remixMenuItem = hasVoiceAudio ? (
+    <Menu.Item
+      className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm outline-none hover:bg-bg-hover-strong focus:bg-bg-hover-strong"
+      onClick={onAudioRemix}
+    >
+      <MusicNoteIcon size={16} />
+      BGMを差し替えて再生成
+    </Menu.Item>
+  ) : (
+    <Tooltip label="先に音声を生成してください">
+      <span>
+        <Menu.Item
+          className="flex cursor-not-allowed items-center gap-2 rounded-md px-3 py-2 text-sm text-text-subtle outline-none"
+          disabled
+        >
+          <MusicNoteIcon size={16} />
+          BGMを差し替えて再生成
+        </Menu.Item>
+      </span>
+    </Tooltip>
+  );
 
   const content = (
     <div className="absolute bottom-0 left-0 right-0 z-(--z-sticky) rounded-b-md border-t border-border bg-bg-surface">
@@ -129,7 +113,7 @@ export function EpisodeBottomBar({
         <div className="border-b border-border px-4 py-3 sm:px-6">
           {showScriptProgress && (
             <ProgressRow
-              label={getStatusLabel('script', scriptStatus)}
+              label={getJobStatusLabel('script', scriptStatus)}
               progress={scriptProgress}
               isGenerating={isScriptGenerating}
               isCancelable={isScriptCancelable}
@@ -146,7 +130,7 @@ export function EpisodeBottomBar({
 
           {showAudioProgress && (
             <ProgressRow
-              label={getStatusLabel('audio', audioStatus)}
+              label={getJobStatusLabel('audio', audioStatus)}
               progress={audioProgress}
               isGenerating={isAudioGenerating}
               isCancelable={isAudioCancelable}
@@ -165,110 +149,56 @@ export function EpisodeBottomBar({
 
       {/* アクションボタン */}
       <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-        <IconButton
-          icon={
-            isPlaying ? (
-              <PauseIcon size={20} weight="fill" />
-            ) : (
-              <PlayIcon size={20} weight="fill" />
-            )
-          }
-          aria-label={isPlaying ? '一時停止' : '再生'}
-          size="lg"
-          color="primary"
-          disabled={!hasAudio}
-          disabledReason="音声が生成されていません"
-          onClick={isPlaying ? onPause : onPlay}
-        />
         <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            leftIcon={<ScrollIcon size={16} />}
-            disabled={isScriptGenerating}
-            onClick={onScriptGenerate}
-          >
-            台本を作成
+          <IconButton
+            icon={
+              isPlaying ? (
+                <PauseIcon size={20} weight="fill" />
+              ) : (
+                <PlayIcon size={20} weight="fill" />
+              )
+            }
+            aria-label={isPlaying ? '一時停止' : '再生'}
+            size="lg"
+            color="primary"
+            disabled={!hasAudio}
+            disabledReason="音声が生成されていません"
+            onClick={isPlaying ? onPause : onPlay}
+          />
+          {hasAudio && audioDurationMs != null && (
+            <div className="flex flex-col text-xs text-text-subtle">
+              <span>{formatDuration(audioDurationMs)}</span>
+              {audioGeneratedAt && (
+                <span>{formatDateTime(new Date(audioGeneratedAt))} 生成</span>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Button disabled={isScriptGenerating} onClick={onScriptGenerate}>
+            台本を生成
           </Button>
-          <Button
-            leftIcon={<MicrophoneIcon size={16} />}
-            disabled={isAudioGenerating}
-            onClick={onAudioGenerate}
-          >
-            音声を生成
-          </Button>
+          <span className="relative">
+            <SplitButton
+              disabled={isAudioGenerating}
+              menu={remixMenuItem}
+              onClick={onAudioGenerate}
+            >
+              音声を生成
+            </SplitButton>
+            {audioOutdated && !isAudioGenerating && (
+              <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-danger" />
+            )}
+          </span>
         </div>
       </div>
     </div>
   );
 
-  if (!portalContainer) return null;
+  if (!portalContainer) {
+    return null;
+  }
 
   return createPortal(content, portalContainer);
-}
-
-interface ProgressRowProps {
-  label: string;
-  progress: number;
-  isGenerating: boolean;
-  isCancelable: boolean;
-  isCanceling: boolean;
-  isTerminal: boolean;
-
-  onCancel: () => void;
-  onReset: () => void;
-}
-
-function ProgressRow({
-  label,
-  progress,
-  isGenerating,
-  isCancelable,
-  isCanceling,
-  isTerminal,
-  onCancel,
-  onReset,
-}: ProgressRowProps) {
-  return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-text-main">{label}</span>
-        <div className="flex items-center gap-2">
-          {isGenerating && (
-            <span className="text-sm tabular-nums text-text-subtle">
-              {progress}%
-            </span>
-          )}
-          {isCancelable && (
-            <button
-              type="button"
-              className="text-sm text-text-danger hover:underline"
-              disabled={isCanceling}
-              onClick={onCancel}
-            >
-              キャンセル
-            </button>
-          )}
-          {isTerminal && (
-            <button
-              type="button"
-              className="text-text-subtle transition-colors hover:text-text-main"
-              onClick={onReset}
-              aria-label="閉じる"
-            >
-              <XIcon size={16} />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {isGenerating && (
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-elevated">
-          <div
-            className="h-full rounded-full bg-primary transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      )}
-    </div>
-  );
 }

@@ -84,7 +84,7 @@ export function ScriptGenerateModal({
           </Modal.Header>
 
           <Modal.Body className="space-y-4">
-            <FormField label="プロンプト" error={errors.prompt?.message}>
+            <FormField label="台本プロンプト" error={errors.prompt?.message}>
               {({ id, hasError }) => (
                 <Textarea
                   id={id}

@@ -1,5 +1,6 @@
 import {
   formatDateJP,
+  formatDateTime,
   formatDuration,
   formatTime,
   formatYearMonth,
@@ -53,6 +54,24 @@ describe('date', () => {
 
     it('12月31日を正しく変換する', () => {
       expect(formatDateJP(new Date('2024-12-31'))).toBe('12月31日');
+    });
+  });
+
+  describe('formatDateTime()', () => {
+    it('日付を「M/D HH:mm」形式に変換する', () => {
+      expect(formatDateTime(new Date('2024-03-15T14:05:00'))).toBe(
+        '3/15 14:05',
+      );
+    });
+
+    it('時・分が1桁の場合は0埋めする', () => {
+      expect(formatDateTime(new Date('2024-01-01T03:07:00'))).toBe('1/1 03:07');
+    });
+
+    it('0時0分を正しく変換する', () => {
+      expect(formatDateTime(new Date('2024-06-30T00:00:00'))).toBe(
+        '6/30 00:00',
+      );
     });
   });
 

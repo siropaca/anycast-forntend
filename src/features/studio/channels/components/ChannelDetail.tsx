@@ -20,7 +20,7 @@ import { useChannelPublishDialog } from '@/features/studio/channels/hooks/useCha
 import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { Pages } from '@/libs/pages';
 
-const ARTWORK_SIZE = 170;
+const ARTWORK_SIZE = 150;
 
 interface Props {
   channelId: string;
@@ -81,6 +81,7 @@ export function ChannelDetail({ channelId }: Props) {
             >
               編集
             </Button>
+
             <ChannelDetailMenu
               isPublished={isPublished}
               disabled={isMutating}

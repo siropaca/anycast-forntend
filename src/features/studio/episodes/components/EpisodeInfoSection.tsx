@@ -3,7 +3,7 @@
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas';
 
-const ARTWORK_SIZE = 170;
+const ARTWORK_SIZE = 150;
 
 interface Props {
   episode: ResponseEpisodeResponse;
