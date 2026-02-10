@@ -10,7 +10,7 @@ const characterSchema = z.object({
     .optional(),
 });
 
-export const channelFormSchema = z.object({
+export const channelBasicInfoSchema = z.object({
   name: z
     .string()
     .min(1, VALIDATION_MESSAGES.required('チャンネル名'))
@@ -20,10 +20,14 @@ export const channelFormSchema = z.object({
     .max(2000, VALIDATION_MESSAGES.maxLength('説明', 2000)),
   categoryId: z.string().min(1, VALIDATION_MESSAGES.select('カテゴリ')),
   artworkImageId: z.string().optional(),
+});
+
+export const channelFormSchema = channelBasicInfoSchema.extend({
   characters: z
     .array(characterSchema)
     .min(1, VALIDATION_MESSAGES.minCount('キャラクター', 1))
     .max(2, VALIDATION_MESSAGES.maxCount('キャラクター', 2)),
 });
 
+export type ChannelBasicInfoInput = z.infer<typeof channelBasicInfoSchema>;
 export type ChannelFormInput = z.infer<typeof channelFormSchema>;

@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
 import { useCreateChannel } from '@/features/studio/channels/hooks/useCreateChannel';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
@@ -21,7 +22,8 @@ export function CreateChannel() {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
+      <SectionTitle title="チャンネル作成" />
       <ChannelForm
         mode="create"
         categories={categories}

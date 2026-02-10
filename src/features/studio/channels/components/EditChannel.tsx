@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
 import { useEditChannel } from '@/features/studio/channels/hooks/useEditChannel';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
@@ -38,7 +38,8 @@ export function EditChannel({ channelId }: Props) {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
+      <SectionTitle title="チャンネル編集" />
       <ChannelForm
         mode="edit"
         defaultValues={defaultValues}
