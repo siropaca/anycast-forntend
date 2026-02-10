@@ -25,10 +25,12 @@ export const Playground: Story = {
     ],
     value: 'option1',
     size: 'md',
+    onValueChange: () => {},
   },
 };
 
 export const Sizes: Story = {
+  args: { options: [], value: '', onValueChange: () => {} },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Small">
@@ -71,6 +73,7 @@ export const Sizes: Story = {
 };
 
 export const States: Story = {
+  args: { options: [], value: '', onValueChange: () => {} },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Default">
@@ -134,6 +137,7 @@ function InteractiveExample() {
 }
 
 export const Interactive: Story = {
+  args: { options: [], value: '', onValueChange: () => {} },
   render: () => (
     <Section title="Interactive">
       <InteractiveExample />

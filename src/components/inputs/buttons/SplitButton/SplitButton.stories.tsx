@@ -45,7 +45,7 @@ export const Playground: Story = {
     variant: 'solid',
     loading: false,
     children: '保存',
-    menu: null,
+    menu: defaultMenu,
   },
   render: (args) => (
     <SplitButton {...args} menu={defaultMenu}>
@@ -55,6 +55,7 @@ export const Playground: Story = {
 };
 
 export const Sizes: Story = {
+  args: { menu: defaultMenu },
   render: () => (
     <Stack>
       <SplitButton size="sm" menu={defaultMenu}>
@@ -71,6 +72,7 @@ export const Sizes: Story = {
 };
 
 export const Colors: Story = {
+  args: { menu: defaultMenu },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Solid">
@@ -111,6 +113,7 @@ export const Colors: Story = {
 };
 
 export const WithIcon: Story = {
+  args: { menu: defaultMenu },
   render: () => (
     <Stack>
       <SplitButton leftIcon={<FloppyDiskIcon size={16} />} menu={defaultMenu}>
@@ -128,6 +131,7 @@ export const WithIcon: Story = {
 };
 
 export const Loading: Story = {
+  args: { menu: defaultMenu },
   render: () => (
     <Stack>
       <SplitButton loading menu={defaultMenu}>
@@ -141,6 +145,7 @@ export const Loading: Story = {
 };
 
 export const Disabled: Story = {
+  args: { menu: defaultMenu },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Disabled">
@@ -175,6 +180,7 @@ export const Disabled: Story = {
 };
 
 export const DangerAction: Story = {
+  args: { menu: defaultMenu },
   render: () => (
     <SplitButton
       color="danger"
