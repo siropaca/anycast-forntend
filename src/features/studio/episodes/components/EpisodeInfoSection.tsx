@@ -20,17 +20,17 @@ export function EpisodeInfoSection({ episode }: Props) {
       />
 
       <div className="flex flex-1 flex-col gap-3">
-        {episode.description ? (
-          <p className="whitespace-pre-wrap">{episode.description}</p>
-        ) : (
-          <p className="text-sm text-text-subtle">説明文が設定されていません</p>
-        )}
-
         <p className="text-sm text-text-subtle">
           {episode.publishedAt
             ? `公開日: ${new Date(episode.publishedAt).toLocaleDateString('ja-JP')}`
             : '非公開'}
         </p>
+
+        {episode.description ? (
+          <p className="whitespace-pre-wrap">{episode.description}</p>
+        ) : (
+          <p className="text-sm text-text-subtle">説明文が設定されていません</p>
+        )}
       </div>
     </div>
   );

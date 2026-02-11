@@ -41,7 +41,7 @@ export function ScriptSection({ channelId, episodeId, episodeName }: Props) {
         title="台本"
         level="h3"
         action={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
               leftIcon={<UploadSimpleIcon size={14} />}
               variant="outline"

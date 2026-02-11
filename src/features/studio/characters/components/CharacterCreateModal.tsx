@@ -141,6 +141,7 @@ export function CharacterCreateModal() {
                   </div>
                 )}
               </button>
+
               <input
                 ref={fileInputRef}
                 type="file"
@@ -148,6 +149,7 @@ export function CharacterCreateModal() {
                 className="hidden"
                 onChange={handleFileChange}
               />
+
               <div className="flex gap-2">
                 <Button
                   variant="outline"
@@ -161,6 +163,7 @@ export function CharacterCreateModal() {
                       ? '画像を変更'
                       : '画像を選択'}
                 </Button>
+
                 {avatarPreviewUrl && (
                   <Button
                     variant="outline"

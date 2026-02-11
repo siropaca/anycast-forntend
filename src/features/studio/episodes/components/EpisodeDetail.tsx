@@ -136,6 +136,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
             >
               編集
             </Button>
+
             <EpisodeDetailMenu
               isPublished={isPublished}
               disabled={isMutating}
