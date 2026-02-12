@@ -1,7 +1,19 @@
 'use client';
 
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  DotsSixVerticalIcon,
+  DotsThreeIcon,
+  PlusIcon,
+  TrashIcon,
+} from '@phosphor-icons/react';
 import { useForm } from 'react-hook-form';
+import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
+import { DropdownMenu } from '@/components/inputs/DropdownMenu/DropdownMenu';
+import { DropdownMenuItem } from '@/components/inputs/DropdownMenu/DropdownMenuItem';
+import { Select } from '@/components/inputs/Select/Select';
 import { EMOTION_OPTIONS } from '@/features/studio/episodes/constants/emotion';
 import { useCreateScriptLine } from '@/features/studio/episodes/hooks/useCreateScriptLine';
 import { useDeleteScriptLine } from '@/features/studio/episodes/hooks/useDeleteScriptLine';
@@ -14,34 +26,39 @@ import type {
   ResponseCharacterResponse,
   ResponseScriptLineResponse,
 } from '@/libs/api/generated/schemas';
+import { cn } from '@/utils/cn';
 
 interface Props {
   channelId: string;
   episodeId: string;
   line: ResponseScriptLineResponse;
   characters: ResponseCharacterResponse[];
-  isFirst: boolean;
-  isLast: boolean;
-  isReordering: boolean;
-
-  onMoveUp: (lineId: string) => void;
-  onMoveDown: (lineId: string) => void;
+  characterColor: string;
 }
+
+const emotionOptions = EMOTION_OPTIONS.map((option) => ({
+  label: option.label,
+  value: option.value,
+}));
+
+const speakerOptions = (characters: ResponseCharacterResponse[]) =>
+  characters.map((character) => ({
+    label: character.name,
+    value: character.id,
+  }));
 
 export function ScriptLineItem({
   channelId,
   episodeId,
   line,
   characters,
-  isFirst,
-  isLast,
-  isReordering,
-  onMoveUp,
-  onMoveDown,
+  characterColor,
 }: Props) {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors, isDirty },
   } = useForm<ScriptLineFormInput>({
     resolver: zodResolver(scriptLineFormSchema),
@@ -57,11 +74,10 @@ export function ScriptLineItem({
     error: updateError,
   } = useUpdateScriptLine(channelId, episodeId);
 
-  const {
-    deleteLine,
-    isDeleting,
-    error: deleteError,
-  } = useDeleteScriptLine(channelId, episodeId);
+  const { deleteLine, error: deleteError } = useDeleteScriptLine(
+    channelId,
+    episodeId,
+  );
 
   const {
     createLine,
@@ -69,20 +85,44 @@ export function ScriptLineItem({
     error: createError,
   } = useCreateScriptLine(channelId, episodeId);
 
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: line.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   function onSubmit(data: ScriptLineFormInput) {
     updateLine(line.id, data);
   }
 
+  function handleTextBlur() {
+    if (isDirty) {
+      handleSubmit(onSubmit)();
+    }
+  }
+
+  function handleEmotionChange(value: string | null) {
+    const emotion = value ?? '';
+    setValue('emotion', emotion, { shouldDirty: true });
+    updateLine(line.id, { emotion, text: getValues('text') });
+  }
+
+  function handleSpeakerChange(value: string | null) {
+    if (value && value !== line.speaker.id) {
+      updateLine(line.id, { speakerId: value });
+    }
+  }
+
   function handleDeleteClick() {
     deleteLine(line.id);
-  }
-
-  function handleMoveUpClick() {
-    onMoveUp(line.id);
-  }
-
-  function handleMoveDownClick() {
-    onMoveDown(line.id);
   }
 
   function handleAddLineClick() {
@@ -93,96 +133,115 @@ export function ScriptLineItem({
     });
   }
 
-  function handleSpeakerChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const newSpeakerId = event.target.value;
-    if (newSpeakerId !== line.speaker.id) {
-      updateLine(line.id, { speakerId: newSpeakerId });
-    }
-  }
-
   const error = updateError ?? deleteError ?? createError;
 
   return (
-    <li>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <select
-          className="border"
-          value={line.speaker.id}
-          disabled={isUpdating}
-          onChange={handleSpeakerChange}
-        >
-          {characters.map((character) => (
-            <option key={character.id} value={character.id}>
-              {character.name}
-            </option>
-          ))}
-        </select>
+    <li
+      ref={setNodeRef}
+      style={style}
+      className={cn(
+        'group relative list-none transition-shadow',
+        isDragging && 'z-10 shadow-lg opacity-90',
+      )}
+    >
+      <div className="flex items-start gap-1.5">
+        {/* 左: 2段のコンテンツ */}
+        <div className="min-w-0 flex-1 space-y-0.5">
+          {/* 上段: 話者名 + 感情 + アクション */}
+          <div className="flex items-center gap-1.5">
+            <Select
+              options={speakerOptions(characters)}
+              value={line.speaker.id}
+              onValueChange={handleSpeakerChange}
+              size="sm"
+              disabled={isUpdating}
+              className="w-28 shrink-0 border-none!"
+              style={{ backgroundColor: `${characterColor}26` }}
+            />
 
-        <div className="flex">
-          <select className="border" {...register('emotion')}>
-            {EMOTION_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            <Select
+              options={emotionOptions}
+              value={line.emotion ?? ''}
+              onValueChange={handleEmotionChange}
+              placeholder="感情"
+              size="sm"
+              disabled={isUpdating}
+              className="w-28 shrink-0"
+            />
 
+            <div className="ml-auto">
+              <DropdownMenu
+                trigger={
+                  <IconButton
+                    icon={<DotsThreeIcon weight="bold" />}
+                    aria-label="行のメニュー"
+                    size="sm"
+                    variant="text"
+                    color="secondary"
+                  />
+                }
+              >
+                <DropdownMenuItem
+                  icon={<PlusIcon size={16} />}
+                  onClick={handleAddLineClick}
+                >
+                  下に行を追加
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  icon={<TrashIcon size={16} />}
+                  variant="danger"
+                  onClick={handleDeleteClick}
+                >
+                  削除
+                </DropdownMenuItem>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          {/* 下段: テキスト入力 */}
           <input
+            type="text"
             placeholder="台本を入力"
-            className="border grow"
-            {...register('text')}
+            className={cn(
+              'h-[var(--size-sm)] w-full rounded-sm border border-border bg-bg-elevated px-2 text-sm text-text-main placeholder:text-text-placeholder',
+              'focus:outline-none focus:ring-2 focus:ring-primary',
+              errors.text && 'border-border-danger',
+            )}
+            disabled={isUpdating}
+            {...register('text', {
+              onBlur: handleTextBlur,
+            })}
           />
         </div>
-        {errors.text && <p>{errors.text.message}</p>}
 
-        <div>
-          <button
-            type="submit"
-            className="border"
-            disabled={isUpdating || !isDirty}
-          >
-            {isUpdating ? '更新中...' : '更新'}
-          </button>
+        {/* 右: ドラッグハンドル（2行の中央） */}
+        <button
+          type="button"
+          className="mt-2 shrink-0 cursor-grab self-center text-text-subtle hover:text-text-main active:cursor-grabbing"
+          {...attributes}
+          {...listeners}
+        >
+          <DotsSixVerticalIcon size={18} />
+        </button>
+      </div>
 
-          <button
-            type="button"
-            className="border"
-            disabled={isDeleting}
-            onClick={handleDeleteClick}
-          >
-            {isDeleting ? '削除中...' : '削除'}
-          </button>
+      {errors.text && (
+        <p className="mt-0.5 text-xs text-text-danger">{errors.text.message}</p>
+      )}
 
-          <button
-            type="button"
-            className="border"
-            disabled={isFirst || isReordering}
-            onClick={handleMoveUpClick}
-          >
-            {isReordering ? '移動中...' : '上に移動'}
-          </button>
+      {error && <p className="mt-0.5 text-xs text-text-danger">{error}</p>}
 
-          <button
-            type="button"
-            className="border"
-            disabled={isLast || isReordering}
-            onClick={handleMoveDownClick}
-          >
-            {isReordering ? '移動中...' : '下に移動'}
-          </button>
-        </div>
-      </form>
-
-      {error && <p>{error}</p>}
-
-      <button
-        type="button"
-        className="border mt-2"
-        disabled={isCreating}
-        onClick={handleAddLineClick}
-      >
-        {isCreating ? '追加中...' : '＋行を追加'}
-      </button>
+      {/* 行間の追加ボタン */}
+      <div className="absolute -bottom-2.5 left-1/2 z-10 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+        <button
+          type="button"
+          className="flex h-5 w-5 items-center justify-center rounded-full border border-border bg-bg-elevated text-text-subtle hover:bg-bg-hover-strong hover:text-text-main"
+          disabled={isCreating}
+          onClick={handleAddLineClick}
+        >
+          <PlusIcon size={12} />
+        </button>
+      </div>
     </li>
   );
 }

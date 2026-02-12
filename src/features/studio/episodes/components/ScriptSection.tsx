@@ -7,6 +7,7 @@ import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
+import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
 
 interface Props {
   channelId: string;
@@ -16,6 +17,7 @@ interface Props {
 
 export function ScriptSection({ channelId, episodeId, episodeName }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { scriptLines } = useScriptLines(channelId, episodeId);
 
   const {
     exportScript,
@@ -38,7 +40,7 @@ export function ScriptSection({ channelId, episodeId, episodeName }: Props) {
   return (
     <div className="space-y-4">
       <SectionTitle
-        title="台本"
+        title={`台本（${scriptLines.length}行）`}
         level="h3"
         action={
           <div className="flex items-center gap-3">

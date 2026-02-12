@@ -25,6 +25,7 @@ type Props<T extends string> = {
   disabled?: boolean;
   leftIcon?: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   name?: string;
   required?: boolean;
 };
@@ -88,6 +89,7 @@ export function Select<T extends string>({
   disabled = false,
   leftIcon,
   className,
+  style,
   name,
   required,
 }: Props<T>) {
@@ -109,6 +111,7 @@ export function Select<T extends string>({
         sizeClasses[size],
         className,
       )}
+      style={style}
     >
       {/* select を全面に配置してどこをクリックしても反応するようにする */}
       <select

@@ -1,13 +1,26 @@
 'use client';
 
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
 import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLineItem';
 import { useReorderScriptLines } from '@/features/studio/episodes/hooks/useReorderScriptLines';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
-import {
-  moveLineDown,
-  moveLineUp,
-} from '@/features/studio/episodes/utils/reorderScriptLines';
+
+const CHARACTER_COLORS = ['#f59e0b', '#8b5cf6'] as const;
 
 interface Props {
   channelId: string;
@@ -18,24 +31,31 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
   const { channel } = useChannelDetail(channelId);
   const { scriptLines } = useScriptLines(channelId, episodeId);
 
-  const {
-    reorderLines,
-    isReordering,
-    error: reorderError,
-  } = useReorderScriptLines(channelId, episodeId);
+  const { reorderLines, error: reorderError } = useReorderScriptLines(
+    channelId,
+    episodeId,
+  );
 
-  function handleMoveUp(lineId: string) {
-    const lineIds = scriptLines.map((line) => line.id);
-    const newLineIds = moveLineUp(lineIds, lineId);
-    if (newLineIds) {
-      reorderLines(newLineIds);
-    }
-  }
+  const characterIds = channel.characters.map((c) => c.id);
 
-  function handleMoveDown(lineId: string) {
-    const lineIds = scriptLines.map((line) => line.id);
-    const newLineIds = moveLineDown(lineIds, lineId);
-    if (newLineIds) {
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 8 },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const lineIds = scriptLines.map((line) => line.id);
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = lineIds.indexOf(String(active.id));
+      const newIndex = lineIds.indexOf(String(over.id));
+      const newLineIds = arrayMove(lineIds, oldIndex, newIndex);
       reorderLines(newLineIds);
     }
   }
@@ -51,22 +71,32 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
           台本はまだありません。「台本を作成」から生成できます。
         </p>
       ) : (
-        <ul className="space-y-2">
-          {scriptLines.map((line, index) => (
-            <ScriptLineItem
-              key={line.id}
-              channelId={channelId}
-              episodeId={episodeId}
-              line={line}
-              characters={channel.characters}
-              isFirst={index === 0}
-              isLast={index === scriptLines.length - 1}
-              isReordering={isReordering}
-              onMoveUp={handleMoveUp}
-              onMoveDown={handleMoveDown}
-            />
-          ))}
-        </ul>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={lineIds}
+            strategy={verticalListSortingStrategy}
+          >
+            <ul className="space-y-4">
+              {scriptLines.map((line) => (
+                <ScriptLineItem
+                  key={`${line.id}-${line.updatedAt}`}
+                  channelId={channelId}
+                  episodeId={episodeId}
+                  line={line}
+                  characters={channel.characters}
+                  characterColor={
+                    CHARACTER_COLORS[characterIds.indexOf(line.speaker.id)] ??
+                    CHARACTER_COLORS[0]
+                  }
+                />
+              ))}
+            </ul>
+          </SortableContext>
+        </DndContext>
       )}
     </>
   );
