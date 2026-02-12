@@ -1,12 +1,12 @@
 'use client';
 
 import { DownloadSimpleIcon, UploadSimpleIcon } from '@phosphor-icons/react';
-import { useRef } from 'react';
+import { useState } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { ScriptImportModal } from '@/features/studio/episodes/components/ScriptImportModal';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
-import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
 
 interface Props {
@@ -22,7 +22,7 @@ export function ScriptSection({
   episodeName,
   onGenerateClick,
 }: Props) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const { scriptLines } = useScriptLines(channelId, episodeId);
 
   const {
@@ -31,17 +31,9 @@ export function ScriptSection({
     error: exportError,
   } = useExportScript(channelId, episodeId, episodeName);
 
-  const {
-    handleFileSelect,
-    isImporting,
-    error: importError,
-  } = useImportScript(channelId, episodeId);
-
   function handleImportClick() {
-    fileInputRef.current?.click();
+    setIsImportModalOpen(true);
   }
-
-  const error = exportError ?? importError;
 
   return (
     <div className="space-y-4">
@@ -55,7 +47,6 @@ export function ScriptSection({
               variant="outline"
               color="secondary"
               size="sm"
-              disabled={isImporting}
               onClick={handleImportClick}
             >
               インポート
@@ -75,21 +66,24 @@ export function ScriptSection({
         }
       />
 
-      {error && <p className="text-sm text-text-danger">{error}</p>}
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".txt"
-        className="hidden"
-        onChange={handleFileSelect}
-      />
+      {exportError && (
+        <p className="whitespace-pre-line text-sm text-text-danger">
+          {exportError}
+        </p>
+      )}
 
       <ScriptLineList
         channelId={channelId}
         episodeId={episodeId}
         onGenerateClick={onGenerateClick}
         onImportClick={handleImportClick}
+      />
+
+      <ScriptImportModal
+        open={isImportModalOpen}
+        channelId={channelId}
+        episodeId={episodeId}
+        onClose={() => setIsImportModalOpen(false)}
       />
     </div>
   );
