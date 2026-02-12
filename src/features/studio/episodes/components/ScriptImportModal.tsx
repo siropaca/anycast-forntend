@@ -94,7 +94,7 @@ export function ScriptImportModal({
 
         <Modal.Body className="space-y-4">
           <p className="text-sm text-text-subtle">
-            「話者名: テキスト」形式のテキストファイルを読み込みます。
+            「話者名: テキスト」形式のテキストファイルを読み込みます
             <Tooltip
               label={
                 <div>
@@ -109,11 +109,11 @@ export function ScriptImportModal({
             >
               <button
                 type="button"
-                className="ml-0.5 inline-flex translate-y-0.5 cursor-help text-text-subtle hover:text-text-main"
+                className="ml-1 inline-flex cursor-help align-middle relative -top-px text-text-subtle hover:text-text-main"
                 onClick={(e) => e.preventDefault()}
               >
                 <QuestionIcon
-                  size={18}
+                  size={20}
                   weight="fill"
                   aria-label="フォーマット例"
                 />
