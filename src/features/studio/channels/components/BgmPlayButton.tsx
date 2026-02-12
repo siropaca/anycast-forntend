@@ -2,11 +2,17 @@
 
 import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
 import { toTrackFromDefaultBgm } from '@/features/player/utils/trackConverter';
-import type { ResponseChannelDefaultBgmResponse } from '@/libs/api/generated/schemas';
+import type { ResponseBgmAudioResponse } from '@/libs/api/generated/schemas';
 import { usePlayerStore } from '@/stores/playerStore';
 
+interface BgmLike {
+  id: string;
+  name: string;
+  audio: ResponseBgmAudioResponse;
+}
+
 interface Props {
-  bgm: ResponseChannelDefaultBgmResponse;
+  bgm: BgmLike;
 }
 
 export function BgmPlayButton({ bgm }: Props) {

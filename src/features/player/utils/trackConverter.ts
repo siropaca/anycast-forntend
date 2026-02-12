@@ -81,9 +81,9 @@ export function toTrackFromBgm(bgm: ResponseBgmWithEpisodesResponse): Track {
 }
 
 /**
- * チャンネルデフォルト BGM レスポンスを Track に変換する
+ * BGM レスポンス（チャンネルデフォルト / エピソード）を Track に変換する
  *
- * @param bgm - チャンネルデフォルト BGM レスポンス
+ * @param bgm - BGM レスポンス（id, name, audio を持つオブジェクト）
  * @returns Track オブジェクト
  *
  * @example
@@ -91,7 +91,7 @@ export function toTrackFromBgm(bgm: ResponseBgmWithEpisodesResponse): Track {
  * // => { id: '...', type: 'bgm', title: '...', ... }
  */
 export function toTrackFromDefaultBgm(
-  bgm: ResponseChannelDefaultBgmResponse,
+  bgm: Pick<ResponseChannelDefaultBgmResponse, 'id' | 'name' | 'audio'>,
 ): Track {
   return {
     id: bgm.id,
