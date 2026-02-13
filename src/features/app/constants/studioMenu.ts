@@ -6,6 +6,7 @@ import {
   UsersIcon,
   VideoIcon,
 } from '@phosphor-icons/react';
+import { StudioLogo } from '@/components/dataDisplay/icons/StudioLogo';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 import { Pages } from '@/libs/pages';
 
@@ -30,7 +31,7 @@ export function createStudioMenuSections(
   return {
     sections: [
       {
-        title: 'Studio',
+        titleComponent: StudioLogo,
         items: [
           {
             label: Pages.studio.dashboard.title,

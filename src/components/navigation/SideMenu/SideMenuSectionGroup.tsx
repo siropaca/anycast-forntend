@@ -8,10 +8,16 @@ interface Props {
 export function SideMenuSectionGroup({ section }: Props) {
   return (
     <div className="space-y-2">
-      {section.title && (
-        <p className="text-sm text-text-subtle tracking-[1.5px]">
-          {section.title}
-        </p>
+      {section.titleComponent ? (
+        <div className="flex justify-center rounded-md bg-white px-3 py-2 text-black">
+          <section.titleComponent />
+        </div>
+      ) : (
+        section.title && (
+          <p className="text-sm text-text-subtle tracking-[1.5px]">
+            {section.title}
+          </p>
+        )
       )}
 
       {section.items.map((item) => (

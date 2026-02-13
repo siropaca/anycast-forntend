@@ -64,6 +64,14 @@ export function EpisodeForm({
     fileInputRef.current?.click();
   }
 
+  function handleRemoveArtwork() {
+    setValue('artworkImageId', undefined, { shouldDirty: true });
+    setArtworkPreviewUrl(undefined);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }
+
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -120,7 +128,7 @@ export function EpisodeForm({
                 className="hidden"
                 onChange={handleFileChange}
               />
-              <div>
+              <div className="flex gap-2">
                 <Button
                   type="button"
                   variant="outline"
@@ -132,6 +140,16 @@ export function EpisodeForm({
                     ? 'アートワークを変更'
                     : 'アートワークを登録'}
                 </Button>
+                {artworkPreviewUrl && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    color="secondary"
+                    onClick={handleRemoveArtwork}
+                  >
+                    削除
+                  </Button>
+                )}
               </div>
             </>
           )}

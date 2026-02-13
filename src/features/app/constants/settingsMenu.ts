@@ -4,7 +4,6 @@ import { Pages } from '@/libs/pages';
 
 export const SETTINGS_MENU_SECTIONS: MenuSection[] = [
   {
-    title: 'Settings',
     items: [
       {
         label: Pages.settings.account.title,

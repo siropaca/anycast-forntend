@@ -1,4 +1,5 @@
 import type { Icon } from '@phosphor-icons/react';
+import type { ComponentType } from 'react';
 
 export interface IsActivePathOptions {
   matchPaths?: string[];
@@ -26,5 +27,6 @@ export type MenuItem = MenuItemLink | MenuItemButton;
 
 export interface MenuSection {
   title?: string;
+  titleComponent?: ComponentType;
   items: MenuItem[];
 }
