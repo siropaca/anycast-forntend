@@ -7,6 +7,8 @@ interface Props {
   username: string;
   bio: string;
   createdAt: string;
+  followerCount: number;
+  followingCount: number;
 }
 
 export function UserProfileInfo({
@@ -14,6 +16,8 @@ export function UserProfileInfo({
   username,
   bio,
   createdAt,
+  followerCount,
+  followingCount,
 }: Props) {
   return (
     <div className="mt-4 space-y-3">
@@ -25,6 +29,17 @@ export function UserProfileInfo({
       {bio && (
         <p className="whitespace-pre-wrap text-sm leading-relaxed">{bio}</p>
       )}
+
+      <div className="flex gap-4 text-sm">
+        <p>
+          <span className="font-bold">{followingCount}</span>
+          <span className="ml-1 text-text-subtle">フォロー中</span>
+        </p>
+        <p>
+          <span className="font-bold">{followerCount}</span>
+          <span className="ml-1 text-text-subtle">フォロワー</span>
+        </p>
+      </div>
 
       <p className="flex items-center gap-1.5 text-sm text-text-subtle">
         <CalendarBlankIcon size={16} />

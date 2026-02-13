@@ -60,6 +60,8 @@ export function UserDetail({
         username={user.username}
         bio={user.bio}
         createdAt={user.createdAt}
+        followerCount={user.followerCount}
+        followingCount={user.followingCount}
       />
 
       <UserChannelList channels={user.channels} />
