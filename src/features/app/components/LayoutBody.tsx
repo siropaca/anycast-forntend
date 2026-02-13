@@ -22,12 +22,12 @@ export function LayoutBody({ sideMenu, children }: Props) {
       <Sidebar>{sideMenu}</Sidebar>
 
       <div
-        className={cn('min-w-0 flex-1 px-4 md:pl-0 flex', !hasPlayer && 'pb-4')}
+        className={cn('min-w-0 flex-1 md:pr-4 flex', !hasPlayer && 'md:pb-4')}
       >
-        <ScrollArea.Root className="relative bg-bg-surface rounded-md flex-1 min-w-0">
+        <ScrollArea.Root className="relative bg-bg-surface rounded-none md:rounded-md flex-1 min-w-0">
           <ScrollArea.Viewport
             id={MAIN_SCROLL_VIEWPORT_ID}
-            className="h-full p-6 pt-5"
+            className="h-full md:p-6 md:pt-5 p-4 pt-3"
           >
             <main>{children}</main>
 
