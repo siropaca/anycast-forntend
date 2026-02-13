@@ -162,7 +162,11 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <EpisodeInfoSection episode={episode} />
 
       {/* BGM */}
-      <BgmSection bgm={episode.bgm} />
+      <BgmSection
+        channelId={channelId}
+        episodeId={episodeId}
+        bgm={episode.bgm}
+      />
 
       {/* 台本 */}
       <ScriptSection
