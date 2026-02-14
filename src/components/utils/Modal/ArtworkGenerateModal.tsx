@@ -31,7 +31,7 @@ export function ArtworkGenerateModal({
   }, [open, defaultPrompt]);
 
   function handleOpenChange(isOpen: boolean) {
-    if (!isOpen && !isGenerating) {
+    if (!isOpen) {
       onClose();
     }
   }
@@ -45,7 +45,7 @@ export function ArtworkGenerateModal({
       <Modal.Content size="lg">
         <Modal.Header>
           <Modal.Title>アートワークを生成</Modal.Title>
-          {!isGenerating && <Modal.Close />}
+          <Modal.Close />
         </Modal.Header>
 
         <Modal.Body className="space-y-4">
@@ -69,10 +69,9 @@ export function ArtworkGenerateModal({
             type="button"
             variant="outline"
             color="secondary"
-            disabled={isGenerating}
             onClick={onClose}
           >
-            キャンセル
+            閉じる
           </Button>
           <Button
             type="button"
