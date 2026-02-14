@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { ChannelDetail } from '@/features/studio/channels/components/ChannelDetail';
+import { ChannelDetailSkeleton } from '@/features/studio/channels/components/ChannelDetailSkeleton';
 import { Pages } from '@/libs/pages';
 import type { ChannelParams } from '@/libs/pages/studioPages';
 
@@ -17,7 +18,7 @@ export default async function StudioChannelPage({ params }: Props) {
   const { id } = await params;
 
   return (
-    <Suspense fallback={<p>読み込み中...</p>}>
+    <Suspense fallback={<ChannelDetailSkeleton />}>
       <ChannelDetail channelId={id} />
     </Suspense>
   );

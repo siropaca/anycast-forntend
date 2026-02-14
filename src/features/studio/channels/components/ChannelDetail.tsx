@@ -4,13 +4,13 @@ import { PencilSimpleIcon } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 
-import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ChannelCharacterList } from '@/features/studio/channels/components/ChannelCharacterList';
 import { ChannelDefaultBgmSection } from '@/features/studio/channels/components/ChannelDefaultBgmSection';
 import { ChannelDeleteDialog } from '@/features/studio/channels/components/ChannelDeleteDialog';
 import { ChannelDetailMenu } from '@/features/studio/channels/components/ChannelDetailMenu';
+import { ChannelInfoSection } from '@/features/studio/channels/components/ChannelInfoSection';
 import { ChannelPromptSection } from '@/features/studio/channels/components/ChannelPromptSection';
 import { ChannelPublishDialog } from '@/features/studio/channels/components/ChannelPublishDialog';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
@@ -18,9 +18,8 @@ import { useChannelDeleteDialog } from '@/features/studio/channels/hooks/useChan
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
 import { useChannelPublishDialog } from '@/features/studio/channels/hooks/useChannelPublishDialog';
 import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
+import { EpisodeListSkeleton } from '@/features/studio/episodes/components/EpisodeListSkeleton';
 import { Pages } from '@/libs/pages';
-
-const ARTWORK_SIZE = 150;
 
 interface Props {
   channelId: string;
@@ -95,26 +94,12 @@ export function ChannelDetail({ channelId }: Props) {
       />
 
       {/* チャンネル情報 */}
-      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
-        <ArtworkImage
-          src={channel.artwork?.url}
-          alt={channel.name}
-          size={ARTWORK_SIZE}
-          priority
-        />
-
-        <div className="flex flex-1 flex-col gap-3">
-          <p className="text-sm text-text-subtle">{channel.category.name}</p>
-
-          {channel.description ? (
-            <p className="whitespace-pre-wrap">{channel.description}</p>
-          ) : (
-            <p className="text-sm text-text-subtle">
-              説明文が設定されていません
-            </p>
-          )}
-        </div>
-      </div>
+      <ChannelInfoSection
+        name={channel.name}
+        artwork={channel.artwork}
+        category={channel.category}
+        description={channel.description}
+      />
 
       {/* キャラクター */}
       <ChannelCharacterList characters={channel.characters} />
@@ -132,13 +117,9 @@ export function ChannelDetail({ channelId }: Props) {
       />
 
       {/* エピソード一覧 */}
-      <div className="space-y-4">
-        <Suspense
-          fallback={<p className="text-sm text-text-subtle">読み込み中...</p>}
-        >
-          <EpisodeList channelId={channelId} />
-        </Suspense>
-      </div>
+      <Suspense fallback={<EpisodeListSkeleton />}>
+        <EpisodeList channelId={channelId} />
+      </Suspense>
 
       <ChannelDeleteDialog
         channelName={channel.name}

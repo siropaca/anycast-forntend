@@ -58,9 +58,13 @@ export function EpisodeList({ channelId }: Props) {
   }
 
   return (
-    <>
+    <div className="space-y-4">
       <SectionTitle
-        title={`エピソード（${episodes.length}）`}
+        title={
+          episodes.length > 0
+            ? `エピソード（${episodes.length}）`
+            : 'エピソード'
+        }
         level="h3"
         action={
           <Button
@@ -80,6 +84,6 @@ export function EpisodeList({ channelId }: Props) {
         keyExtractor={(episode) => episode.id}
         onRowClick={handleRowClick}
       />
-    </>
+    </div>
   );
 }
