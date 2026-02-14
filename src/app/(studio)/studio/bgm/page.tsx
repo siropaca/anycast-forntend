@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { BgmList } from '@/features/studio/bgm/components/BgmList';
+import { BgmListSkeleton } from '@/features/studio/bgm/components/BgmListSkeleton';
 import { BgmUploadModal } from '@/features/studio/bgm/components/BgmUploadModal';
 import { Pages } from '@/libs/pages';
 
@@ -19,7 +20,7 @@ export default function StudioBgmPage() {
         action={<BgmUploadModal />}
       />
 
-      <Suspense fallback={<p>読み込み中...</p>}>
+      <Suspense fallback={<BgmListSkeleton />}>
         <BgmList />
       </Suspense>
     </div>

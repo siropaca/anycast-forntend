@@ -5,6 +5,7 @@ import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { CharacterCreateModal } from '@/features/studio/characters/components/CharacterCreateModal';
 import { CharacterList } from '@/features/studio/characters/components/CharacterList';
+import { CharacterListSkeleton } from '@/features/studio/characters/components/CharacterListSkeleton';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default function StudioCharactersPage() {
         }
       />
 
-      <Suspense fallback={<p>読み込み中...</p>}>
+      <Suspense fallback={<CharacterListSkeleton />}>
         <CharacterList />
       </Suspense>
     </div>

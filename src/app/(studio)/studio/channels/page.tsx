@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ChannelList } from '@/features/studio/channels/components/ChannelList';
+import { ChannelListSkeleton } from '@/features/studio/channels/components/ChannelListSkeleton';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -27,8 +28,7 @@ export default function StudioChannelsPage() {
         }
       />
 
-      {/* TODO: loading 作成 */}
-      <Suspense fallback={<p>読み込み中...</p>}>
+      <Suspense fallback={<ChannelListSkeleton />}>
         <ChannelList />
       </Suspense>
     </div>

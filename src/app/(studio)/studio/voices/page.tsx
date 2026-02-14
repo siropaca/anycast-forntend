@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { VoiceList } from '@/features/studio/voices/components/VoiceList';
+import { VoiceListSkeleton } from '@/features/studio/voices/components/VoiceListSkeleton';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export default function StudioVoicesPage() {
         description="キャラクターで使用できるボイスの確認ができます"
       />
 
-      <Suspense fallback={<p>読み込み中...</p>}>
+      <Suspense fallback={<VoiceListSkeleton />}>
         <VoiceList />
       </Suspense>
     </div>
