@@ -133,10 +133,10 @@ export function ScriptLineItem({
       style={style}
       className={cn(
         'group relative list-none transition-shadow',
-        isDragging && 'z-10 shadow-lg opacity-90',
+        isDragging && 'z-10 rounded-sm bg-bg-elevated',
       )}
     >
-      <div className="flex items-start gap-2">
+      <div className={cn('flex items-start gap-2', isDragging && 'invisible')}>
         {/* 左: 2段のコンテンツ */}
         <div className="min-w-0 flex-1 space-y-2">
           {/* 上段: 話者名 + 感情 + アクション */}
@@ -224,10 +224,17 @@ export function ScriptLineItem({
         </button>
       </div>
 
-      {error && <p className="mt-1 text-xs text-text-danger">{error}</p>}
+      {error && !isDragging && (
+        <p className="mt-1 text-xs text-text-danger">{error}</p>
+      )}
 
       {/* 行間の追加ボタン */}
-      <div className="absolute -bottom-2.5 left-1/2 z-10 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+      <div
+        className={cn(
+          'absolute -bottom-2.5 left-1/2 z-10 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100',
+          isDragging && 'hidden',
+        )}
+      >
         <button
           type="button"
           className="flex h-5 w-5 items-center justify-center rounded-full border border-border bg-bg-elevated text-text-subtle cursor-pointer hover:bg-bg-hover-strong hover:text-text-main"
