@@ -35,7 +35,7 @@ export function ChannelDefaultBgmSection({ channelId, defaultBgm }: Props) {
       />
       {defaultBgm ? (
         <div className="flex items-center gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-bg-elevated text-text-placeholder">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-bg-elevated text-text-placeholder">
             <MusicNoteIcon size={20} />
           </div>
           <div className="flex items-center gap-1.5">
