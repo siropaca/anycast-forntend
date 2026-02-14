@@ -28,8 +28,10 @@ export function VoiceOptionItem({
   }
 
   return (
-    <button
-      type="button"
+    <div
+      role="option"
+      aria-selected={isSelected}
+      tabIndex={0}
       className={cn(
         'flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-left transition-colors',
         isSelected
@@ -37,6 +39,12 @@ export function VoiceOptionItem({
           : 'text-text-main hover:bg-bg-hover',
       )}
       onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect();
+        }
+      }}
     >
       <span className="flex-1 truncate text-sm">
         {voice.name}
@@ -62,6 +70,6 @@ export function VoiceOptionItem({
           onClick={handlePlayClick}
         />
       )}
-    </button>
+    </div>
   );
 }

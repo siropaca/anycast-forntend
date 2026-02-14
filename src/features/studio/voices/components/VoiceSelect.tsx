@@ -190,6 +190,7 @@ export function VoiceSelect({
             }}
           >
             <div
+              role="listbox"
               className="overflow-y-auto py-1"
               style={{ maxHeight: dropdownStyle.maxHeight }}
             >

@@ -240,6 +240,7 @@ export function CharacterSelect({
             }}
           >
             <div
+              role="listbox"
               className="overflow-y-auto py-1"
               style={{ maxHeight: dropdownStyle.maxHeight }}
             >
