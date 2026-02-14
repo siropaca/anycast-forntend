@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { EditEpisode } from '@/features/studio/episodes/components/EditEpisode';
+import { EditEpisodeSkeleton } from '@/features/studio/episodes/components/EditEpisodeSkeleton';
 import { Pages } from '@/libs/pages';
 import type { EditEpisodeParams } from '@/libs/pages/studioPages';
 
@@ -17,8 +18,9 @@ export default async function StudioEditEpisodePage({ params }: Props) {
   const { id, episodeId } = await params;
 
   return (
-    // TODO: ローディング実装
-    <Suspense fallback={<p>読み込み中...</p>}>
+    <Suspense
+      fallback={<EditEpisodeSkeleton channelId={id} episodeId={episodeId} />}
+    >
       <EditEpisode channelId={id} episodeId={episodeId} />
     </Suspense>
   );
