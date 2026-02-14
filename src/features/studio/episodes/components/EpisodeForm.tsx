@@ -174,7 +174,8 @@ export function EpisodeForm({
                   className="hidden"
                   onChange={handleFileChange}
                 />
-                <div className="flex gap-2">
+
+                <div className="flex gap-3">
                   <Button
                     type="button"
                     variant="outline"
@@ -185,6 +186,7 @@ export function EpisodeForm({
                   >
                     画像を指定
                   </Button>
+
                   <Button
                     type="button"
                     variant="outline"
@@ -196,6 +198,7 @@ export function EpisodeForm({
                   >
                     AIで生成
                   </Button>
+
                   {artworkPreviewUrl && (
                     <Button
                       type="button"
