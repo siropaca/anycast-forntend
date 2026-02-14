@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { EpisodeDetail } from '@/features/studio/episodes/components/EpisodeDetail';
+import { EpisodeDetailSkeleton } from '@/features/studio/episodes/components/EpisodeDetailSkeleton';
 import { Pages } from '@/libs/pages';
 import type { EpisodeParams } from '@/libs/pages/studioPages';
 
@@ -17,7 +18,7 @@ export default async function StudioEpisodePage({ params }: Props) {
   const { id, episodeId } = await params;
 
   return (
-    <Suspense fallback={<p>読み込み中...</p>}>
+    <Suspense fallback={<EpisodeDetailSkeleton channelId={id} />}>
       <EpisodeDetail channelId={id} episodeId={episodeId} />
     </Suspense>
   );
