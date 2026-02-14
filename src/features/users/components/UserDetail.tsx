@@ -1,28 +1,26 @@
-'use client';
-
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import { UserChannelList } from '@/features/users/components/UserChannelList';
 import { UserHeaderImage } from '@/features/users/components/UserHeaderImage';
 import { UserProfileActions } from '@/features/users/components/UserProfileActions';
 import { UserProfileInfo } from '@/features/users/components/UserProfileInfo';
-import { useFollowUser } from '@/features/users/hooks/useFollowUser';
-import { useUser } from '@/features/users/hooks/useUser';
+import type { ResponsePublicUserResponse } from '@/libs/api/generated/schemas';
+import { getUsersUsername } from '@/libs/api/generated/users/users';
+import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import { auth } from '@/libs/auth/auth';
 
 const AVATAR_SIZE = 120;
 
 interface Props {
   username: string;
-  isOwnProfile?: boolean;
-  isLoggedIn?: boolean;
 }
 
-export function UserDetail({
-  username,
-  isOwnProfile = false,
-  isLoggedIn = false,
-}: Props) {
-  const { user } = useUser(username);
-  const { isFollowing, isPending, toggleFollow } = useFollowUser(username);
+export async function UserDetail({ username }: Props) {
+  const [userResponse, { session, isLoggedIn }] = await Promise.all([
+    getUsersUsername(username),
+    auth(),
+  ]);
+  const user = unwrapResponse<ResponsePublicUserResponse>(userResponse);
+  const isOwnProfile = session?.user?.username === username;
 
   return (
     <div>
@@ -47,11 +45,9 @@ export function UserDetail({
 
         <UserProfileActions
           user={user}
+          username={username}
           isOwnProfile={isOwnProfile}
           isLoggedIn={isLoggedIn}
-          isFollowing={isFollowing}
-          isPending={isPending}
-          onToggleFollow={toggleFollow}
         />
       </div>
 

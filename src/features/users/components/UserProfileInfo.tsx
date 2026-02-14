@@ -1,4 +1,4 @@
-import { CalendarBlankIcon } from '@phosphor-icons/react';
+import { CalendarBlankIcon } from '@phosphor-icons/react/ssr';
 
 import { formatYearMonth } from '@/utils/date';
 

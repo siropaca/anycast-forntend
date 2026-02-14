@@ -5,27 +5,24 @@ import { useState } from 'react';
 
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { UserProfileEditModal } from '@/features/users/components/UserProfileEditModal';
+import { useFollowUser } from '@/features/users/hooks/useFollowUser';
 import type { ResponsePublicUserResponse } from '@/libs/api/generated/schemas';
 
 interface Props {
   user: ResponsePublicUserResponse;
+  username: string;
   isOwnProfile: boolean;
   isLoggedIn: boolean;
-  isFollowing: boolean;
-  isPending: boolean;
-
-  onToggleFollow: () => void;
 }
 
 export function UserProfileActions({
   user,
+  username,
   isOwnProfile,
   isLoggedIn,
-  isFollowing,
-  isPending,
-  onToggleFollow,
 }: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { isFollowing, isPending, toggleFollow } = useFollowUser(username);
 
   if (isOwnProfile) {
     return (
@@ -57,7 +54,7 @@ export function UserProfileActions({
       variant={isFollowing ? 'outline' : 'solid'}
       color="primary"
       disabled={isPending}
-      onClick={onToggleFollow}
+      onClick={toggleFollow}
     >
       {isFollowing ? 'フォロー中' : 'フォローする'}
     </Button>

@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 import { UserDetail } from '@/features/users/components/UserDetail';
-import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
 import type { UserParams } from '@/libs/pages/mainPages';
 
@@ -19,17 +17,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function UserPage({ params }: Props) {
   const { username } = await params;
-  const { session } = await auth();
-  const isLoggedIn = !!session;
-  const isOwnProfile = session?.user?.username === username;
 
-  return (
-    <Suspense fallback={<p>読み込み中...</p>}>
-      <UserDetail
-        username={username}
-        isOwnProfile={isOwnProfile}
-        isLoggedIn={isLoggedIn}
-      />
-    </Suspense>
-  );
+  return <UserDetail username={username} />;
 }
