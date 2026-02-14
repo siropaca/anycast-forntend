@@ -64,7 +64,7 @@ export function BgmList() {
     },
     {
       key: 'type',
-      header: '種別',
+      header: 'タイプ',
       accessor: (bgm: ResponseBgmWithEpisodesResponse) => (
         <Tag
           label={bgm.isSystem ? 'システム' : 'マイBGM'}

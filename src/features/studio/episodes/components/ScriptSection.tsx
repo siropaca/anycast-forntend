@@ -46,7 +46,9 @@ export function ScriptSection({
   return (
     <div className="space-y-4">
       <SectionTitle
-        title={`台本（${scriptLines.length}行）`}
+        title={
+          scriptLines.length > 0 ? `台本（${scriptLines.length}行）` : '台本'
+        }
         level="h3"
         action={
           <div className="flex items-center gap-3">

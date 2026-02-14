@@ -57,7 +57,7 @@ export function useEpisodeReaction(episodeId: string) {
    *
    * 同じリアクションを再度押すと解除、異なるリアクションを押すと更新する
    *
-   * @param reactionType - リアクション種別
+   * @param reactionType - リアクションタイプ
    */
   function toggleReaction(
     reactionType: RequestCreateOrUpdateReactionRequestReactionType,
