@@ -1,7 +1,8 @@
 'use client';
 
 import { ListIcon, XIcon } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { TextLogo } from '@/components/dataDisplay/TextLogo/TextLogo';
 import { Drawer } from '@/components/utils/Drawer/Drawer';
 
@@ -11,6 +12,11 @@ interface Props {
 
 export function MobileMenu({ children }: Props) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <Drawer.Root open={open} onOpenChange={setOpen}>
