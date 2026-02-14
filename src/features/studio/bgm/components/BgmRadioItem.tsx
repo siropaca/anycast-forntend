@@ -4,7 +4,6 @@ import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas';
 import { cn } from '@/utils/cn';
-import { formatTime } from '@/utils/date';
 
 interface Props {
   bgm: ResponseBgmWithEpisodesResponse;
@@ -51,12 +50,6 @@ export function BgmRadioItem({
       />
 
       <span className="flex-1 truncate text-sm">{bgm.name}</span>
-
-      {bgm.audio.durationMs > 0 && (
-        <span className="text-xs text-text-secondary">
-          {formatTime(bgm.audio.durationMs)}
-        </span>
-      )}
 
       <IconButton
         icon={
