@@ -1,5 +1,6 @@
 'use client';
 
+import { ScrollArea } from '@base-ui/react/scroll-area';
 import { CaretDownIcon, UserIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -239,26 +240,32 @@ export function CharacterSelect({
               width: dropdownStyle.width,
             }}
           >
-            <div
-              role="listbox"
-              className="overflow-y-auto py-1"
-              style={{ maxHeight: dropdownStyle.maxHeight }}
-            >
-              {characters.map((character) => {
-                const voice = voiceMap.get(character.voice.id);
-                return (
-                  <CharacterOptionItem
-                    key={character.id}
-                    character={character}
-                    isSelected={value === character.id}
-                    isPlaying={isCharacterPlaying(character.id)}
-                    hasSampleAudio={!!voice?.sampleAudioUrl}
-                    onSelect={() => handleSelect(character.id)}
-                    onPlayToggle={() => handlePlayToggle(character)}
-                  />
-                );
-              })}
-            </div>
+            <ScrollArea.Root style={{ maxHeight: dropdownStyle.maxHeight }}>
+              <ScrollArea.Viewport
+                role="listbox"
+                className="py-1"
+                style={{ maxHeight: dropdownStyle.maxHeight }}
+              >
+                {characters.map((character) => {
+                  const voice = voiceMap.get(character.voice.id);
+                  return (
+                    <CharacterOptionItem
+                      key={character.id}
+                      character={character}
+                      isSelected={value === character.id}
+                      isPlaying={isCharacterPlaying(character.id)}
+                      hasSampleAudio={!!voice?.sampleAudioUrl}
+                      onSelect={() => handleSelect(character.id)}
+                      onPlayToggle={() => handlePlayToggle(character)}
+                    />
+                  );
+                })}
+              </ScrollArea.Viewport>
+
+              <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent px-0.5">
+                <ScrollArea.Thumb className="w-full rounded-full bg-bg-elevated/75" />
+              </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
 
             <audio
               ref={audioRef}

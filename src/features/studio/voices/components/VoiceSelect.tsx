@@ -1,5 +1,6 @@
 'use client';
 
+import { ScrollArea } from '@base-ui/react/scroll-area';
 import { CaretDownIcon } from '@phosphor-icons/react';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -189,22 +190,28 @@ export function VoiceSelect({
               width: dropdownStyle.width,
             }}
           >
-            <div
-              role="listbox"
-              className="overflow-y-auto py-1"
-              style={{ maxHeight: dropdownStyle.maxHeight }}
-            >
-              {voices.map((voice) => (
-                <VoiceOptionItem
-                  key={voice.id}
-                  voice={voice}
-                  isSelected={value === voice.id}
-                  isPlaying={isVoicePlaying(voice.id)}
-                  onSelect={() => handleSelect(voice.id)}
-                  onPlayToggle={() => toggle(voice)}
-                />
-              ))}
-            </div>
+            <ScrollArea.Root style={{ maxHeight: dropdownStyle.maxHeight }}>
+              <ScrollArea.Viewport
+                role="listbox"
+                className="py-1"
+                style={{ maxHeight: dropdownStyle.maxHeight }}
+              >
+                {voices.map((voice) => (
+                  <VoiceOptionItem
+                    key={voice.id}
+                    voice={voice}
+                    isSelected={value === voice.id}
+                    isPlaying={isVoicePlaying(voice.id)}
+                    onSelect={() => handleSelect(voice.id)}
+                    onPlayToggle={() => toggle(voice)}
+                  />
+                ))}
+              </ScrollArea.Viewport>
+
+              <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent px-0.5">
+                <ScrollArea.Thumb className="w-full rounded-full bg-bg-elevated/75" />
+              </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
 
             <audio
               ref={audioRef}
