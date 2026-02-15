@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import type { ProfileFormInput } from '@/features/users/schemas/profile';
@@ -17,6 +18,7 @@ import { trimFullWidth } from '@/utils/trim';
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { update: updateSession } = useSession();
   const toast = useToast();
   const mutation = usePatchMe();
 
@@ -50,12 +52,25 @@ export function useUpdateProfile() {
         return false;
       }
 
+      const newAvatarUrl = response.data.data.avatar?.url ?? null;
+
       queryClient.invalidateQueries({
         queryKey: getGetMeQueryKey(),
       });
       queryClient.invalidateQueries({
         queryKey: getGetUsersUsernameQueryKey(username),
       });
+
+      // セッション（JWT）のアバター画像を同期する
+      await fetch('/api/auth/update-session', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: newAvatarUrl }),
+      });
+
+      // クライアント側の useSession キャッシュを再取得する
+      await updateSession();
+
       router.refresh();
       toast.success({ title: 'プロフィールを更新しました' });
       return true;

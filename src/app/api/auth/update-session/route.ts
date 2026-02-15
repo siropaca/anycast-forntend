@@ -4,8 +4,14 @@ import { decode, encode } from 'next-auth/jwt';
 
 const COOKIE_NAME = 'authjs.session-token';
 
+interface UpdateSessionBody {
+  username?: string;
+  /** アバター画像 URL。`null` で画像を削除 */
+  image?: string | null;
+}
+
 /**
- * セッションの username を更新する Route Handler
+ * セッション情報を部分更新する Route Handler
  *
  * Server Action の cookies().set() は Next.js 16 でブラウザに永続化されないため、
  * NextResponse で直接 Set-Cookie ヘッダーを返す。
@@ -19,9 +25,9 @@ export async function PATCH(request: NextRequest) {
     );
   }
 
-  const { username } = (await request.json()) as { username: string };
-  if (!username) {
-    return NextResponse.json({ error: 'Username required' }, { status: 400 });
+  const body = (await request.json()) as UpdateSessionBody;
+  if (!body.username && !('image' in body)) {
+    return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
   }
 
   const sessionCookie = request.cookies.get(COOKIE_NAME);
@@ -38,7 +44,12 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 
-  payload.username = username;
+  if (body.username) {
+    payload.username = body.username;
+  }
+  if ('image' in body) {
+    payload.picture = body.image ?? undefined;
+  }
 
   const newToken = await encode({
     token: payload,

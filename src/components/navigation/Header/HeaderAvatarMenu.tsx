@@ -2,13 +2,15 @@
 
 import { GearIcon, SignOutIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { Avatar } from '@/components/dataDisplay/Avatar/Avatar';
 import { DropdownMenu } from '@/components/inputs/DropdownMenu/DropdownMenu';
 import { DropdownMenuItem } from '@/components/inputs/DropdownMenu/DropdownMenuItem';
 import { Pages } from '@/libs/pages';
 
 export function HeaderAvatarMenu() {
+  const { data: session } = useSession();
+
   function handleSignOut() {
     signOut({ callbackUrl: Pages.home.path() });
   }
@@ -20,7 +22,7 @@ export function HeaderAvatarMenu() {
           type="button"
           className="cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
-          <Avatar fallback="U" />
+          <Avatar src={session?.user?.image ?? undefined} fallback="U" />
         </button>
       }
     >
