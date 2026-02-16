@@ -2,11 +2,15 @@
 
 import { XIcon } from '@phosphor-icons/react';
 
+import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
+import { Spinner } from '@/components/feedback/Spinner/Spinner';
+import { Button } from '@/components/inputs/buttons/Button/Button';
 import { useElapsedTime } from '@/hooks/useElapsedTime';
 import { formatElapsedTime } from '@/utils/date';
 
 interface Props {
-  label: string;
+  type: 'script' | 'audio';
+  statusLabel: string;
   progress: number;
   startedAt?: number;
   isGenerating: boolean;
@@ -18,8 +22,14 @@ interface Props {
   onReset: () => void;
 }
 
+const typeLabel: Record<Props['type'], string> = {
+  script: '台本',
+  audio: '音声',
+};
+
 export function ProgressRow({
-  label,
+  type,
+  statusLabel,
   progress,
   startedAt,
   isGenerating,
@@ -31,50 +41,51 @@ export function ProgressRow({
 }: Props) {
   const elapsedMs = useElapsedTime(isGenerating ? (startedAt ?? null) : null);
 
+  const prefix = typeLabel[type];
+  const displayLabel = isGenerating
+    ? `${prefix}生成中...`
+    : `${prefix}の${statusLabel}`;
+
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-text-main">{label}</span>
-        <div className="flex items-center gap-2">
-          {isGenerating && (
-            <span className="text-sm tabular-nums text-text-subtle">
-              {elapsedMs != null && (
-                <span className="mr-1.5">{formatElapsedTime(elapsedMs)}</span>
-              )}
-              {progress}%
-            </span>
-          )}
-          {isCancelable && (
-            <button
-              type="button"
-              className="text-sm text-text-danger hover:underline"
-              disabled={isCanceling}
-              onClick={onCancel}
-            >
-              キャンセル
-            </button>
-          )}
-          {isTerminal && (
-            <button
-              type="button"
-              className="text-text-subtle transition-colors hover:text-text-main"
-              onClick={onReset}
-              aria-label="閉じる"
-            >
-              <XIcon size={16} />
-            </button>
-          )}
-        </div>
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        {isGenerating && <Spinner size="sm" />}
+
+        <Tooltip label={`${progress}%: ${statusLabel}`}>
+          <span className="text-sm text-text-main">{displayLabel}</span>
+        </Tooltip>
+
+        {isGenerating && elapsedMs != null && (
+          <span className="text-sm tabular-nums text-text-subtle">
+            {formatElapsedTime(elapsedMs)}
+          </span>
+        )}
       </div>
 
-      {isGenerating && (
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-elevated">
-          <div
-            className="h-full rounded-full bg-primary transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      )}
+      <div className="flex items-center gap-3">
+        {isCancelable && (
+          <Button
+            size="sm"
+            variant="outline"
+            color="danger"
+            disabled={isCanceling}
+            onClick={onCancel}
+          >
+            キャンセル
+          </Button>
+        )}
+
+        {isTerminal && (
+          <button
+            type="button"
+            className="text-text-subtle transition-colors hover:text-text-main"
+            onClick={onReset}
+            aria-label="閉じる"
+          >
+            <XIcon size={16} />
+          </button>
+        )}
+      </div>
     </div>
   );
 }

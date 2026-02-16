@@ -106,6 +106,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     scriptGeneration.generateScript({
       prompt: data.prompt,
       durationMinutes: data.durationMinutes,
+      withEmotion: data.withEmotion,
     });
     setIsScriptModalOpen(false);
   }

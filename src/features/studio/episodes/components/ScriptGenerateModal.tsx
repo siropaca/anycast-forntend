@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { Checkbox } from '@/components/inputs/Checkbox/Checkbox';
 import { FormField } from '@/components/inputs/FormField/FormField';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
@@ -48,6 +49,7 @@ export function ScriptGenerateModal({
     defaultValues: {
       prompt: restoredPrompt ?? '',
       durationMinutes: restoredDurationMinutes ?? DEFAULT_DURATION_MINUTES,
+      withEmotion: false,
     },
   });
 
@@ -59,6 +61,7 @@ export function ScriptGenerateModal({
     resetForm({
       prompt: restoredPrompt ?? '',
       durationMinutes: restoredDurationMinutes ?? DEFAULT_DURATION_MINUTES,
+      withEmotion: false,
     });
   }, [restoredPrompt, restoredDurationMinutes, isDirty, resetForm]);
 
@@ -102,6 +105,7 @@ export function ScriptGenerateModal({
             <FormField
               label="エピソードの長さ（目安）"
               error={errors.durationMinutes?.message}
+              className="mb-5"
             >
               {() => (
                 <Select
@@ -111,6 +115,12 @@ export function ScriptGenerateModal({
                 />
               )}
             </FormField>
+
+            <Checkbox
+              label="感情も含めて生成する"
+              checked={watch('withEmotion')}
+              {...register('withEmotion')}
+            />
           </Modal.Body>
 
           <Modal.Footer>

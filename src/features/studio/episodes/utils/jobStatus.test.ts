@@ -5,51 +5,24 @@ import {
 import type { JobStatus } from '@/types/job';
 
 describe('getJobStatusLabel()', () => {
-  const statuses: { status: JobStatus; script: string; audio: string }[] = [
-    {
-      status: 'pending',
-      script: '台本: キュー待機中...',
-      audio: '音声: キュー待機中...',
-    },
-    {
-      status: 'processing',
-      script: '台本: 生成中...',
-      audio: '音声: 生成中...',
-    },
-    {
-      status: 'canceling',
-      script: '台本: キャンセル中...',
-      audio: '音声: キャンセル中...',
-    },
-    {
-      status: 'completed',
-      script: '台本: 生成完了',
-      audio: '音声: 生成完了',
-    },
-    {
-      status: 'canceled',
-      script: '台本: キャンセル済み',
-      audio: '音声: キャンセル済み',
-    },
-    {
-      status: 'failed',
-      script: '台本: 生成失敗',
-      audio: '音声: 生成失敗',
-    },
+  const statuses: { status: JobStatus; expected: string }[] = [
+    { status: 'pending', expected: 'キュー待機中...' },
+    { status: 'processing', expected: '生成中...' },
+    { status: 'canceling', expected: 'キャンセル中...' },
+    { status: 'completed', expected: '生成が完了しました' },
+    { status: 'canceled', expected: 'キャンセルされました' },
+    { status: 'failed', expected: '生成に失敗しました' },
   ];
 
   it.each(statuses)('$status のとき正しいラベルを返す', ({
     status,
-    script,
-    audio,
+    expected,
   }) => {
-    expect(getJobStatusLabel('script', status)).toBe(script);
-    expect(getJobStatusLabel('audio', status)).toBe(audio);
+    expect(getJobStatusLabel(status)).toBe(expected);
   });
 
   it('idle のとき空文字を返す', () => {
-    expect(getJobStatusLabel('script', 'idle')).toBe('');
-    expect(getJobStatusLabel('audio', 'idle')).toBe('');
+    expect(getJobStatusLabel('idle')).toBe('');
   });
 });
 

@@ -12,6 +12,7 @@ import { usePlayerStore } from '@/stores/playerStore';
 export function useAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentTrackIdRef = useRef<string | null>(null);
+  const currentAudioUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -50,10 +51,14 @@ export function useAudioPlayer() {
     audio.addEventListener('pause', handlePause);
 
     const unsubscribe = usePlayerStore.subscribe((state, prevState) => {
-      // トラック変更の検知
-      if (state.currentTrack?.id !== currentTrackIdRef.current) {
+      // トラック変更の検知（ID または audioUrl が変わった場合）
+      if (
+        state.currentTrack?.id !== currentTrackIdRef.current ||
+        state.currentTrack?.audioUrl !== currentAudioUrlRef.current
+      ) {
         if (state.currentTrack) {
           currentTrackIdRef.current = state.currentTrack.id;
+          currentAudioUrlRef.current = state.currentTrack.audioUrl;
           audio.src = state.currentTrack.audioUrl;
           audio.playbackRate = state.playbackRate;
           audio.play().catch(() => {
@@ -61,6 +66,7 @@ export function useAudioPlayer() {
           });
         } else {
           currentTrackIdRef.current = null;
+          currentAudioUrlRef.current = null;
           audio.pause();
           audio.removeAttribute('src');
           audio.load();

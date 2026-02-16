@@ -7,7 +7,7 @@ import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/Art
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import { Pages } from '@/libs/pages';
-import { formatDateJP, formatDuration } from '@/utils/date';
+import { formatDateJP, formatTime } from '@/utils/date';
 
 interface Props {
   episode: ResponseEpisodeResponse;
@@ -94,7 +94,7 @@ export function ChannelEpisodeListItem({
             {episode.publishedAt && durationMs != null && <span>・</span>}
 
             {/* 再生時間 */}
-            {durationMs != null && <span>{formatDuration(durationMs)}</span>}
+            {durationMs != null && <span>{formatTime(durationMs)}</span>}
           </div>
 
           <div className="flex items-center gap-3">

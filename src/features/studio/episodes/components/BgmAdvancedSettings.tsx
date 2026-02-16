@@ -59,10 +59,10 @@ export function BgmAdvancedSettings({ ref }: Props) {
   }));
 
   return (
-    <Collapsible.Root open={open} onOpenChange={setOpen} className="mt-4">
+    <Collapsible.Root open={open} onOpenChange={setOpen}>
       <Collapsible.Trigger className="flex cursor-pointer items-center gap-1 text-sm text-text-subtle transition-colors hover:text-text-main">
         {open ? <CaretDownIcon size={14} /> : <CaretRightIcon size={14} />}
-        高度な設定
+        BGM設定
       </Collapsible.Trigger>
 
       <Collapsible.Panel className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 data-ending-style:h-0 data-starting-style:h-0">

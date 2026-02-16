@@ -87,11 +87,28 @@ export function useEpisodeBgmModal(
   /**
    * 選択した BGM を保存する
    *
-   * 値が未選択の場合はBGMを解除する。
+   * 新規追加タブの場合はアップロード後に保存をチェーン実行する。
+   * 既存選択タブで値が未選択の場合はBGMを解除する。
    *
    * @param options - オプション（成功時コールバック）
    */
   function save(options?: SaveOptions) {
+    // 新規追加タブ: アップロード → 保存をチェーン実行
+    if (tab === 'upload') {
+      if (!selectedFile) return;
+
+      uploadBgm(selectedFile, bgmName, {
+        onSuccess: (bgmId) => {
+          setBgmName('');
+          setSelectedFile(null);
+          resetFileInput();
+          setEpisodeBgm(bgmId, undefined, options);
+        },
+      });
+      return;
+    }
+
+    // 既存から選択タブ
     if (!selectedValue) {
       removeEpisodeBgm(options);
       return;
@@ -105,24 +122,6 @@ export function useEpisodeBgmModal(
       parsed.type === 'system' ? parsed.id : undefined,
       options,
     );
-  }
-
-  /**
-   * 選択済みファイルを BGM としてアップロードする
-   *
-   * 成功時はフォームをリセットし「既存から選択」タブに切り替える。
-   */
-  function upload() {
-    if (!selectedFile) return;
-
-    uploadBgm(selectedFile, bgmName, {
-      onSuccess: () => {
-        setBgmName('');
-        setSelectedFile(null);
-        resetFileInput();
-        setTab('select');
-      },
-    });
   }
 
   /**
@@ -160,7 +159,6 @@ export function useEpisodeBgmModal(
     selectFile,
     updateBgmName,
     save,
-    upload,
     openFilePicker,
   };
 }

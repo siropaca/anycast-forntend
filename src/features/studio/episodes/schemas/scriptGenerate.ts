@@ -18,6 +18,7 @@ export const scriptGenerateFormSchema = z.object({
   durationMinutes: z.number({
     message: VALIDATION_MESSAGES.select('エピソードの長さ'),
   }),
+  withEmotion: z.boolean(),
 });
 
 export type ScriptGenerateFormInput = z.infer<typeof scriptGenerateFormSchema>;

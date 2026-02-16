@@ -14,7 +14,7 @@ import {
   shouldShowJobProgress,
 } from '@/features/studio/episodes/utils/jobStatus';
 import type { JobStatus } from '@/types/job';
-import { formatDateTime, formatDuration } from '@/utils/date';
+import { formatDateTime, formatTime } from '@/utils/date';
 
 interface Props {
   isPlaying: boolean;
@@ -114,10 +114,11 @@ export function EpisodeBottomBar({
     <div className="absolute bottom-0 left-0 right-0 z-(--z-sticky) rounded-b-md border-t border-border bg-bg-surface">
       {/* 進捗表示 */}
       {(showScriptProgress || showAudioProgress) && (
-        <div className="border-b border-border px-4 py-3 sm:px-6">
+        <div className="space-y-4 border-b border-border px-4 py-3 sm:px-6">
           {showScriptProgress && (
             <ProgressRow
-              label={getJobStatusLabel('script', scriptStatus)}
+              type="script"
+              statusLabel={getJobStatusLabel(scriptStatus)}
               progress={scriptProgress}
               startedAt={scriptStartedAt ?? undefined}
               isGenerating={isScriptGenerating}
@@ -135,7 +136,8 @@ export function EpisodeBottomBar({
 
           {showAudioProgress && (
             <ProgressRow
-              label={getJobStatusLabel('audio', audioStatus)}
+              type="audio"
+              statusLabel={getJobStatusLabel(audioStatus)}
               progress={audioProgress}
               startedAt={audioStartedAt ?? undefined}
               isGenerating={isAudioGenerating}
@@ -155,8 +157,9 @@ export function EpisodeBottomBar({
 
       {/* アクションボタン */}
       <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <IconButton
+            className="shrink-0"
             icon={
               isPlaying ? (
                 <PauseIcon size={20} weight="fill" />
@@ -171,11 +174,14 @@ export function EpisodeBottomBar({
             disabledReason="音声が生成されていません"
             onClick={isPlaying ? onPause : onPlay}
           />
+
           {hasAudio && audioDurationMs != null && (
-            <div className="flex flex-col text-xs text-text-subtle">
-              <span>{formatDuration(audioDurationMs)}</span>
+            <div className="flex min-w-0 flex-col text-xs text-text-subtle">
+              <span className="truncate">{formatTime(audioDurationMs)}</span>
               {audioGeneratedAt && (
-                <span>{formatDateTime(new Date(audioGeneratedAt))} 生成</span>
+                <span className="truncate">
+                  {formatDateTime(new Date(audioGeneratedAt))} 生成
+                </span>
               )}
             </div>
           )}
@@ -185,16 +191,18 @@ export function EpisodeBottomBar({
           <Button disabled={isScriptGenerating} onClick={onScriptGenerate}>
             台本を生成
           </Button>
+
           <span className="relative">
             <SplitButton
-              disabled={isAudioGenerating}
+              disabled={isScriptGenerating || isAudioGenerating}
               menu={remixMenuItem}
               onClick={onAudioGenerate}
             >
               音声を生成
             </SplitButton>
+
             {audioOutdated && !isAudioGenerating && (
-              <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-danger" />
+              <span className="absolute -top-1 -right-1 size-3.5 rounded-full bg-text-danger" />
             )}
           </span>
         </div>

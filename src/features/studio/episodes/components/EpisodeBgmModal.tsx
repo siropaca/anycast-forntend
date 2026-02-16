@@ -52,12 +52,14 @@ export function EpisodeBgmModal({
     selectFile,
     updateBgmName,
     save,
-    upload,
     openFilePicker,
   } = useEpisodeBgmModal(channelId, episodeId, currentBgm);
 
   function handleSave() {
-    const message = selectedValue ? 'BGMを設定しました' : 'BGMを解除しました';
+    const message =
+      tab === 'upload' || selectedValue
+        ? 'BGMを設定しました'
+        : 'BGMを解除しました';
 
     save({
       onSuccess: () => {
@@ -166,25 +168,23 @@ export function EpisodeBgmModal({
             </Button>
           </Modal.Close>
 
-          {tab === 'select' ? (
-            <Button
-              disabled={!hasChanged || isUpdating}
-              disabledReason={isUpdating ? '保存中...' : '変更がありません'}
-              onClick={handleSave}
-            >
-              {isUpdating ? '処理中...' : '保存'}
-            </Button>
-          ) : (
-            <Button
-              disabled={!selectedFile || isUploading}
-              disabledReason={
-                isUploading ? 'アップロード中...' : 'ファイルを選択してください'
-              }
-              onClick={upload}
-            >
-              {isUploading ? 'アップロード中...' : 'アップロード'}
-            </Button>
-          )}
+          <Button
+            disabled={
+              tab === 'upload'
+                ? !selectedFile || isUploading || isUpdating
+                : !hasChanged || isUpdating
+            }
+            disabledReason={
+              isUploading || isUpdating
+                ? '処理中...'
+                : tab === 'upload'
+                  ? 'ファイルを選択してください'
+                  : '変更がありません'
+            }
+            onClick={handleSave}
+          >
+            {isUploading || isUpdating ? '処理中...' : '保存'}
+          </Button>
         </Modal.Footer>
       </Modal.Content>
     </Modal.Root>

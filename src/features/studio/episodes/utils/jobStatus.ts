@@ -3,33 +3,27 @@ import type { JobStatus } from '@/types/job';
 /**
  * ジョブのステータスラベルを返す
  *
- * @param type - ジョブの種類
  * @param status - ジョブのステータス
  * @returns ステータスラベル
  *
  * @example
- * getJobStatusLabel('script', 'processing') // => '台本: 生成中...'
- * getJobStatusLabel('audio', 'completed') // => '音声: 生成完了'
+ * getJobStatusLabel('processing') // => '生成中...'
+ * getJobStatusLabel('completed') // => '生成が完了しました'
  */
-export function getJobStatusLabel(
-  type: 'script' | 'audio',
-  status: JobStatus,
-): string {
-  const prefix = type === 'script' ? '台本' : '音声';
-
+export function getJobStatusLabel(status: JobStatus): string {
   switch (status) {
     case 'pending':
-      return `${prefix}: キュー待機中...`;
+      return 'キュー待機中...';
     case 'processing':
-      return `${prefix}: 生成中...`;
+      return '生成中...';
     case 'canceling':
-      return `${prefix}: キャンセル中...`;
+      return 'キャンセル中...';
     case 'completed':
-      return `${prefix}: 生成完了`;
+      return '生成が完了しました';
     case 'canceled':
-      return `${prefix}: キャンセル済み`;
+      return 'キャンセルされました';
     case 'failed':
-      return `${prefix}: 生成失敗`;
+      return '生成に失敗しました';
     default:
       return '';
   }
