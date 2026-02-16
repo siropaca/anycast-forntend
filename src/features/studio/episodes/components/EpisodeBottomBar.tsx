@@ -20,7 +20,6 @@ interface Props {
   isPlaying: boolean;
   hasAudio: boolean;
   hasVoiceAudio: boolean;
-  audioOutdated: boolean;
   audioDurationMs?: number;
   audioGeneratedAt?: string;
   onPlay: () => void;
@@ -52,7 +51,6 @@ export function EpisodeBottomBar({
   isPlaying,
   hasAudio,
   hasVoiceAudio,
-  audioOutdated,
   audioDurationMs,
   audioGeneratedAt,
   onPlay,
@@ -192,19 +190,13 @@ export function EpisodeBottomBar({
             台本を生成
           </Button>
 
-          <span className="relative">
-            <SplitButton
-              disabled={isScriptGenerating || isAudioGenerating}
-              menu={remixMenuItem}
-              onClick={onAudioGenerate}
-            >
-              音声を生成
-            </SplitButton>
-
-            {audioOutdated && !isAudioGenerating && (
-              <span className="absolute -top-1 -right-1 size-3.5 rounded-full bg-text-danger" />
-            )}
-          </span>
+          <SplitButton
+            disabled={isScriptGenerating || isAudioGenerating}
+            menu={remixMenuItem}
+            onClick={onAudioGenerate}
+          >
+            音声を生成
+          </SplitButton>
         </div>
       </div>
     </div>

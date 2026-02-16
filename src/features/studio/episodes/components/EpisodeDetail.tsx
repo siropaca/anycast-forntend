@@ -184,7 +184,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         isPlaying={isEpisodePlaying(episode)}
         hasAudio={!!episode.fullAudio}
         hasVoiceAudio={hasVoiceAudio}
-        audioOutdated={episode.audioOutdated}
         audioDurationMs={episode.fullAudio?.durationMs}
         audioGeneratedAt={episode.updatedAt}
         onPlay={() => playEpisode(episode)}
