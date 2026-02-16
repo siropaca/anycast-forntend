@@ -1,17 +1,12 @@
 import Image from 'next/image';
 
-const HEADER_HEIGHT = 200;
-
 interface Props {
   src?: string;
 }
 
 export function UserHeaderImage({ src }: Props) {
   return (
-    <div
-      className="-mx-6 -mt-5 relative overflow-hidden rounded-t-md bg-bg-main"
-      style={{ height: HEADER_HEIGHT }}
-    >
+    <div className="-mx-6 -mt-5 relative h-header-image overflow-hidden rounded-t-md bg-bg-main">
       {src ? (
         <Image
           src={src}
