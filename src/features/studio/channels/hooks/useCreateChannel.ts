@@ -64,7 +64,7 @@ export function useCreateChannel() {
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
           categoryId: data.categoryId,
-          artworkImageId: data.artworkImageId,
+          artworkImageId: data.artworkImageId ?? undefined,
           characters: {
             create: createCharacters,
             connect: connectCharacters,

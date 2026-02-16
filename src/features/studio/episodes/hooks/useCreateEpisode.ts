@@ -38,7 +38,7 @@ export function useCreateEpisode(channelId: string) {
         data: {
           title: trimFullWidth(data.title),
           description: trimFullWidth(data.description),
-          artworkImageId: data.artworkImageId,
+          artworkImageId: data.artworkImageId ?? undefined,
         },
       },
       {

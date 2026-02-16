@@ -51,7 +51,7 @@ export function useCreateCharacter(enabled: boolean) {
           name: trimFullWidth(data.name),
           voiceId: data.voiceId,
           persona: data.persona ? trimFullWidth(data.persona) : undefined,
-          avatarId: data.avatarImageId,
+          avatarId: data.avatarImageId ?? undefined,
         },
       },
       {
