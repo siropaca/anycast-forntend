@@ -11,6 +11,7 @@ const notoSansJP = Noto_Sans_JP({
 
 export const viewport: Viewport = {
   maximumScale: 1,
+  themeColor: '#0a0a0a',
 };
 
 export const metadata: Metadata = {
