@@ -8,7 +8,6 @@ export const EMOTION_OPTIONS = [
   { value: 'こっそりと', label: 'こっそりと' },
   { value: '焦って', label: '焦って' },
   { value: '嬉しそうに', label: '嬉しそうに' },
-  { value: 'しみじみと', label: 'しみじみと' },
   { value: '驚いて', label: '驚いて' },
   { value: '真剣に', label: '真剣に' },
 ] as const;
