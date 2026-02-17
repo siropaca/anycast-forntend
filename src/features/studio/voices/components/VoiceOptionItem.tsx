@@ -2,7 +2,10 @@
 
 import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
-import { getGenderLabel } from '@/features/studio/voices/utils/voiceLabels';
+import {
+  getGenderLabel,
+  getProviderLabel,
+} from '@/features/studio/voices/utils/voiceLabels';
 import type { ResponseVoiceResponse } from '@/libs/api/generated/schemas';
 import { cn } from '@/utils/cn';
 
@@ -52,6 +55,10 @@ export function VoiceOptionItem({
           {' '}
           ({getGenderLabel(voice.gender)})
         </span>
+      </span>
+
+      <span className="shrink-0 text-xs text-text-subtle">
+        {getProviderLabel(voice.provider)}
       </span>
 
       {voice.sampleAudioUrl && (
