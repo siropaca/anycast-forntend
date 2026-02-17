@@ -56,7 +56,7 @@ export function SignupForm({ redirectTo = Pages.home.path() }: Props) {
         </Collapsible.Trigger>
       )}
 
-      <Collapsible.Panel className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 data-ending-style:h-0 data-starting-style:h-0">
+      <Collapsible.Panel className="h-(--collapsible-panel-height) overflow-y-clip transition-[height] duration-200 data-ending-style:h-0 data-starting-style:h-0">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           {error && (
             <HelperText error className="text-center">
