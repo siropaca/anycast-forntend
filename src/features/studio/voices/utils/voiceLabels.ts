@@ -1,9 +1,19 @@
-type VoiceProvider = 'google';
+type VoiceProvider = 'google' | 'elevenlabs';
 type VoiceGender = 'male' | 'female';
 
 const PROVIDER_LABELS: Record<VoiceProvider, string> = {
   google: 'Gemini TTS',
+  elevenlabs: 'ElevenLabs',
 };
+
+export const PROVIDER_FILTER_OPTIONS: {
+  label: string;
+  value: VoiceProvider | 'all';
+}[] = [
+  { label: 'すべてのプロバイダー', value: 'all' },
+  { label: 'Gemini TTS', value: 'google' },
+  { label: 'ElevenLabs', value: 'elevenlabs' },
+];
 
 const GENDER_LABELS: Record<VoiceGender, string> = {
   male: '男性',

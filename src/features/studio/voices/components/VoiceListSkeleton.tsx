@@ -27,30 +27,35 @@ function SkeletonRow() {
 
 export function VoiceListSkeleton() {
   return (
-    <div className="overflow-x-auto rounded-md border border-border">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b border-border bg-bg-elevated">
-            <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
-              ボイス名
-            </th>
-            <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
-              性別
-            </th>
-            <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
-              プロバイダー
-            </th>
-            <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold" />
-          </tr>
-        </thead>
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-[var(--size-sm)] w-32 rounded-sm" />
+      </div>
+      <div className="overflow-x-auto rounded-md border border-border">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-border bg-bg-elevated">
+              <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
+                ボイス名
+              </th>
+              <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
+                性別
+              </th>
+              <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
+                プロバイダー
+              </th>
+              <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold" />
+            </tr>
+          </thead>
 
-        <tbody>
-          {Array.from({ length: SKELETON_ROW_COUNT }, (_, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: スケルトン行は固定で並び替えが発生しない
-            <SkeletonRow key={i} />
-          ))}
-        </tbody>
-      </table>
+          <tbody>
+            {Array.from({ length: SKELETON_ROW_COUNT }, (_, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: スケルトン行は固定で並び替えが発生しない
+              <SkeletonRow key={i} />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
