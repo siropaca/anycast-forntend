@@ -90,6 +90,7 @@ export function ScriptLineItem({
   }
 
   function handleTextKeyDown(event: React.KeyboardEvent) {
+    if (event.nativeEvent.isComposing) return;
     if (event.key === 'Enter') {
       event.preventDefault();
       textRef.current?.blur();

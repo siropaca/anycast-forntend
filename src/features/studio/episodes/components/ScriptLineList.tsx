@@ -158,7 +158,7 @@ export function ScriptLineList({
             <ul className="space-y-3">
               {scriptLines.map((line) => (
                 <ScriptLineItem
-                  key={`${line.id}-${line.updatedAt}`}
+                  key={line.id}
                   channelId={channelId}
                   episodeId={episodeId}
                   line={line}
