@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { deduplicatedRefresh } from '@/libs/auth/refresh';
+import { _resetForTesting, deduplicatedRefresh } from '@/libs/auth/refresh';
 
 const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
@@ -40,9 +40,12 @@ function createErrorResponse(status: number): Partial<Response> {
 describe('deduplicatedRefresh', () => {
   beforeEach(() => {
     mockFetch.mockReset();
+    _resetForTesting();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
@@ -91,7 +94,7 @@ describe('deduplicatedRefresh', () => {
     expect(result2).toEqual(result3);
   });
 
-  it('前回のリフレッシュ完了後は新しいリクエストを発行する', async () => {
+  it('異なるリフレッシュトークンでは新しいリクエストを発行する', async () => {
     mockFetch
       .mockResolvedValueOnce(createSuccessResponse('access-1', 'refresh-1'))
       .mockResolvedValueOnce(createSuccessResponse('access-2', 'refresh-2'));
@@ -114,5 +117,33 @@ describe('deduplicatedRefresh', () => {
     const result = await deduplicatedRefresh('token');
     expect(result.accessToken).toBe('access');
     expect(mockFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it('同じトークンでの再呼び出しはキャッシュ結果を返す（トークンローテーション対策）', async () => {
+    mockFetch.mockResolvedValue(
+      createSuccessResponse('new-access', 'new-refresh'),
+    );
+
+    const result1 = await deduplicatedRefresh('old-token');
+    const result2 = await deduplicatedRefresh('old-token');
+
+    // 2回目の呼び出しはキャッシュから返されるため、fetch は 1 回のみ
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(result1).toEqual(result2);
+  });
+
+  it('キャッシュの有効期限が切れた場合は新しいリクエストを発行する', async () => {
+    mockFetch
+      .mockResolvedValueOnce(createSuccessResponse('access-1', 'refresh-1'))
+      .mockResolvedValueOnce(createSuccessResponse('access-2', 'refresh-2'));
+
+    await deduplicatedRefresh('token');
+
+    // 60秒以上経過させる
+    vi.advanceTimersByTime(61_000);
+
+    const result = await deduplicatedRefresh('token');
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+    expect(result.accessToken).toBe('access-2');
   });
 });
