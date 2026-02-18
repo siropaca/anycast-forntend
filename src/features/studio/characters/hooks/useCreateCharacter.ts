@@ -14,7 +14,7 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { trimFullWidth } from '@/utils/trim';
 
 interface CreateOptions {
-  onSuccess?: () => void;
+  onSuccess?: (characterId: string) => void;
 }
 
 /**
@@ -68,7 +68,7 @@ export function useCreateCharacter(enabled: boolean) {
             queryKey: getGetMeCharactersQueryKey(),
           });
           toast.success({ title: 'キャラクターを作成しました' });
-          options?.onSuccess?.();
+          options?.onSuccess?.(response.data.data.id);
         },
         onError: (err: unknown) => {
           const message =
